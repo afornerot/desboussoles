@@ -1,0 +1,383 @@
+{
+  "$schema": "https://design-tokens.org/schema.json",
+  "meta": {
+    "nom": "Charte graphique — « Salut, comment vas-tu ? »",
+    "projet": "Débat mouvant — santé mentale des adolescents",
+    "version": "1.0.0",
+    "date": "2026-10-17",
+    "source": "Extraction automatique depuis EXPORTS/VISUELS, EXPORTS/TYPOGRAPHIES et le thème des PowerPoint debat-mouvant V3/V4",
+    "usage": "Tokens machine-readable pour IA et développement (web, print, générative d'images).",
+    "unite_tailles": "px",
+    "mode_couleur": "HEX (sRGB)"
+  },
+  "couleurs": {
+    "primaires": {
+      "vert_accord": {
+        "value": "#009850",
+        "role": "Validation, accord, vrai, oui",
+        "source": "1-accord.png / 2-oui.png / 2-vrai.png ; variante PPTX #169A53"
+      },
+      "orange_desaccord": {
+        "value": "#E85820",
+        "role": "Désaccord, faux, non, refus",
+        "source": "1-pas-accord.png / 2-faux.png / 2-non.png ; thème PPTX accent6 #EA5822"
+      },
+      "jaune_signature": {
+        "value": "#F4EFA6",
+        "role": "Fond principal, bulle de dialogue, ambiance chaleureuse",
+        "source": "Thème PPTX lt1 ; fond-jaune-groupe.jpg #F0E8A0"
+      },
+      "jaune_vif": {
+        "value": "#EBE353",
+        "role": "Accent énergique, vêtements, highlights",
+        "source": "Thème PPTX accent4"
+      },
+      "rose": {
+        "value": "#F193BC",
+        "role": "Accent douceur, vêtements, bulle alternative",
+        "source": "Thème PPTX accent5"
+      },
+      "vert_menthe": {
+        "value": "#B4D6C6",
+        "role": "Fond secondaire doux",
+        "source": "Thème PPTX dk2 ; fonds de personnages"
+      },
+      "lilas": {
+        "value": "#D2C0DE",
+        "role": "Incertitude, neutre, fonds",
+        "source": "Thème PPTX lt2 ; badge « vous ne savez pas » #D0C0E0"
+      },
+      "vert_lien": {
+        "value": "#169A53",
+        "role": "Liens hypertextes, CTA",
+        "source": "Thème PPTX hlink"
+      }
+    },
+    "neutres": {
+      "encre": {
+        "value": "#000000",
+        "role": "Contours et soulignés des icônes/badges"
+      },
+      "noir_doux": {
+        "value": "#181818",
+        "role": "Contour principal des illustrations, vêtements sombres"
+      },
+      "gris_texte": {
+        "value": "#404040",
+        "role": "Couleur de texte de base (body) dans les slides"
+      },
+      "blanc": {
+        "value": "#FFFFFF",
+        "role": "Fond de badge, réserve"
+      },
+      "blanc_chaud": {
+        "value": "#F4F0EB",
+        "role": "Fond de page adouci"
+      },
+      "creme": {
+        "value": "#F0E8D8",
+        "role": "Pastille neutre « effectivement pas si facile » ; fond doux"
+      }
+    },
+    "fonds_scenes": {
+      "bleu_ciel": {
+        "value": "#C8E8F8",
+        "role": "Fond de groupe adolescents",
+        "source": "fond-groupe-ados.png ; variante slide #CDEAF9"
+      },
+      "jaune_pale": {
+        "value": "#F0E8A0",
+        "role": "Fond de groupe multigénérationnel",
+        "source": "fond-jaune-groupe.jpg"
+      },
+      "peche": {
+        "value": "#E0A880",
+        "role": "Fond de couverture dialogue",
+        "source": "fond-salutcomment-vastu.png"
+      },
+      "gris_clair": {
+        "value": "#E8E0D8",
+        "role": "Zone neutre de composition"
+      },
+      "menthe": {
+        "value": "#98C0B0",
+        "role": "Vêtements / aplats de fond"
+      }
+    },
+    "semantiques": {
+      "accord": "#009850",
+      "desaccord": "#E85820",
+      "incertitude": "#D0C0E0",
+      "neutre_difficile": "#F0E8D8",
+      "texte_principal": "#404040",
+      "texte_titre": "#181818",
+      "contour_illustration": "#181818",
+      "contour_badge": "#000000"
+    },
+    "illustration_peaux": {
+      "clair": "#F0C888",
+      "moyen_clair": "#E8C8A0",
+      "moyen": "#E0A080",
+      "moyen_fonce": "#C09868",
+      "fonce": "#A07850",
+      "tres_fonce": "#684838"
+    },
+    "illustration_cheveux": {
+      "roux": "#E85820",
+      "roux_clair": "#E87830",
+      "blond": "#E8E050",
+      "chatain": "#583830",
+      "brun": "#684838",
+      "gris_bleu": "#B0B8D8",
+      "violet_clair": "#D0C0D8",
+      "noir": "#181818"
+    },
+    "illustration_vetements": {
+      "vert": "#009850",
+      "orange": "#E85820",
+      "rose": "#E89890",
+      "rose_vif": "#F090B8",
+      "bleu": "#58B0D8",
+      "lilas": "#B0B8D8",
+      "kaki": "#505018",
+      "olive": "#406050",
+      "jaune": "#E8E050",
+      "moutarde": "#F0C888",
+      "noir": "#181818",
+      "creme": "#F0E0B8"
+    }
+  },
+  "typographie": {
+    "famille_principale": {
+      "nom": "Poppins",
+      "fichiers": [
+        "EXPORTS/TYPOGRAPHIES/Poppins-Regular.ttf",
+        "EXPORTS/TYPOGRAPHIES/Poppins-Italic.ttf",
+        "EXPORTS/TYPOGRAPHIES/Poppins-ExtraBold.ttf",
+        "EXPORTS/TYPOGRAPHIES/Poppins-ExtraBoldItalic.ttf"
+      ],
+      "version": "4.004",
+      "licence": "SIL Open Font License"
+    },
+    "roles": {
+      "titre_principal": {
+        "famille": "Poppins",
+        "poids": 800,
+        "style": "ExtraBold",
+        "casse": "sentence",
+        "interlettrage": "-0.01em",
+        "usage": "Titres de campagne, questions de débat",
+        "exemple": "Et si on parlait de notre santé mentale ?"
+      },
+      "sous_titre": {
+        "famille": "Poppins",
+        "poids": 700,
+        "style": "Bold",
+        "usage": "Sous-titres, intitulés de section"
+      },
+      "texte": {
+        "famille": "Poppins",
+        "poids": 400,
+        "style": "Regular",
+        "usage": "Corps de texte, légendes, badges de réponse",
+        "exemple": "vous êtes d'accord"
+      },
+      "texte_italique": {
+        "famille": "Poppins",
+        "poids": 400,
+        "style": "Italic",
+        "usage": "Citations, nuances"
+      },
+      "legende": {
+        "famille": "Poppins",
+        "poids": 800,
+        "style": "ExtraBold",
+        "usage": "Légendes d'icônes sous badges (minuscules)"
+      }
+    },
+    "legacy_slides": {
+      "note": "Les anciennes versions des slides utilisaient aussi Roboto et Roboto Condensed ; à migrer vers Poppins pour l'homogénéité.",
+      "familles": ["Roboto", "Roboto Condensed"]
+    },
+    "echelle_typographique": {
+      "display": { "taille": 64, "poids": 800 },
+      "h1": { "taille": 48, "poids": 800 },
+      "h2": { "taille": 36, "poids": 700 },
+      "h3": { "taille": 28, "poids": 700 },
+      "body_lg": { "taille": 22, "poids": 400 },
+      "body": { "taille": 18, "poids": 400 },
+      "caption": { "taille": 14, "poids": 800 }
+    }
+  },
+  "style_illustration": {
+    "nom": "Flat illustration à encre grattée (hand-drawn flat)",
+    "description": "Aplats de couleur francs sans dégradé ni ombre portée, contour noir irrégulier épais dessiné à la main, formes organiques et arrondies, personnages expressifs en buste ou 3/4, ambiance bienveillante et inclusive.",
+    "regles": [
+      "Aucun dégradé, aucune ombre portée, aucun effet de lumière : uniquement des aplats.",
+      "Contours noirs irréguliers (#181818 à #000000), épaisseur variable, aspect feutre/stylo.",
+      "Traits légèrement tremblés : ne jamais utiliser de tracé vectoriel parfaitement lisse.",
+      "Visages minimalistes : yeux points/traits, sourcils arcs, bouche trait ou ovale.",
+      "Grande diversité : peaux, âges, genres, carrures, handicaps, modes (foulard, lunettes, casque audio).",
+      "Gestes d'ouverture et de dialogue (main tendue, regard tourné vers l'autre).",
+      "Vêtements aux couleurs vives de la palette, toujours dans l'aplat.",
+      "Arrière-plans : aplats de couleur unie ou personnages au premier plan sur fond vide.",
+      "Pas de perspective, pas de 3D : composition plate."
+    ],
+    "epaisseur_contour": {
+      "illustration": "4–10 px selon la taille de l'élément",
+      "badge": "8–14 px",
+      "bulle": "6–10 px"
+    },
+    "rayon_arrondi": {
+      "pastille": "50% (ovales complètes)",
+      "badge_rond": "50%",
+      "bulle": "forme libre organique (rayon irrégulier)"
+    }
+  },
+  "composants": {
+    "badge_accord": {
+      "type": "cercle plein",
+      "fond": "#009850",
+      "contour": "#000000",
+      "pictogramme": "coche (check) noire",
+      "legende": "vous êtes d'accord",
+      "legende_style": "Poppins ExtraBold, noir, casse minuscule",
+      "asset": "EXPORTS/VISUELS/1-accord.png"
+    },
+    "badge_desaccord": {
+      "type": "cercle plein",
+      "fond": "#E85820",
+      "contour": "#000000",
+      "pictogramme": "croix noire",
+      "legende": "vous n'êtes pas d'accord",
+      "asset": "EXPORTS/VISUELS/1-pas-accord.png"
+    },
+    "badge_incertitude": {
+      "type": "cercle plein",
+      "fond": "#D0C0E0",
+      "contour": "#000000",
+      "pictogramme": "point d'interrogation noir",
+      "legende": "vous ne savez pas",
+      "asset": "EXPORTS/VISUELS/1-vous-ne-savez-pas.png"
+    },
+    "pastille_oui": { "type": "ovale plein", "fond": "#009850", "contour": "#000000", "texte": "oui", "asset": "EXPORTS/VISUELS/2-oui.png" },
+    "pastille_non": { "type": "ovale plein", "fond": "#E85820", "contour": "#000000", "texte": "non", "asset": "EXPORTS/VISUELS/2-non.png" },
+    "pastille_vrai": { "type": "ovale plein", "fond": "#009850", "contour": "#000000", "texte": "vrai", "asset": "EXPORTS/VISUELS/2-vrai.png" },
+    "pastille_faux": { "type": "ovale plein", "fond": "#E85820", "contour": "#000000", "texte": "faux", "asset": "EXPORTS/VISUELS/2-faux.png" },
+    "pastille_neutre": {
+      "type": "ovale plein",
+      "fond": "#F0E8D8",
+      "contour": "#000000",
+      "texte": "effectivement pas si facile",
+      "asset": "EXPORTS/VISUELS/2-pas-si-facile.png"
+    },
+    "bulle_dialogue": {
+      "type": "bulle de parole organique",
+      "fond": "#F0C078",
+      "contour": "#000000",
+      "texte": "Poppins Regular/ExtraBold noir",
+      "asset": "visible dans fond-salutcomment-vastu.png",
+      "variations_fond": ["#F0C078", "#F4EFA6", "#F193BC"]
+    },
+    "fond_scene_dialogue": {
+      "type": "split vertical",
+      "bande_gauche": "#E0A880",
+      "bande_droite": "#E8E0D8",
+      "asset": "EXPORTS/VISUELS/fond-salutcomment-vastu.png"
+    },
+    "fond_groupe": {
+      "versions": {
+        "ados": { "fond": "#C8E8F8", "asset": "EXPORTS/VISUELS/fond-groupe-ados.png" },
+        "multi": { "fond": "#F0E8A0", "asset": "EXPORTS/VISUELS/fond-jaune-groupe.jpg" }
+      },
+      "motif": "personnage isolé à gauche (exclusion solitaire) + groupe uni à droite"
+    },
+    "qr_code": {
+      "asset": "EXPORTS/VISUELS/qr-code.png",
+      "couleur": "noir sur blanc",
+      "usage": "Lien vers le questionnaire/ressource"
+    }
+  },
+  "personnages": {
+    "inventaire": {
+      "perso-questions-03": "Femme âgée, cheveux gris-bleu, veste noire sur débardeur vert, bras croisés (reserved)",
+      "perso-questions-08": "Femme rousse, pull kaki, main tendue (welcoming)",
+      "perso-questions-09": "Ado lunettes, casque audio, t-shirt noir",
+      "perso-questions-10": "Jeune homme, veste orange ouverte sur tee blanc",
+      "perso-questions-11": "Jeune femme, sweat rose, cheveux attachés",
+      "perso-questions-12": "Ado lunettes, sweat bleu",
+      "perso-questions-13": "Homme lunettes, polo vert",
+      "perso-questions-14": "Jeune femme, sweat jaune, cheveux violet clair",
+      "perso-questions-15": "Jeune homme, veste orange, cheveux chatain",
+      "perso-questions-19": "Jeune homme de profil, veste kaki, cheveux bruns",
+      "perso-questions-20": "Ado lunettes, sweat bleu, geste de la main",
+      "perso-questions-21": "Jeune homme lunettes, sweat jaune à bande blanche",
+      "perso-questions-22": "Jeune femme, sweat rose vif, cheveux noirs attachés",
+      "perso-questions-23": "Homme, veste orange, pantalon vert d'eau",
+      "perso-questions-24": "Ado lunettes, sweat bleu à col kaki",
+      "perso-questions-25": "Groupe de personnages (composition collective)"
+    },
+    "regles_reemploi": [
+      "Toujours isoler le personnage sur fond transparent (PNG).",
+      "Positionner en bas de cadre, débordant éventuellement du bord.",
+      "Faire dialoguer un personnage isolé face à un groupe pour illustrer l'inclusion/exclusion.",
+      "Ne jamais déformer ni décaler les contours en redimensionnant."
+    ]
+  },
+  "espacement": {
+    "base": 8,
+    "unite": "px",
+    "echelle": {
+      "xs": 8,
+      "sm": 16,
+      "md": 24,
+      "lg": 40,
+      "xl": 64,
+      "xxl": 96
+    },
+    "marge_de_securite": {
+      "presentation_16_9": "5% de la largeur sur chaque bord",
+      "affiche_A4": "10 mm"
+    }
+  },
+  "formats": {
+    "presentation": { "ratio": "16:9", "largeur": 1920, "hauteur": 1080 },
+    "affiche": { "format": "A4", "dpi": 300 },
+    "export_raster": { "formats": ["PNG (fond transparent pour personnages/badges)", "JPG (fonds)"], "ppi": 144 },
+    "export_vectoriel": { "formats": ["SVG", "PDF"] }
+  },
+  "accessibilite": {
+    "contraste_texte": "Texte #404040 ou #181818 sur fonds clairs (jaune pâle, bleu ciel, crème) → ratio ≥ 7:1.",
+    "texte_sur_vert": "Utiliser du noir #000000 sur #009850 (jamais de blanc).",
+    "texte_sur_orange": "Utiliser du noir #000000 sur #E85820.",
+    "ne_pas_encoder": "Ne jamais différencier accord/désaccord par la seule couleur : toujours associé à une coche/croix et un libellé.",
+    "daltonisme": "Vert #009850 et orange #E85820 sont distinguishables pour la plupart des deutéranopes grâce aux pictogrammes + libellés ; ne jamais les opposer seuls."
+  },
+  "assets": {
+    "racine": "EXPORTS/VISUELS",
+    "typographies": "EXPORTS/TYPOGRAPHIES",
+    "presentations": [
+      "EXPORTS/debat-mouvant-V3.pptx",
+      "EXPORTS/debat-mouvant-adolescents-V4.pptx"
+    ],
+    "inventaire": [
+      { "fichier": "1-accord.png", "type": "badge", "role": "validation" },
+      { "fichier": "1-pas-accord.png", "type": "badge", "role": "rejet" },
+      { "fichier": "1-vous-ne-savez-pas.png", "type": "badge", "role": "incertitude" },
+      { "fichier": "2-oui.png", "type": "pastille", "role": "oui" },
+      { "fichier": "2-non.png", "type": "pastille", "role": "non" },
+      { "fichier": "2-vrai.png", "type": "pastille", "role": "vrai" },
+      { "fichier": "2-faux.png", "type": "pastille", "role": "faux" },
+      { "fichier": "2-pas-si-facile.png", "type": "pastille", "role": "nuance" },
+      { "fichier": "fond-salutcomment-vastu.png", "type": "fond", "role": "couverture dialogue" },
+      { "fichier": "fond-groupe-ados.png", "type": "fond", "role": "groupe adolescents" },
+      { "fichier": "fond-jaune-groupe.jpg", "type": "fond", "role": "groupe multigénérationnel" },
+      { "fichier": "qr-code.png", "type": "graphique", "role": "lien ressource" },
+      { "fichier": "perso-questions-*.png", "type": "personnage", "role": "protagonistes d'illustration", "quantite": 16 }
+    ]
+  },
+  "prompts_ia_generative": {
+    "style_de_base": "Flat vector illustration with hand-drawn irregular black ink outlines, solid color fills, no gradients, no shadows, warm inclusive French public-health campaign style, diverse characters, minimal facial features (dot eyes, simple mouth), Poppins ExtraBold typography, palette: green #009850, orange #E85820, pale yellow #F4EFA6, sky blue #C8E8F8, lilac #D2C0DE, peach #E0A880.",
+    "negative_prompt": "gradient, drop shadow, 3D, photorealism, glossy, smooth perfect vector curves, stock photo, text watermark, western-generic faces only."
+  }
+}

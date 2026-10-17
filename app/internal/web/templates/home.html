@@ -1,0 +1,189 @@
+{{define "title"}}Accueil{{end}}
+
+{{define "content"}}
+<style>
+  /* Page pleine largeur : cover bottom-right */
+  main {
+    max-width:none; margin:0; padding:0;
+    min-height:calc(100vh - 62px);
+    background:url("/static/visuels/fond-jaune-groupe.jpg") bottom right / cover no-repeat;
+    position:relative;
+  }
+  .home-overlay {
+    display:grid; grid-template-columns:550px 1fr 460px;
+    gap:2rem; padding:2.5rem 2.5rem 1rem; align-items:start;
+  }
+
+  /* ---- Bloc titre ---- */
+  .intro { max-width:550px; }
+  .intro h1 {
+    font-size:4rem; font-weight:var(--sc-font-weight-extrabold);
+    letter-spacing:-0.01em; margin:0 0 .5rem; color:var(--sc-texte-titre);
+    white-space:nowrap;
+  }
+  .intro h1 .logo-accent { color:var(--accent-fill); }
+
+  /* ---- Bulle01 (bulle.svg, flip vertical : queue en virgule en haut a gauche) ---- */
+  .bulle01 {
+    display:flex; align-items:center; justify-content:center;
+    box-sizing:border-box; width:360px; height:258px;
+    padding:4.2rem 2.1rem 1.2rem; margin:-60px 0 0 -60px;
+    background:url("/static/visuels/bulle.svg") center / 100% 100% no-repeat;
+  }
+  .bulle01 .bubble-text {
+    text-align:center; font-weight:var(--sc-font-weight-extrabold);
+    font-size:1.45rem; line-height:1.3; color:var(--sc-texte-titre);
+  }
+  .bulle02 {
+    display:flex; align-items:center; justify-content:center;
+    box-sizing:border-box; width:320px; height:230px;
+    padding:3.9rem 1.9rem 1.1rem; margin:-85px 0 0 50px;
+    background:url("/static/visuels/bulle02.svg") center / 100% 100% no-repeat;
+  }
+  .bulle02 .bubble-text {
+    text-align:center; font-weight:var(--sc-font-weight-extrabold);
+    font-size:1.3rem; line-height:1.3; color:var(--sc-texte-titre);
+  }
+
+  /* ---- Pitch d'orientation (au milieu du layout) ---- */
+  .pitch { max-width:340px; margin:7rem auto 2rem; }
+  .pitch h2 {
+    font-size:1.25rem; font-weight:var(--sc-font-weight-extrabold);
+    letter-spacing:-0.01em; margin:0 0 .6rem; color:var(--sc-texte-titre);
+  }
+  .pitch p { margin:0 0 .7rem; font-size:.95rem; line-height:1.55; color:var(--sc-texte-principal); }
+  .pitch .logo-accent { color:var(--accent-fill); font-weight:var(--sc-font-weight-extrabold); }
+  .pitch .pitch-end { font-weight:var(--sc-font-weight-extrabold); color:var(--sc-texte-titre); margin:0; }
+
+  /* ---- Bascule profil Public / Pro ---- */
+  .profile-zone { margin-bottom:.9rem; }
+  .profile-label { display:block; font-size:.75rem; font-weight:var(--sc-font-weight-extrabold); color:var(--sc-gris-texte); margin-bottom:.35rem; text-transform:uppercase; letter-spacing:.04em; }
+  .profile-toggle {
+    display:inline-flex; border:2px solid var(--border); border-radius:999px;
+    overflow:hidden; background:var(--sc-blanc);
+  }
+  .profile-toggle button {
+    border:0; background:none; padding:.35rem 1rem; font:inherit; font-size:.85rem;
+    font-weight:var(--sc-font-weight-extrabold); cursor:pointer; color:var(--sc-gris-texte);
+  }
+  .profile-toggle button.active { background:var(--sc-vert-accord); color:#000; }
+  .profile-toggle button:not(.active):hover { background:var(--sc-vert-menthe); }
+
+  /* ---- Cartes d'entree (haut droit, zone vide du fond) ---- */
+  .home-cards { display:grid; grid-template-columns:repeat(2, 1fr); gap:1rem; max-width:460px; }
+  .entry-card {
+    display:flex; flex-direction:column; text-decoration:none; color:inherit;
+    background:var(--sc-blanc); border:3px solid var(--border); border-radius:16px;
+    overflow:hidden; transition:transform .15s ease, background .15s ease;
+  }
+  .entry-card:hover { transform:translateY(-4px); background:var(--sc-jaune-signature); }
+  .entry-mascot {
+    height:100px; display:flex; align-items:flex-end; justify-content:center;
+    background:var(--sc-fond-bleu-ciel); border-bottom:3px solid var(--border);
+  }
+  .entry-card:nth-child(2) .entry-mascot { background:var(--sc-vert-menthe); }
+  .entry-card:nth-child(3) .entry-mascot { background:var(--sc-fond-peche); }
+  .entry-card:nth-child(4) .entry-mascot { background:var(--sc-lilas); }
+  .entry-card:nth-child(5) .entry-mascot { background:var(--sc-fond-jaune-pale); }
+  .entry-mascot img { height:100px; width:auto; display:block; }
+  .entry-body { padding:.7rem .85rem .9rem; }
+  .entry-body h2 {
+    margin:0 0 .25rem; font-size:1rem; font-weight:var(--sc-font-weight-extrabold);
+    letter-spacing:-0.01em; color:var(--sc-texte-titre);
+  }
+  .entry-body p { margin:0 0 .7rem; font-size:.78rem; color:var(--sc-gris-texte); line-height:1.4; }
+  .entry-cta {
+    display:inline-block; background:var(--sc-vert-accord); color:#000;
+    border:2px solid var(--border); border-radius:999px; padding:.15rem .7rem;
+    font-size:.78rem; font-weight:var(--sc-font-weight-extrabold);
+  }
+  .entry-card:hover .entry-cta { background:var(--sc-jaune-vif); }
+
+  @media (max-width:980px) {
+    main { background-position:75% bottom; }
+    .home-overlay { grid-template-columns:1fr; padding:1.5rem 1rem; }
+    .intro, .home-cards, .pitch {
+      max-width:none; width:100%;
+      background:rgba(244,239,235,.92); border:3px solid var(--border);
+      border-radius:16px; padding:1.25rem; box-sizing:border-box; margin:0 0 1rem;
+    }
+  }
+  @media (max-width:560px) {
+    .home-cards { grid-template-columns:1fr; }
+  }
+</style>
+
+<div class="home-overlay">
+  <div class="intro">
+    <h1><span class="logo-accent">Des</span>Boussoles</h1>
+    <div class="bulle01" aria-label="Salut, comment vas-tu ?">
+      <span class="bubble-text">Salut, comment<br>vas-tu&nbsp;?</span>
+    </div>
+    <div class="bulle02" aria-label="Et toi, tu vas où ?">
+      <span class="bubble-text">Et toi, tu vas où&nbsp;?</span>
+    </div>
+  </div>
+
+  <div class="pitch">
+    <h2>On a tous une santé mentale, et la tienne comment elle va&nbsp;?</h2>
+    <p>Si tu traverses une période difficile, sache que tu n'es pas seul.</p>
+    <p>Si tu as besoin d'aide, que tu cherches de l'écoute, des repères concrets, <span class="logo-accent">Des</span>Boussoles et des professionnels, tu es au bon endroit&nbsp;!</p>
+    <p class="pitch-end">Pousse les portes et laisse-toi guider.</p>
+  </div>
+
+  <div>
+    <div class="profile-zone">
+      <span class="profile-label">Vous êtes…</span>
+      <div class="profile-toggle" role="group" aria-label="Profil de navigation">
+        <button type="button" data-profile-set="public">Grand public</button>
+        <button type="button" data-profile-set="pro">Professionnel</button>
+      </div>
+    </div>
+
+    <div class="home-cards">
+      <a class="entry-card" href="/lexique" data-profile="both">
+        <div class="entry-mascot"><img src="/static/visuels/perso-questions-03.png" alt="" loading="lazy"></div>
+        <div class="entry-body">
+          <h2>Lexique</h2>
+          <p>Les mots de la santé mentale, définis et sourcés.</p>
+          <span class="entry-cta">Ouvrir →</span>
+        </div>
+      </a>
+      <a class="entry-card" href="/map" data-profile="both">
+        <div class="entry-mascot"><img src="/static/visuels/perso-questions-12.png" alt="" loading="lazy"></div>
+        <div class="entry-body">
+          <h2>Carte</h2>
+          <p>Établissements et services de proximité dans le Doubs.</p>
+          <span class="entry-cta">Ouvrir →</span>
+        </div>
+      </a>
+      <a class="entry-card" href="/guide" data-profile="public">
+        <div class="entry-mascot"><img src="/static/visuels/perso-questions-11.png" alt="" loading="lazy"></div>
+        <div class="entry-body">
+          <h2>Guide</h2>
+          <p>Repères et orientation, pas à pas, selon ta situation.</p>
+          <span class="entry-cta">Ouvrir →</span>
+        </div>
+      </a>
+      <a class="entry-card" href="/ressources" data-profile="both">
+        <div class="entry-mascot"><img src="/static/visuels/perso-questions-14.png" alt="" loading="lazy"></div>
+        <div class="entry-body">
+          <h2>Ressources</h2>
+          <p>Numéros utiles, sites de référence et documents.</p>
+          <span class="entry-cta">Ouvrir →</span>
+        </div>
+      </a>
+      <a class="entry-card" href="/chat" data-profile="pro">
+        <div class="entry-mascot"><img src="/static/visuels/perso-questions-20.png" alt="" loading="lazy"></div>
+        <div class="entry-body">
+          <h2>ChatPro</h2>
+          <p>L'assistant qui mobilise lexique et carte — réservé aux pros.</p>
+          <span class="entry-cta">Ouvrir →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+{{end}}
+
+{{template "base" .}}

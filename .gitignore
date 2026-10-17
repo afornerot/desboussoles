@@ -1,0 +1,17 @@
+# Secrets / config locale
+compose.override.yml
+.env
+.env.local
+
+# Volume Postgres (données persistées, pas versionnées)
+volume/
+
+# Captures d'écran de dev
+*-preview.png
+
+# Divers
+.DS_Store
+
+# Binaires compilés localement
+app/importcsv
+app/cmd/importcsv/importcsv

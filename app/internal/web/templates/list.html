@@ -1,0 +1,41 @@
+{{define "title"}}Lexique santé mentale{{end}}
+
+{{define "content"}}
+<div class="card">
+  <h1>Lexique santé mentale</h1>
+  <form class="search" method="get" action="/lexique">
+    <input type="search" name="q" value="{{.Q}}" placeholder="Rechercher un terme ou une définition…">
+    <button type="submit">Rechercher</button>
+  </form>
+  <div class="meta">{{.Total}} terme{{if gt .Total 1}}s{{end}}{{if .Q}} pour «&nbsp;{{.Q}}&nbsp;»{{end}}</div>
+
+  {{if .Terms}}
+  <table>
+    <thead><tr><th>Terme</th><th>Sources</th><th>Définition</th></tr></thead>
+    <tbody>
+    {{range .Terms}}
+      <tr>
+        <td><a href="/lexique/{{.ID}}">{{.Term}}</a></td>
+        <td>{{range .Sources}}<span class="src">{{.}}</span>{{end}}</td>
+        <td class="excerpt">{{.Definition}}</td>
+      </tr>
+    {{end}}
+    </tbody>
+  </table>
+
+  <div class="pager">
+    {{if gt .Prev 0}}
+      <a href="/lexique?page={{.Prev}}{{if .Q}}&q={{.Q}}{{end}}">← Précédent</a>
+    {{else}}<span class="disabled">← Précédent</span>{{end}}
+    <span>Page {{.Page}} / {{.TotalPages}}</span>
+    {{if lt .Page .TotalPages}}
+      <a href="/lexique?page={{.Next}}{{if .Q}}&q={{.Q}}{{end}}">Suivant →</a>
+    {{else}}<span class="disabled">Suivant →</span>{{end}}
+  </div>
+  {{else}}
+  <p>Aucun terme trouvé.</p>
+  {{end}}
+</div>
+{{end}}
+
+{{template "base" .}}

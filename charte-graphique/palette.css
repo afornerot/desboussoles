@@ -1,0 +1,130 @@
+/* ============================================================
+   Charte graphique — « Salut, comment vas-tu ? »
+   Variables CSS générées depuis design-tokens.json (v1.0.0)
+   ============================================================ */
+
+:root {
+  /* ---- Couleurs primaires ---- */
+  --sc-vert-accord: #009850;
+  --sc-orange-desaccord: #E85820;
+  --sc-jaune-signature: #F4EFA6;
+  --sc-jaune-vif: #EBE353;
+  --sc-rose: #F193BC;
+  --sc-vert-menthe: #B4D6C6;
+  --sc-lilas: #D2C0DE;
+  --sc-vert-lien: #169A53;
+
+  /* ---- Neutres ---- */
+  --sc-encre: #000000;
+  --sc-noir-doux: #181818;
+  --sc-gris-texte: #404040;
+  --sc-blanc: #FFFFFF;
+  --sc-blanc-chaud: #F4F0EB;
+  --sc-creme: #F0E8D8;
+
+  /* ---- Fonds de scène ---- */
+  --sc-fond-bleu-ciel: #C8E8F8;
+  --sc-fond-jaune-pale: #F0E8A0;
+  --sc-fond-peche: #E0A880;
+  --sc-fond-gris-clair: #E8E0D8;
+  --sc-fond-menthe: #98C0B0;
+
+  /* ---- Sémantique (aliases) ---- */
+  --sc-accord: var(--sc-vert-accord);
+  --sc-desaccord: var(--sc-orange-desaccord);
+  --sc-incertitude: #D0C0E0;
+  --sc-neutre-difficile: var(--sc-creme);
+  --sc-texte-principal: var(--sc-gris-texte);
+  --sc-texte-titre: var(--sc-noir-doux);
+  --sc-contour-illustration: var(--sc-noir-doux);
+  --sc-contour-badge: var(--sc-encre);
+
+  /* ---- Illustration : peaux ---- */
+  --sc-peau-1: #F0C888;
+  --sc-peau-2: #E8C8A0;
+  --sc-peau-3: #E0A080;
+  --sc-peau-4: #C09868;
+  --sc-peau-5: #A07850;
+  --sc-peau-6: #684838;
+
+  /* ---- Illustration : cheveux ---- */
+  --sc-cheveux-roux: #E85820;
+  --sc-cheveux-blond: #E8E050;
+  --sc-cheveux-chatain: #583830;
+  --sc-cheveux-brun: #684838;
+  --sc-cheveux-gris-bleu: #B0B8D8;
+  --sc-cheveux-violet: #D0C0D8;
+  --sc-cheveux-noir: #181818;
+
+  /* ---- Illustration : vêtements ---- */
+  --sc-vet-vert: #009850;
+  --sc-vet-orange: #E85820;
+  --sc-vet-rose: #E89890;
+  --sc-vet-rose-vif: #F090B8;
+  --sc-vet-bleu: #58B0D8;
+  --sc-vet-lilas: #B0B8D8;
+  --sc-vet-kaki: #505018;
+  --sc-vet-olive: #406050;
+  --sc-vet-jaune: #E8E050;
+  --sc-vet-moutarde: #F0C888;
+  --sc-vet-noir: #181818;
+  --sc-vet-creme: #F0E0B8;
+
+  /* ---- Typographie ---- */
+  --sc-font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --sc-font-weight-regular: 400;
+  --sc-font-weight-bold: 700;
+  --sc-font-weight-extrabold: 800;
+
+  /* ---- Échelle typographique ---- */
+  --sc-text-display: 4rem;   /* 64px */
+  --sc-text-h1: 3rem;        /* 48px */
+  --sc-text-h2: 2.25rem;     /* 36px */
+  --sc-text-h3: 1.75rem;     /* 28px */
+  --sc-text-body-lg: 1.375rem; /* 22px */
+  --sc-text-body: 1.125rem;  /* 18px */
+  --sc-text-caption: 0.875rem; /* 14px */
+
+  /* ---- Espacement (base 8) ---- */
+  --sc-space-xs: 8px;
+  --sc-space-sm: 16px;
+  --sc-space-md: 24px;
+  --sc-space-lg: 40px;
+  --sc-space-xl: 64px;
+  --sc-space-xxl: 96px;
+
+  /* ---- Traits / contours d'illustration ---- */
+  --sc-stroke-illustration: 4px;
+  --sc-stroke-badge: 10px;
+  --sc-stroke-bulle: 8px;
+}
+
+/* ---- Utilitaires ---- */
+.sc-texte-acces { color: var(--sc-texte-principal); }
+.sc-titre { color: var(--sc-texte-titre); font-weight: var(--sc-font-weight-extrabold); letter-spacing: -0.01em; }
+.sc-lien { color: var(--sc-vert-lien); }
+.sc-lien:hover { text-decoration: underline; }
+
+.sc-badge {
+  display: inline-flex; align-items: center; gap: var(--sc-space-sm);
+  border-radius: 50%; border: var(--sc-stroke-badge) solid var(--sc-contour-badge);
+  font-family: var(--sc-font-family); font-weight: var(--sc-font-weight-extrabold);
+}
+.sc-badge--accord { background: var(--sc-accord); color: #000; }
+.sc-badge--desaccord { background: var(--sc-desaccord); color: #000; }
+.sc-badge--incertitude { background: var(--sc-incertitude); color: #000; }
+
+.sc-pastille {
+  display: inline-block; padding: var(--sc-space-sm) var(--sc-space-md);
+  border-radius: 999px; border: var(--sc-stroke-badge) solid var(--sc-contour-badge);
+  font-family: var(--sc-font-family); font-weight: var(--sc-font-weight-extrabold);
+  color: #000;
+}
+.sc-pastille--oui { background: var(--sc-accord); }
+.sc-pastille--non { background: var(--sc-desaccord); }
+.sc-pastille--nuance { background: var(--sc-neutre-difficile); }
+
+@font-face { font-family: "Poppins"; src: url("../app/internal/web/static/fonts/Poppins-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; }
+@font-face { font-family: "Poppins"; src: url("../app/internal/web/static/fonts/Poppins-Italic.ttf") format("truetype"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "Poppins"; src: url("../app/internal/web/static/fonts/Poppins-ExtraBold.ttf") format("truetype"); font-weight: 800; font-style: normal; }
+@font-face { font-family: "Poppins"; src: url("../app/internal/web/static/fonts/Poppins-ExtraBoldItalic.ttf") format("truetype"); font-weight: 800; font-style: italic; }

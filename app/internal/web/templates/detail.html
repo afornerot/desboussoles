@@ -1,0 +1,12 @@
+{{define "title"}}{{.Term}}{{end}}
+
+{{define "content"}}
+<a class="back" href="/lexique">← Retour au lexique</a>
+<div class="card">
+  <h1>{{.Term}}</h1>
+  <p>{{range .Sources}}<span class="src">{{.}}</span>{{end}}</p>
+  <div class="def">{{.Definition}}</div>
+</div>
+{{end}}
+
+{{template "base" .}}

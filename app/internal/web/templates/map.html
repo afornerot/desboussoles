@@ -1,0 +1,412 @@
+{{define "title"}}Carte{{end}}
+
+{{define "content"}}
+<style>main { max-width:1200px; }</style>
+<div class="map-wrap">
+  <div id="map"></div>
+  <div id="legend" class="map-legend">
+    <strong>Légende</strong>
+    <div id="legend-items">Chargement…</div>
+  </div>
+</div>
+
+<div id="etab-modal" class="etab-modal" hidden>
+  <div class="etab-backdrop" data-close></div>
+  <div class="etab-panel" role="dialog" aria-modal="true">
+    <button class="etab-close" data-close aria-label="Fermer">×</button>
+    <div id="etab-body" class="etab-body">Chargement…</div>
+  </div>
+</div>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.js"></script>
+<script>
+mapboxgl.accessToken = "{{.MapboxToken}}";
+
+const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/light-v11',
+  center: [6.02, 47.23],
+  zoom: 8.5
+});
+
+map.addControl(new mapboxgl.NavigationControl());
+
+map.on('load', async () => {
+  const [catsRes, featRes] = await Promise.all([
+    fetch('/api/map/categories'),
+    fetch('/api/map/features')
+  ]);
+  const categories = await catsRes.json();
+  const geojson = await featRes.json();
+
+  const points = { type: 'FeatureCollection', features: [] };
+  const zones  = { type: 'FeatureCollection', features: [] };
+  for (const f of geojson.features) {
+    const t = f.geometry && f.geometry.type;
+    if (t === 'Point' || t === 'MultiPoint') points.features.push(f);
+    else zones.features.push(f);
+  }
+
+  map.addSource('zones',  { type: 'geojson', data: zones });
+  map.addSource('points', { type: 'geojson', data: points, promoteId: 'id' });
+
+  // Ordre d'empilement calques : département (bas) > canton > ville > points (haut)
+  // addLayer empile du bas au haut : on ajoute d'abord le plus général (sort_order ASC)
+  const zoneCats = categories
+    .filter(c => c.geom_kind === 'zone')
+    .sort((a, b) => a.sort_order - b.sort_order); // département(10) puis canton(20) puis ville(30)
+  const pointCats = categories.filter(c => c.geom_kind === 'point');
+  const zoneFillLayers = zoneCats.map(c => 'zone-fill-' + c.code);
+  const pointHitLayers = pointCats.map(c => 'point-hit-' + c.code);
+
+  // Zones par catégorie (fill + outline) — empilées du plus général au plus spécifique
+  for (const cat of zoneCats) {
+    map.addLayer({
+      id: 'zone-fill-' + cat.code,
+      type: 'fill',
+      source: 'zones',
+      filter: ['==', ['get', 'category'], cat.code],
+      paint: {
+        'fill-color': cat.color || '#888',
+        'fill-opacity': 0.22
+      }
+    });
+    map.addLayer({
+      id: 'zone-line-' + cat.code,
+      type: 'line',
+      source: 'zones',
+      filter: ['==', ['get', 'category'], cat.code],
+      paint: {
+        'line-color': cat.stroke_color || cat.color || '#555',
+        'line-width': 2
+      }
+    });
+  }
+
+  // Points par catégorie (circle) — au-dessus des zones
+  for (const cat of pointCats) {
+    // Cercle invisible élargi pour faciliter le clic
+    map.addLayer({
+      id: 'point-hit-' + cat.code,
+      type: 'circle',
+      source: 'points',
+      filter: ['==', ['get', 'category'], cat.code],
+      paint: {
+        'circle-radius': 18,
+        'circle-color': '#000',
+        'circle-opacity': 0
+      }
+    });
+    map.addLayer({
+      id: 'point-' + cat.code,
+      type: 'circle',
+      source: 'points',
+      filter: ['==', ['get', 'category'], cat.code],
+      paint: {
+        'circle-radius': [
+          'case', ['boolean', ['feature-state', 'hover'], false], 12, 9
+        ],
+        'circle-color': cat.pin_color || '#ef4444',
+        'circle-stroke-color': '#ffffff',
+        'circle-stroke-width': 2
+      }
+    });
+  }
+
+  // Curseur pointer sur zones et points
+  for (const l of zoneFillLayers) {
+    if (!map.getLayer(l)) continue;
+    map.on('mouseenter', l, () => map.getCanvas().style.cursor = 'pointer');
+    map.on('mouseleave', l, () => map.getCanvas().style.cursor = '');
+  }
+  for (const l of pointHitLayers) {
+    if (!map.getLayer(l)) continue;
+    let hoverId = null;
+    map.on('mouseenter', l, (e) => {
+      map.getCanvas().style.cursor = 'pointer';
+      const f = e.features && e.features[0];
+      if (f && f.properties && f.properties.id != null) {
+        hoverId = f.properties.id;
+        map.setFeatureState({ source: 'points', id: hoverId }, { hover: true });
+      }
+    });
+    map.on('mouseleave', l, () => {
+      map.getCanvas().style.cursor = '';
+      if (hoverId != null) {
+        map.setFeatureState({ source: 'points', id: hoverId }, { hover: false });
+        hoverId = null;
+      }
+    });
+  }
+
+  // Popups (zones) + modal (établissements)
+  const popup = new mapboxgl.Popup({ closeButton: true, closeOnClick: false, maxWidth: '280px' });
+  const modal = document.getElementById('etab-modal');
+  const modalBody = document.getElementById('etab-body');
+
+  async function openEtabModal(featureId) {
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    modalBody.innerHTML = '<div class="etab-loading">Chargement…</div>';
+    try {
+      const res = await fetch('/api/map/feature/' + featureId);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const d = await res.json();
+      const subcats = (d.subcategories || []).map(s => '<span class="etab-tag">' + s + '</span>').join('');
+      const tel = d.phone ? '<a href="tel:' + d.phone.replace(/\s/g, '') + '">' + d.phone + '</a>' : '';
+      const web = d.website ? ' · <a href="' + d.website + '" target="_blank" rel="noopener">Site web</a>' : '';
+      modalBody.innerHTML =
+        (d.image ? '<img class="etab-img" src="' + d.image + '" alt="" loading="lazy">' : '') +
+        '<div class="etab-content">' +
+          '<h2>' + (d.title || d.name) + '</h2>' +
+          (subcats ? '<div class="etab-tags">' + subcats + '</div>' : '') +
+          (d.address ? '<p class="etab-meta">📍 ' + d.address + (tel ? ' · 📞 ' + tel : '') + web + '</p>' : '') +
+          '<div class="etab-md">' + (d.content_html || '') + '</div>' +
+        '</div>';
+    } catch (e) {
+      modalBody.innerHTML = '<div class="etab-loading">Erreur de chargement de la fiche.</div>';
+    }
+  }
+
+  function closeEtabModal() {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+  }
+  modal.addEventListener('click', (e) => {
+    if (e.target.hasAttribute('data-close')) closeEtabModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.hidden) closeEtabModal();
+  });
+
+  // Ajuste la vue pour montrer entièrement la géométrie cliquée
+  function boundsOfGeom(geom) {
+    const b = new mapboxgl.LngLatBounds();
+    if (!geom) return null;
+    if (geom.type === 'Point') {
+      b.extend(geom.coordinates);
+      return b;
+    }
+    if (geom.type === 'Polygon') {
+      for (const ring of geom.coordinates) for (const c of ring) b.extend(c);
+      return b.isEmpty() ? null : b;
+    }
+    if (geom.type === 'MultiPolygon') {
+      for (const poly of geom.coordinates) for (const ring of poly) for (const c of ring) b.extend(c);
+      return b.isEmpty() ? null : b;
+    }
+    if (geom.type === 'MultiPoint') {
+      for (const c of geom.coordinates) b.extend(c);
+      return b.isEmpty() ? null : b;
+    }
+    return null;
+  }
+
+  function fitGeometry(geom) {
+    const b = boundsOfGeom(geom);
+    if (!b) return;
+    const isPoint = geom.type === 'Point' || geom.type === 'MultiPoint';
+    map.fitBounds(b, {
+      padding: isPoint ? 80 : 48,
+      maxZoom: isPoint ? 14 : 16,
+      duration: 900,
+      essential: true
+    });
+  }
+
+  // Clic unifié : points d'abord, puis zones (topmost = zone la plus spécifique sous le curseur)
+  const pointLayers = pointHitLayers;
+
+  map.on('click', (e) => {
+    // 1) Points (établissements prioritaires)
+    const visPts = pointLayers.filter(l => map.getLayer(l) && map.getLayoutProperty(l, 'visibility') !== 'none');
+    const pts = visPts.length ? map.queryRenderedFeatures(e.point, { layers: visPts }) : [];
+    if (pts.length) {
+      const f = pts[0];
+      fitGeometry(f.geometry);
+      const catCode = f.properties.category;
+      const fid = f.properties.id;
+      if (catCode === 'etablissement' && fid) {
+        openEtabModal(fid);
+      } else {
+        const props = typeof f.properties.props === 'string' ? JSON.parse(f.properties.props) : (f.properties.props || {});
+        popup.setLngLat(f.geometry.coordinates)
+          .setHTML('<strong>' + f.properties.name + '</strong>' + (props.population ? '<br>Population : ' + props.population : ''))
+          .addTo(map);
+      }
+      return;
+    }
+
+    // 2) Zones : fit direct sur la zone cliquée, sans popup
+    const visZones = zoneFillLayers.filter(l => map.getLayer(l) && map.getLayoutProperty(l, 'visibility') !== 'none');
+    const zs = visZones.length ? map.queryRenderedFeatures(e.point, { layers: visZones }) : [];
+    if (!zs.length) return;
+    popup.remove();
+    const b = boundsOfGeom(zs[0].geometry);
+    if (b) map.fitBounds(b, { padding: 48, duration: 600, essential: true });
+  });
+
+  // Visibilité des catégories : localStorage, défaut = département seul
+  const LS_KEY = 'boussole-map-legend';
+  let stored = {};
+  try { stored = JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch (_) {}
+  const hasStored = Object.keys(stored).length > 0;
+
+  const layerIdsByCat = {};
+  for (const cat of categories) {
+    const ids = [];
+    if (cat.geom_kind === 'zone') {
+      ids.push('zone-fill-' + cat.code, 'zone-line-' + cat.code);
+    } else {
+      ids.push('point-' + cat.code);
+    }
+    const visible = hasStored ? stored[cat.code] !== false : (cat.code === 'departement' || cat.code === 'etablissement');
+    layerIdsByCat[cat.code] = { ids, visible, cat };
+    for (const lid of ids) {
+      if (map.getLayer(lid)) {
+        map.setLayoutProperty(lid, 'visibility', visible ? 'visible' : 'none');
+      }
+    }
+  }
+
+  function saveLegend() {
+    const state = {};
+    for (const [code, e] of Object.entries(layerIdsByCat)) state[code] = e.visible;
+    localStorage.setItem(LS_KEY, JSON.stringify(state));
+  }
+
+  const legendEl = document.getElementById('legend-items');
+  legendEl.innerHTML = categories.map(cat => {
+    const swatch = cat.geom_kind === 'zone'
+      ? '<span class="swatch zone" style="background:' + (cat.color || '#888') + '"></span>'
+      : '<span class="swatch point" style="background:' + (cat.pin_color || '#ef4444') + '"></span>';
+    return '<button type="button" class="legend-item" data-cat="' + cat.code + '">' + swatch + cat.label + '</button>';
+  }).join('');
+
+  legendEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.legend-item');
+    if (!btn) return;
+    const code = btn.dataset.cat;
+    const entry = layerIdsByCat[code];
+    if (!entry) return;
+    entry.visible = !entry.visible;
+    for (const lid of entry.ids) {
+      if (map.getLayer(lid)) {
+        map.setLayoutProperty(lid, 'visibility', entry.visible ? 'visible' : 'none');
+      }
+    }
+    btn.classList.toggle('off', !entry.visible);
+    saveLegend();
+    fitOn(visibleFeatures());
+  });
+
+  // Marquer les entrées masquées dans la légende
+  for (const [code, entry] of Object.entries(layerIdsByCat)) {
+    const btn = legendEl.querySelector('[data-cat="' + code + '"]');
+    if (btn && !entry.visible) btn.classList.add('off');
+  }
+
+  // Fit bounds sur les catégories visibles uniquement
+  function boundsOfFeatures(features) {
+    const b = new mapboxgl.LngLatBounds();
+    for (const f of features) {
+      const g = f.geometry;
+      if (!g) continue;
+      if (g.type === 'Point') b.extend(g.coordinates);
+      else if (g.type === 'Polygon') {
+        for (const ring of g.coordinates) for (const c of ring) b.extend(c);
+      } else if (g.type === 'MultiPolygon') {
+        for (const poly of g.coordinates) for (const ring of poly) for (const c of ring) b.extend(c);
+      }
+    }
+    return b;
+  }
+
+  function fitOn(features) {
+    const b = boundsOfFeatures(features);
+    if (!b.isEmpty()) map.fitBounds(b, { padding: 40 });
+  }
+
+  function visibleFeatures() {
+    const visibleCats = new Set(
+      Object.entries(layerIdsByCat).filter(([, e]) => e.visible).map(([c]) => c)
+    );
+    return zones.features.concat(points.features).filter(f =>
+      visibleCats.has(f.properties && f.properties.category)
+    );
+  }
+
+  // Au chargement : zoom sur le département
+  // resize d'abord : fitBounds a besoin des dimensions finales du canvas
+  requestAnimationFrame(() => {
+    map.resize();
+    fitOn(zones.features.filter(f => f.properties.category === 'departement'));
+  });
+});
+</script>
+<style>
+  /* Charte « Salut, comment vas-tu ? » — carte & modales */
+  .map-wrap { position:relative; }
+  #map { width:100%; height:calc(100vh - 8rem); border-radius:16px; border:3px solid var(--border); }
+  .map-legend {
+    position:absolute; top:12px; left:12px; z-index:10;
+    background:var(--sc-blanc); border:2px solid var(--border); border-radius:12px;
+    padding:.6rem .9rem; font-size:.85rem;
+  }
+  .legend-item {
+    display:flex; align-items:center; gap:.45rem; margin-top:.3rem;
+    background:none; border:0; padding:.15rem 0; font:inherit; color:inherit;
+    cursor:pointer; width:100%; text-align:left; border-radius:4px;
+  }
+  .legend-item:hover { background:var(--sc-jaune-signature); }
+  .legend-item.off { opacity:.4; }
+  .legend-item.off .swatch { filter:grayscale(1); }
+  .swatch { display:inline-block; width:14px; height:14px; border-radius:3px; flex-shrink:0; border:1px solid var(--border); }
+  .swatch.point { border-radius:50%; width:12px; height:12px; }
+
+  /* Modal établissement — bulle organique façon charte */
+  .etab-modal { position:fixed; inset:0; z-index:1000; display:flex; align-items:flex-end; justify-content:center; }
+  .etab-modal[hidden] { display:none; }
+  .etab-backdrop { position:absolute; inset:0; background:rgba(24,24,24,.5); }
+  .etab-panel {
+    position:relative; background:var(--sc-blanc); width:100%; max-width:640px;
+    max-height:85dvh; border-radius:24px 24px 0 0; border:3px solid var(--border); border-bottom:none;
+    display:flex; flex-direction:column; animation:slideup .2s ease;
+  }
+  @keyframes slideup { from { transform:translateY(30px); opacity:0; } to { transform:none; opacity:1; } }
+  .etab-close {
+    position:absolute; top:8px; right:12px; z-index:2; border:2px solid var(--border);
+    background:var(--sc-jaune-signature); font-size:1.6rem; line-height:1; cursor:pointer;
+    border-radius:50%; width:36px; height:36px; color:var(--ink); font-family:inherit;
+  }
+  .etab-close:hover { background:var(--sc-orange-desaccord); }
+  .etab-body { overflow-y:auto; -webkit-overflow-scrolling:touch; flex:1; }
+  .etab-img { width:100%; height:200px; object-fit:cover; display:block; border-radius:22px 22px 0 0; }
+  .etab-content { padding:1rem 1.25rem 1.5rem; }
+  .etab-content h2 { margin:.2rem 0 .6rem; font-size:1.25rem; font-weight:var(--sc-font-weight-extrabold); letter-spacing:-0.01em; }
+  .etab-tags { display:flex; flex-wrap:wrap; gap:.35rem; margin-bottom:.6rem; }
+  .etab-tag {
+    background:var(--sc-lilas); color:var(--ink); font-size:.72rem; padding:.15rem .55rem;
+    border-radius:999px; font-weight:var(--sc-font-weight-bold); border:1px solid var(--border);
+  }
+  .etab-meta { color:var(--muted); font-size:.85rem; margin:0 0 .8rem; }
+  .etab-meta a { color:var(--accent); }
+  .etab-md { font-size:.95rem; line-height:1.6; }
+  .etab-md h2, .etab-md h3 { font-size:1rem; margin:1rem 0 .4rem; font-weight:var(--sc-font-weight-bold); }
+  .etab-md p { margin:.4rem 0; }
+  .etab-md ul { margin:.4rem 0; padding-left:1.2rem; }
+  .etab-md blockquote {
+    margin:.6rem 0; padding:.5rem .8rem; background:var(--sc-jaune-signature);
+    border-left:4px solid var(--sc-orange-desaccord); border-radius:0 8px 8px 0; font-size:.9rem;
+  }
+  .etab-loading { padding:2rem; text-align:center; color:var(--muted); }
+  @media (min-width:640px) {
+    .etab-modal { align-items:center; }
+    .etab-panel { border-radius:24px; border-bottom:3px solid var(--border); max-height:80dvh; }
+    .etab-img { border-radius:22px 22px 0 0; }
+  }
+</style>
+{{end}}
+
+{{template "base" .}}

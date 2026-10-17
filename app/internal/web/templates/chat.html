@@ -1,0 +1,207 @@
+{{define "title"}}ChatPro{{end}}
+
+{{define "content"}}
+<div class="chat-wrap">
+  {{if not .Ready}}
+  <div class="chat-notready card">
+    <h2>Chat non configuré</h2>
+    <p>Les variables d'environnement <code>AI_PROVIDER</code>, <code>AI_MODEL</code>, <code>AI_API_KEY</code> et <code>AI_BASE_URL</code> doivent être renseignées dans le docker-compose pour activer le chat.</p>
+  </div>
+  {{else}}
+  <div class="chat-panel card">
+    <div class="chat-header">
+      <h1>ChatPro — Assistant professionnel</h1>
+      <button id="chat-reset" type="button" title="Nouvelle conversation">↺</button>
+    </div>
+    <div id="chat-messages" class="chat-messages">
+      <div class="chat-msg assistant">
+        <div class="chat-bubble">Bonjour ! Je suis l'assistant de DesBoussoles. Posez-moi une question sur la santé mentale, le lexique, ou les établissements du Doubs.</div>
+      </div>
+      {{range .History}}
+      <div class="chat-msg {{.Role}}">
+        <div class="chat-bubble">{{.Content}}</div>
+      </div>
+      {{end}}
+    </div>
+    <form id="chat-form" class="chat-form">
+      <input id="chat-input" type="text" placeholder="Votre question…" autocomplete="off" required>
+      <button id="chat-send" type="submit">Envoyer</button>
+    </form>
+  </div>
+  {{end}}
+</div>
+
+<style>
+  /* Charte « Salut, comment vas-tu ? » — bulles de dialogue organiques */
+  .chat-wrap { max-width:800px; margin:0 auto; }
+  .chat-panel { display:flex; flex-direction:column; height:calc(100vh - 10rem); padding:0; overflow:hidden; }
+  .chat-header { display:flex; justify-content:space-between; align-items:center; padding:1rem 1.25rem; border-bottom:2px solid var(--sc-fond-gris-clair); background:var(--sc-jaune-signature); }
+  .chat-header h1 { margin:0; font-size:1.15rem; }
+  .chat-header button {
+    background:var(--sc-blanc); border:2px solid var(--border); border-radius:999px;
+    padding:.35rem .7rem; cursor:pointer; font-size:1rem; font-family:inherit; color:var(--ink);
+  }
+  .chat-header button:hover { background:var(--sc-vert-menthe); }
+  .chat-messages { flex:1; overflow-y:auto; padding:1rem 1.25rem; display:flex; flex-direction:column; gap:.75rem; }
+  .chat-msg { display:flex; }
+  .chat-msg.user { justify-content:flex-end; }
+  .chat-bubble {
+    max-width:80%; padding:.7rem 1rem; font-size:.95rem; line-height:1.5;
+    white-space:pre-wrap; word-break:break-word; border:2px solid var(--border);
+  }
+  /* Message utilisateur : vert accord, texte noir (charte §7 accessibilité) */
+  .chat-msg.user .chat-bubble {
+    background:var(--sc-vert-accord); color:#000;
+    border-radius:10px;
+    font-weight:var(--sc-font-weight-bold);
+  }
+  /* Réponse assistant : crème, bulle organique */
+  .chat-msg.assistant .chat-bubble {
+    background:var(--sc-creme); color:var(--ink);
+    border-radius:10px;
+  }
+  /* Outil IA : jaune signature */
+  .chat-msg.tool .chat-bubble {
+    background:var(--sc-jaune-signature); color:var(--ink);
+    font-size:.8rem; font-style:italic; max-width:60%;
+    border-radius:999px;
+  }
+  .chat-form { display:flex; gap:.5rem; padding:1rem 1.25rem; border-top:2px solid var(--sc-fond-gris-clair); }
+  .chat-form input {
+    flex:1; padding:.65rem .9rem; border:2px solid var(--border); border-radius:12px;
+    font-size:1rem; font-family:inherit; background:var(--bg); color:var(--ink);
+  }
+  .chat-form button {
+    padding:.65rem 1.2rem; background:var(--sc-vert-accord); color:#000;
+    border:2px solid var(--border); border-radius:12px; font-size:1rem;
+    font-family:inherit; font-weight:var(--sc-font-weight-extrabold); cursor:pointer;
+  }
+  .chat-form button:hover { background:var(--sc-jaune-vif); }
+  .chat-form button:disabled { opacity:.5; cursor:wait; }
+  .chat-notready { text-align:center; padding:2rem; }
+  .chat-notready code { background:var(--sc-jaune-signature); padding:.15rem .4rem; border-radius:4px; font-size:.85rem; }
+  .typing { display:inline-block; }
+  .typing::after { content:'▍'; animation:blink 1s infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+</style>
+
+<script>
+(function() {
+  const form = document.getElementById('chat-form');
+  if (!form) return;
+  const input = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send');
+  const messagesEl = document.getElementById('chat-messages');
+  const resetBtn = document.getElementById('chat-reset');
+  let busy = false;
+
+  function addMsg(role, text) {
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + role;
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = text;
+    div.appendChild(bubble);
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bubble;
+  }
+
+  function addToolChip(name) {
+    const div = document.createElement('div');
+    div.className = 'chat-msg tool';
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = '⚙ ' + name;
+    div.appendChild(bubble);
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  resetBtn?.addEventListener('click', async () => {
+    await fetch('/api/chat/reset', { method: 'POST' });
+    messagesEl.innerHTML = '';
+    addMsg('assistant', 'Nouvelle conversation. Comment puis-je vous aider ?');
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (busy) return;
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    busy = true;
+    sendBtn.disabled = true;
+    input.value = '';
+    addMsg('user', msg);
+
+    const bubble = addMsg('assistant', '');
+    bubble.classList.add('typing');
+    let fullText = '';
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg })
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        bubble.classList.remove('typing');
+        bubble.textContent = 'Erreur : ' + (err.error || res.statusText);
+        return;
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        const parts = buffer.split('\n\n');
+        buffer = parts.pop();
+
+        for (const part of parts) {
+          const lines = part.split('\n');
+          let eventType = 'message';
+          let data = '';
+          for (const line of lines) {
+            if (line.startsWith('event: ')) eventType = line.slice(7).trim();
+            else if (line.startsWith('data: ')) data = line.slice(6);
+          }
+          if (!data) continue;
+          let parsed;
+          try { parsed = JSON.parse(data); } catch(_) { continue; }
+
+          if (eventType === 'token' && parsed.t) {
+            fullText += parsed.t;
+            bubble.textContent = fullText;
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+          } else if (eventType === 'tool' && parsed.name) {
+            addToolChip(parsed.name);
+          } else if (eventType === 'error' && parsed.error) {
+            bubble.classList.remove('typing');
+            bubble.textContent = 'Erreur : ' + parsed.error;
+          }
+        }
+      }
+      bubble.classList.remove('typing');
+      if (!fullText) bubble.textContent = '(réponse vide)';
+    } catch (err) {
+      bubble.classList.remove('typing');
+      bubble.textContent = 'Erreur réseau : ' + err.message;
+    } finally {
+      busy = false;
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  });
+})();
+</script>
+{{end}}
+
+{{template "base" .}}

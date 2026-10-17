@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charte graphique — « Salut, comment vas-tu ? » · Aperçu</title>
+<link rel="stylesheet" href="palette.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--sc-font-family); color: var(--sc-texte-principal); background: var(--sc-blanc-chaud); line-height: 1.5; }
+  header { background: var(--sc-jaune-signature); padding: var(--sc-space-xl) var(--sc-space-lg); border-bottom: 6px solid var(--sc-noir-doux); }
+  header h1 { color: var(--sc-texte-titre); font-weight: var(--sc-font-weight-extrabold); font-size: var(--sc-text-h1); letter-spacing: -0.01em; }
+  header p { font-size: var(--sc-text-body-lg); margin-top: var(--sc-space-sm); }
+  section { padding: var(--sc-space-lg); max-width: 1200px; margin: 0 auto; }
+  h2 { color: var(--sc-texte-titre); font-weight: var(--sc-font-weight-extrabold); font-size: var(--sc-text-h2); margin-bottom: var(--sc-space-md); border-bottom: 4px solid var(--sc-noir-doux); display: inline-block; padding-bottom: 4px; }
+  h3 { color: var(--sc-texte-titre); font-weight: var(--sc-font-weight-bold); font-size: var(--sc-text-h3); margin: var(--sc-space-md) 0 var(--sc-space-sm); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--sc-space-sm); }
+  .swatch { border: 3px solid var(--sc-noir-doux); border-radius: 12px; overflow: hidden; background: #fff; }
+  .swatch .color { height: 80px; }
+  .swatch .meta { padding: var(--sc-space-xs); font-size: 12px; }
+  .swatch .meta strong { display: block; font-weight: 800; color: var(--sc-texte-titre); font-size: 13px; }
+  .swatch .meta code { font-size: 11px; background: var(--sc-creme); padding: 1px 4px; border-radius: 4px; }
+  .demo { display: flex; flex-wrap: wrap; gap: var(--sc-space-md); align-items: flex-end; margin-top: var(--sc-space-md); }
+  .badge-demo { text-align: center; }
+  .badge-demo .circle { width: 120px; height: 120px; border-radius: 50%; border: var(--sc-stroke-badge) solid var(--sc-contour-badge); display: flex; align-items: center; justify-content: center; font-size: 56px; font-weight: 800; color: #000; margin: 0 auto 8px; }
+  .badge-demo .label { font-weight: 800; font-size: 14px; }
+  .bulle { background: #F0C078; border: var(--sc-stroke-bulle) solid var(--sc-contour-badge); border-radius: 48% 52% 50% 50% / 60% 55% 45% 40%; padding: var(--sc-space-md) var(--sc-space-lg); font-weight: 800; font-size: var(--sc-text-body-lg); text-align: center; max-width: 220px; }
+  .hero { background: linear-gradient(90deg, var(--sc-fond-peche) 0 50%, var(--sc-fond-gris-clair) 50% 100%); border: 4px solid var(--sc-noir-doux); border-radius: 16px; padding: var(--sc-space-lg); position: relative; min-height: 260px; }
+  .hero .title { font-weight: 800; font-size: var(--sc-text-h2); color: var(--sc-texte-titre); max-width: 420px; }
+  table { width: 100%; border-collapse: collapse; margin-top: var(--sc-space-sm); background: #fff; border: 3px solid var(--sc-noir-doux); border-radius: 12px; overflow: hidden; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 2px solid var(--sc-fond-gris-clair); font-size: 14px; }
+  th { background: var(--sc-vert-menthe); color: var(--sc-texte-titre); font-weight: 800; }
+  tr:last-child td { border-bottom: none; }
+  .type-demo div { margin-bottom: 6px; color: var(--sc-texte-titre); }
+  footer { background: var(--sc-noir-doux); color: var(--sc-jaune-signature); padding: var(--sc-space-lg); text-align: center; font-size: 14px; margin-top: var(--sc-space-xl); }
+  footer a { color: var(--sc-jaune-vif); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Salut, comment vas-tu&nbsp;?</h1>
+  <p>Charte graphique — aperçu visuel des tokens · Débat mouvant santé mentale des adolescents</p>
+</header>
+
+<section>
+  <h2>1 · Couleurs primaires</h2>
+  <div class="grid">
+    <div class="swatch"><div class="color" style="background:#009850"></div><div class="meta"><strong>Vert accord</strong><code>#009850</code></div></div>
+    <div class="swatch"><div class="color" style="background:#E85820"></div><div class="meta"><strong>Orange désaccord</strong><code>#E85820</code></div></div>
+    <div class="swatch"><div class="color" style="background:#F4EFA6"></div><div class="meta"><strong>Jaune signature</strong><code>#F4EFA6</code></div></div>
+    <div class="swatch"><div class="color" style="background:#EBE353"></div><div class="meta"><strong>Jaune vif</strong><code>#EBE353</code></div></div>
+    <div class="swatch"><div class="color" style="background:#F193BC"></div><div class="meta"><strong>Rose</strong><code>#F193BC</code></div></div>
+    <div class="swatch"><div class="color" style="background:#B4D6C6"></div><div class="meta"><strong>Vert menthe</strong><code>#B4D6C6</code></div></div>
+    <div class="swatch"><div class="color" style="background:#D2C0DE"></div><div class="meta"><strong>Lilas</strong><code>#D2C0DE</code></div></div>
+    <div class="swatch"><div class="color" style="background:#169A53"></div><div class="meta"><strong>Vert lien</strong><code>#169A53</code></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>2 · Sémantique des réponses</h2>
+  <div class="demo">
+    <div class="badge-demo"><div class="circle" style="background:#009850">✔</div><div class="label">vous êtes d'accord</div></div>
+    <div class="badge-demo"><div class="circle" style="background:#E85820">✘</div><div class="label">vous n'êtes pas d'accord</div></div>
+    <div class="badge-demo"><div class="circle" style="background:#D0C0E0">?</div><div class="label">vous ne savez pas</div></div>
+    <span class="sc-pastille sc-pastille--oui">oui</span>
+    <span class="sc-pastille sc-pastille--non">non</span>
+    <span class="sc-pastille sc-pastille--nuance">effectivement pas si facile</span>
+    <div class="bulle">salut,<br>comment<br>vas-tu&nbsp;?</div>
+  </div>
+</section>
+
+<section>
+  <h2>3 · Fonds de scène</h2>
+  <div class="grid">
+    <div class="swatch"><div class="color" style="background:#C8E8F8"></div><div class="meta"><strong>Bleu ciel</strong><code>#C8E8F8</code> · ados</div></div>
+    <div class="swatch"><div class="color" style="background:#F0E8A0"></div><div class="meta"><strong>Jaune pâle</strong><code>#F0E8A0</code> · multi</div></div>
+    <div class="swatch"><div class="color" style="background:#E0A880"></div><div class="meta"><strong>Pêche</strong><code>#E0A880</code> · dialogue</div></div>
+    <div class="swatch"><div class="color" style="background:#E8E0D8"></div><div class="meta"><strong>Gris clair</strong><code>#E8E0D8</code></div></div>
+    <div class="swatch"><div class="color" style="background:#F0E8D8"></div><div class="meta"><strong>Crème</strong><code>#F0E8D8</code></div></div>
+    <div class="swatch"><div class="color" style="background:#98C0B0"></div><div class="meta"><strong>Menthe</strong><code>#98C0B0</code></div></div>
+  </div>
+  <h3>Composition de couverture</h3>
+  <div class="hero">
+    <div class="title">Et si on parlait<br>de notre santé mentale&nbsp;?</div>
+    <div style="margin-top:20px" class="bulle">salut,<br>comment<br>vas-tu&nbsp;?</div>
+  </div>
+</section>
+
+<section>
+  <h2>4 · Palette illustration</h2>
+  <h3>Peaux</h3>
+  <div class="grid">
+    <div class="swatch"><div class="color" style="background:#F0C888"></div><div class="meta"><code>#F0C888</code></div></div>
+    <div class="swatch"><div class="color" style="background:#E8C8A0"></div><div class="meta"><code>#E8C8A0</code></div></div>
+    <div class="swatch"><div class="color" style="background:#E0A080"></div><div class="meta"><code>#E0A080</code></div></div>
+    <div class="swatch"><div class="color" style="background:#C09868"></div><div class="meta"><code>#C09868</code></div></div>
+    <div class="swatch"><div class="color" style="background:#A07850"></div><div class="meta"><code>#A07850</code></div></div>
+    <div class="swatch"><div class="color" style="background:#684838"></div><div class="meta"><code>#684838</code></div></div>
+  </div>
+  <h3>Vêtements</h3>
+  <div class="grid">
+    <div class="swatch"><div class="color" style="background:#009850"></div><div class="meta"><code>#009850</code></div></div>
+    <div class="swatch"><div class="color" style="background:#E85820"></div><div class="meta"><code>#E85820</code></div></div>
+    <div class="swatch"><div class="color" style="background:#E89890"></div><div class="meta"><code>#E89890</code></div></div>
+    <div class="swatch"><div class="color" style="background:#F090B8"></div><div class="meta"><code>#F090B8</code></div></div>
+    <div class="swatch"><div class="color" style="background:#58B0D8"></div><div class="meta"><code>#58B0D8</code></div></div>
+    <div class="swatch"><div class="color" style="background:#B0B8D8"></div><div class="meta"><code>#B0B8D8</code></div></div>
+    <div class="swatch"><div class="color" style="background:#505018"></div><div class="meta"><code>#505018</code></div></div>
+    <div class="swatch"><div class="color" style="background:#406050"></div><div class="meta"><code>#406050</code></div></div>
+    <div class="swatch"><div class="color" style="background:#E8E050"></div><div class="meta"><code>#E8E050</code></div></div>
+    <div class="swatch"><div class="color" style="background:#F0C888"></div><div class="meta"><code>#F0C888</code></div></div>
+    <div class="swatch"><div class="color" style="background:#F0E0B8"></div><div class="meta"><code>#F0E0B8</code></div></div>
+    <div class="swatch"><div class="color" style="background:#181818"></div><div class="meta"><code>#181818</code></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>5 · Typographie Poppins</h2>
+  <div class="type-demo">
+    <div style="font-size:var(--sc-text-display);font-weight:800;letter-spacing:-0.01em">Display · ExtraBold</div>
+    <div style="font-size:var(--sc-text-h1);font-weight:800">Titre H1 · ExtraBold</div>
+    <div style="font-size:var(--sc-text-h2);font-weight:700">Sous-titre H2 · Bold</div>
+    <div style="font-size:var(--sc-text-body-lg);font-weight:400">Corps de texte · Regular — Et si on parlait de notre santé mentale ?</div>
+    <div style="font-size:var(--sc-text-caption);font-weight:800">vous êtes d'accord · légende icône minuscules</div>
+    <div style="font-style:italic;font-size:var(--sc-text-body)">Citation · Italic — « vas-tu bien, vraiment ? »</div>
+  </div>
+</section>
+
+<section>
+  <h2>6 · Règles accessibilité</h2>
+  <table>
+    <tr><th>Règle</th><th>Application</th></tr>
+    <tr><td>Contraste texte</td><td>#404040 ou #181818 sur fond clair → ratio ≥ 7:1</td></tr>
+    <tr><td>Texte sur couleur vive</td><td>Toujours noir #000000 sur vert #009850 ou orange #E85820 — jamais de blanc</td></tr>
+    <tr><td>Daltonisme</td><td>Ne jamais opposer vert/orange seul : coche + croix + libellé obligatoires</td></tr>
+    <tr><td>Taille mini</td><td>Corps 18 px · légende icône 14 px</td></tr>
+    <tr><td>Fond de texte</td><td>Toujours un aplat uni derrière le texte, jamais une zone chargée d'illustration</td></tr>
+  </table>
+</section>
+
+<footer>
+  Charte v1.0.0 · source de vérité : <a href="design-tokens.json">design-tokens.json</a> · document : <a href="charte-graphique.md">charte-graphique.md</a> · prompts : <a href="prompts-ia.md">prompts-ia.md</a>
+</footer>
+
+</body>
+</html>
