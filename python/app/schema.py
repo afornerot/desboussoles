@@ -63,6 +63,9 @@ STATUTS = [
 ]
 TYPES_DEMANDE = ["parler", "information", "soin", "urgence", "hebergement", "aide_sociale",
                  "aide_pour_un_proche", "inconnu"]
+DUREES = ["moins_15_jours", "moins_1_mois", "moins_6_mois", "plus_6_mois"]
+IMPACT_DOMAINES = ["travail", "etudes", "logement", "famille", "relations_sociales"]
+IMPACT_NIVEAUX = ["peu", "moderement", "beaucoup"]
 
 
 def tranche_pour_age(age: int) -> str:
@@ -108,7 +111,11 @@ class Besoin(BaseModel):
     parcours_principal: Champ[str] = Field(default_factory=Champ, **_desc("besoin principal", PARCOURS))
     parcours_secondaires: list[str] = Field(default_factory=list, **_desc("autres besoins", PARCOURS))
     type_demande: Champ[str] = Field(default_factory=Champ, **_desc("ce que la personne attend", TYPES_DEMANDE))
-    deja_suivi: Champ[bool] = Field(default_factory=Champ, **_desc("la personne concernée est déjà suivie"))
+    deja_suivi: Champ[bool] = Field(default_factory=Champ,
+                                    **_desc("déjà un accompagnement, ou déjà parlé à son médecin (question q_accompagnement)"))
+    duree: Champ[str] = Field(default_factory=Champ, **_desc("depuis combien de temps dure la difficulté", DUREES))
+    impact_domaine: Champ[str] = Field(default_factory=Champ, **_desc("domaine de vie touché", IMPACT_DOMAINES))
+    impact_niveau: Champ[str] = Field(default_factory=Champ, **_desc("niveau d'impact", IMPACT_NIVEAUX))
 
 
 class Personne(BaseModel):
@@ -173,17 +180,22 @@ class Option(BaseModel):
     libelle: str
 
 
-TypeQuestion = Literal["choice", "texte", "commune", "textarea"]
+TypeQuestion = Literal["choice", "texte", "commune", "adresse", "textarea"]
 
 
 class Question(BaseModel):
-    id_question: str  # identifiant unique (sert à répondre : POST /sessions/{sid}/reponses)
-    type: TypeQuestion  # choice : boutons · texte : saisie courte · commune : commune ou code postal · textarea : texte libre
-    champ: Optional[str] = None  # champ du schéma patient rempli (age, commune, demandeur, parcours, quartier) ; aucun pour textarea
-    texte: str
+    id_question: str  # identifiant unique (sert à répondre : POST /reponse)
+    # choice : boutons · texte : saisie courte · commune : commune ou code postal · adresse : adresse complète
+    # (la commune en est extraite) · textarea : texte libre analysé
+    type: TypeQuestion
+    champ: Optional[str] = None  # champ du schéma patient rempli ; aucun pour textarea et q_switch
+    texte: str  # texte affiché (version « tiers » si la personne écrit pour quelqu'un d'autre)
     mandatory: bool  # obligatoire : une réponse vide est refusée ; sinon la question peut être passée
     options: list[Option] = Field(default_factory=list)
     go_chat: bool = False  # passe à true dans les questions suivantes si la réponse à « q_switch » est « oui »
+    # configuration interne (non envoyée au front)
+    texte_tiers: Optional[str] = Field(default=None, exclude=True)
+    toujours: bool = Field(default=False, exclude=True)
 
 
 if __name__ == "__main__":  # python -m app.schema : écrit config/personne.schema.json

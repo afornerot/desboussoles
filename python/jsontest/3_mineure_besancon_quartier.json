@@ -1,18 +1,18 @@
 {
-  "description": "Mineure à Besançon : le quartier est demandé pour trouver le CGI de secteur.",
+  "description": "Mineure à Besançon : le quartier est demandé pour trouver le CGI de secteur ; déjà suivie.",
   "echanges": [
     {
       "question_envoyee_au_front": {
-        "id_question": "q_comment_ca_va",
-        "type": "textarea",
-        "champ": null,
-        "texte": "Comment ça va ?",
+        "id_question": "q_age",
+        "type": "texte",
+        "champ": "age",
+        "texte": "Quel âge a la personne concernée ? (en années)",
         "mandatory": true,
         "options": [],
         "go_chat": false,
-        "session_id": "4d7819a854319e44",
+        "session_id": "4b568ce96d79c9c2",
         "json_patient": {
-          "session_id": "4d7819a854319e44",
+          "session_id": "4b568ce96d79c9c2",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -89,6 +89,24 @@
               "confidence": 0.0,
               "source": null,
               "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
             }
           },
           "risque": {
@@ -109,62 +127,53 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "4d7819a854319e44",
-        "id_question": "q_comment_ca_va",
-        "reponse": "ma fille de 13 ans ne mange presque plus et pleure tous les soirs, on habite à Besançon"
+        "session_id": "4b568ce96d79c9c2",
+        "id_question": "q_age",
+        "reponse": "13"
       }
     },
     {
       "question_envoyee_au_front": {
-        "id_question": "q_switch",
-        "type": "choice",
-        "champ": null,
-        "texte": "Voulez-vous continuer le questionnaire ou passer à un chatbot ?",
+        "id_question": "q_adresse",
+        "type": "adresse",
+        "champ": "commune",
+        "texte": "Quelle est votre adresse ?",
         "mandatory": true,
-        "options": [
-          {
-            "valeur": "oui",
-            "libelle": "Passer au chatbot"
-          },
-          {
-            "valeur": "non",
-            "libelle": "Continuer le questionnaire"
-          }
-        ],
+        "options": [],
         "go_chat": false,
-        "session_id": "4d7819a854319e44",
+        "session_id": "4b568ce96d79c9c2",
         "json_patient": {
-          "session_id": "4d7819a854319e44",
+          "session_id": "4b568ce96d79c9c2",
           "demandeur": {
-            "value": "proche",
-            "confidence": 0.9,
-            "source": "regex",
-            "evidence": "ma fille"
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
           },
           "personne": {
             "age_ans": {
               "value": 13,
-              "confidence": 0.95,
-              "source": "regex",
-              "evidence": "ma fille de 13 ans"
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
             },
             "tranche_age": {
               "value": "13-17",
-              "confidence": 0.95,
+              "confidence": 1.0,
               "source": "derive",
               "evidence": null
             },
             "commune_insee": {
-              "value": "25056",
-              "confidence": 1.0,
-              "source": "gazetteer",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "commune_nom": {
-              "value": "Besançon",
-              "confidence": 1.0,
-              "source": "gazetteer",
-              "evidence": "besancon"
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
             },
             "quartier_besancon": {
               "value": null,
@@ -185,9 +194,9 @@
               "evidence": null
             },
             "hors_perimetre_guide": {
-              "value": false,
-              "confidence": 1.0,
-              "source": "derive",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "statuts": []
@@ -201,12 +210,30 @@
             },
             "parcours_secondaires": [],
             "type_demande": {
-              "value": "aide_pour_un_proche",
-              "confidence": 0.6,
-              "source": "derive",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
               "value": null,
               "confidence": 0.0,
               "source": null,
@@ -219,55 +246,21 @@
             "negation_detectee": false,
             "sources": []
           },
-          "mots_cles": [
-            {
-              "mot": "fille",
-              "origine": "q_comment_ca_va",
-              "reperes": [
-                "demandeur"
-              ]
-            },
-            {
-              "mot": "mange",
-              "origine": "q_comment_ca_va",
-              "reperes": []
-            },
-            {
-              "mot": "presque",
-              "origine": "q_comment_ca_va",
-              "reperes": []
-            },
-            {
-              "mot": "pleure",
-              "origine": "q_comment_ca_va",
-              "reperes": []
-            },
-            {
-              "mot": "soirs",
-              "origine": "q_comment_ca_va",
-              "reperes": []
-            },
-            {
-              "mot": "besançon",
-              "origine": "q_comment_ca_va",
-              "reperes": [
-                "commune"
-              ]
-            }
-          ],
+          "mots_cles": [],
           "champs_manquants": [
-            "quartier"
+            "commune",
+            "demandeur"
           ],
           "suivi_questions": {
-            "q_comment_ca_va": "ok"
+            "q_age": "ok"
           },
           "go_chat": false
         }
       },
       "reponse_du_front": {
-        "session_id": "4d7819a854319e44",
-        "id_question": "q_switch",
-        "reponse": "non"
+        "session_id": "4b568ce96d79c9c2",
+        "id_question": "q_adresse",
+        "reponse": "12 rue de Vesoul, 25000 Besançon"
       }
     },
     {
@@ -275,7 +268,7 @@
         "id_question": "q_quartier",
         "type": "choice",
         "champ": "quartier",
-        "texte": "Dans quel quartier de Besançon ?",
+        "texte": "Dans quel quartier de Besançon habitez-vous ?",
         "mandatory": true,
         "options": [
           {
@@ -332,38 +325,38 @@
           }
         ],
         "go_chat": false,
-        "session_id": "4d7819a854319e44",
+        "session_id": "4b568ce96d79c9c2",
         "json_patient": {
-          "session_id": "4d7819a854319e44",
+          "session_id": "4b568ce96d79c9c2",
           "demandeur": {
-            "value": "proche",
-            "confidence": 0.9,
-            "source": "regex",
-            "evidence": "ma fille"
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
           },
           "personne": {
             "age_ans": {
               "value": 13,
-              "confidence": 0.95,
-              "source": "regex",
-              "evidence": "ma fille de 13 ans"
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
             },
             "tranche_age": {
               "value": "13-17",
-              "confidence": 0.95,
+              "confidence": 1.0,
               "source": "derive",
               "evidence": null
             },
             "commune_insee": {
               "value": "25056",
               "confidence": 1.0,
-              "source": "gazetteer",
+              "source": "utilisateur",
               "evidence": null
             },
             "commune_nom": {
               "value": "Besançon",
               "confidence": 1.0,
-              "source": "gazetteer",
+              "source": "utilisateur",
               "evidence": "besancon"
             },
             "quartier_besancon": {
@@ -401,12 +394,30 @@
             },
             "parcours_secondaires": [],
             "type_demande": {
-              "value": "aide_pour_un_proche",
-              "confidence": 0.6,
-              "source": "derive",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
               "value": null,
               "confidence": 0.0,
               "source": null,
@@ -419,99 +430,365 @@
             "negation_detectee": false,
             "sources": []
           },
-          "mots_cles": [
-            {
-              "mot": "fille",
-              "origine": "q_comment_ca_va",
-              "reperes": [
-                "demandeur"
-              ]
-            },
-            {
-              "mot": "mange",
-              "origine": "q_comment_ca_va",
-              "reperes": []
-            },
-            {
-              "mot": "presque",
-              "origine": "q_comment_ca_va",
-              "reperes": []
-            },
-            {
-              "mot": "pleure",
-              "origine": "q_comment_ca_va",
-              "reperes": []
-            },
-            {
-              "mot": "soirs",
-              "origine": "q_comment_ca_va",
-              "reperes": []
-            },
-            {
-              "mot": "besançon",
-              "origine": "q_comment_ca_va",
-              "reperes": [
-                "commune"
-              ]
-            }
-          ],
+          "mots_cles": [],
           "champs_manquants": [
-            "quartier"
+            "quartier",
+            "demandeur"
           ],
           "suivi_questions": {
-            "q_comment_ca_va": "ok",
-            "q_switch": "ok"
+            "q_age": "ok",
+            "q_adresse": "ok"
           },
           "go_chat": false
         }
       },
       "reponse_du_front": {
-        "session_id": "4d7819a854319e44",
+        "session_id": "4b568ce96d79c9c2",
         "id_question": "q_quartier",
         "reponse": "Planoise"
       }
     },
     {
       "question_envoyee_au_front": {
-        "id_question": "q_chose_a_rajouter",
-        "type": "textarea",
+        "id_question": "q_switch",
+        "type": "choice",
         "champ": null,
-        "texte": "Une chose à rajouter ?",
-        "mandatory": false,
-        "options": [],
+        "texte": "Voulez-vous continuer le questionnaire ou passer à un chatbot ?",
+        "mandatory": true,
+        "options": [
+          {
+            "valeur": "oui",
+            "libelle": "Passer au chatbot"
+          },
+          {
+            "valeur": "non",
+            "libelle": "Continuer le questionnaire"
+          }
+        ],
         "go_chat": false,
-        "session_id": "4d7819a854319e44",
+        "session_id": "4b568ce96d79c9c2",
         "json_patient": {
-          "session_id": "4d7819a854319e44",
+          "session_id": "4b568ce96d79c9c2",
           "demandeur": {
-            "value": "proche",
-            "confidence": 0.9,
-            "source": "regex",
-            "evidence": "ma fille"
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
           },
           "personne": {
             "age_ans": {
               "value": 13,
-              "confidence": 0.95,
-              "source": "regex",
-              "evidence": "ma fille de 13 ans"
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
             },
             "tranche_age": {
               "value": "13-17",
-              "confidence": 0.95,
+              "confidence": 1.0,
               "source": "derive",
               "evidence": null
             },
             "commune_insee": {
               "value": "25056",
               "confidence": 1.0,
-              "source": "gazetteer",
+              "source": "utilisateur",
               "evidence": null
             },
             "commune_nom": {
               "value": "Besançon",
               "confidence": 1.0,
-              "source": "gazetteer",
+              "source": "utilisateur",
+              "evidence": "besancon"
+            },
+            "quartier_besancon": {
+              "value": "Planoise Chateaufarine",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Planoise Besançon",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "demandeur"
+          ],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_quartier": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "4b568ce96d79c9c2",
+        "id_question": "q_switch",
+        "reponse": "non"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_pour_qui",
+        "type": "choice",
+        "champ": "demandeur",
+        "texte": "Pour qui cherchez-vous de l'aide ?",
+        "mandatory": true,
+        "options": [
+          {
+            "valeur": "soi",
+            "libelle": "Pour moi"
+          },
+          {
+            "valeur": "tiers",
+            "libelle": "Pour un tiers"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "4b568ce96d79c9c2",
+        "json_patient": {
+          "session_id": "4b568ce96d79c9c2",
+          "demandeur": {
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 13,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25056",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Besançon",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "besancon"
+            },
+            "quartier_besancon": {
+              "value": "Planoise Chateaufarine",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Planoise Besançon",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "demandeur"
+          ],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_quartier": "ok",
+            "q_switch": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "4b568ce96d79c9c2",
+        "id_question": "q_pour_qui",
+        "reponse": "tiers"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_duree",
+        "type": "choice",
+        "champ": "duree",
+        "texte": "Depuis combien de temps dure la difficulté ?",
+        "mandatory": false,
+        "options": [
+          {
+            "valeur": "moins_15_jours",
+            "libelle": "Moins de 15 jours"
+          },
+          {
+            "valeur": "moins_1_mois",
+            "libelle": "Moins d'un mois"
+          },
+          {
+            "valeur": "moins_6_mois",
+            "libelle": "Moins de 6 mois"
+          },
+          {
+            "valeur": "plus_6_mois",
+            "libelle": "Plus de 6 mois"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "4b568ce96d79c9c2",
+        "json_patient": {
+          "session_id": "4b568ce96d79c9c2",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 1.0,
+            "source": "utilisateur",
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 13,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25056",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Besançon",
+              "confidence": 1.0,
+              "source": "utilisateur",
               "evidence": "besancon"
             },
             "quartier_besancon": {
@@ -559,6 +836,601 @@
               "confidence": 0.0,
               "source": null,
               "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_quartier": "ok",
+            "q_switch": "ok",
+            "q_pour_qui": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "4b568ce96d79c9c2",
+        "id_question": "q_duree",
+        "reponse": "moins_1_mois"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_impact",
+        "type": "choice",
+        "champ": "impact_domaine",
+        "texte": "Cette situation a-t-elle un impact sur :",
+        "mandatory": false,
+        "options": [
+          {
+            "valeur": "travail",
+            "libelle": "Le travail"
+          },
+          {
+            "valeur": "etudes",
+            "libelle": "Les études"
+          },
+          {
+            "valeur": "logement",
+            "libelle": "Le logement"
+          },
+          {
+            "valeur": "famille",
+            "libelle": "La famille"
+          },
+          {
+            "valeur": "relations_sociales",
+            "libelle": "Les relations sociales"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "4b568ce96d79c9c2",
+        "json_patient": {
+          "session_id": "4b568ce96d79c9c2",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 1.0,
+            "source": "utilisateur",
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 13,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25056",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Besançon",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "besancon"
+            },
+            "quartier_besancon": {
+              "value": "Planoise Chateaufarine",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Planoise Besançon",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": "moins_1_mois",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_quartier": "ok",
+            "q_switch": "ok",
+            "q_pour_qui": "ok",
+            "q_duree": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "4b568ce96d79c9c2",
+        "id_question": "q_impact",
+        "reponse": "famille"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_impact_niveau",
+        "type": "choice",
+        "champ": "impact_niveau",
+        "texte": "Niveau d'impact :",
+        "mandatory": false,
+        "options": [
+          {
+            "valeur": "peu",
+            "libelle": "Peu"
+          },
+          {
+            "valeur": "moderement",
+            "libelle": "Modérément"
+          },
+          {
+            "valeur": "beaucoup",
+            "libelle": "Beaucoup"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "4b568ce96d79c9c2",
+        "json_patient": {
+          "session_id": "4b568ce96d79c9c2",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 1.0,
+            "source": "utilisateur",
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 13,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25056",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Besançon",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "besancon"
+            },
+            "quartier_besancon": {
+              "value": "Planoise Chateaufarine",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Planoise Besançon",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": "moins_1_mois",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": "famille",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_quartier": "ok",
+            "q_switch": "ok",
+            "q_pour_qui": "ok",
+            "q_duree": "ok",
+            "q_impact": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "4b568ce96d79c9c2",
+        "id_question": "q_impact_niveau",
+        "reponse": "moderement"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_besoin",
+        "type": "textarea",
+        "champ": null,
+        "texte": "Quel est le principal besoin de la personne, ou quelle difficulté rencontre-t-elle ?",
+        "mandatory": false,
+        "options": [],
+        "go_chat": false,
+        "session_id": "4b568ce96d79c9c2",
+        "json_patient": {
+          "session_id": "4b568ce96d79c9c2",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 1.0,
+            "source": "utilisateur",
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 13,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25056",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Besançon",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "besancon"
+            },
+            "quartier_besancon": {
+              "value": "Planoise Chateaufarine",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Planoise Besançon",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": "moins_1_mois",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": "famille",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": "moderement",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_quartier": "ok",
+            "q_switch": "ok",
+            "q_pour_qui": "ok",
+            "q_duree": "ok",
+            "q_impact": "ok",
+            "q_impact_niveau": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "4b568ce96d79c9c2",
+        "id_question": "q_besoin",
+        "reponse": "ma fille ne mange presque plus et pleure tous les soirs"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_accompagnement",
+        "type": "choice",
+        "champ": "deja_suivi",
+        "texte": "La personne bénéficie-t-elle déjà d'un accompagnement, ou en a-t-elle déjà parlé à son médecin ?",
+        "mandatory": false,
+        "options": [
+          {
+            "valeur": "oui",
+            "libelle": "Oui"
+          },
+          {
+            "valeur": "non",
+            "libelle": "Non"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "4b568ce96d79c9c2",
+        "json_patient": {
+          "session_id": "4b568ce96d79c9c2",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 1.0,
+            "source": "utilisateur",
+            "evidence": "ma fille"
+          },
+          "personne": {
+            "age_ans": {
+              "value": 13,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25056",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Besançon",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "besancon"
+            },
+            "quartier_besancon": {
+              "value": "Planoise Chateaufarine",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Planoise Besançon",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": "moins_1_mois",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": "famille",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": "moderement",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
             }
           },
           "risque": {
@@ -570,86 +1442,85 @@
           "mots_cles": [
             {
               "mot": "fille",
-              "origine": "q_comment_ca_va",
+              "origine": "q_besoin",
               "reperes": [
                 "demandeur"
               ]
             },
             {
               "mot": "mange",
-              "origine": "q_comment_ca_va",
+              "origine": "q_besoin",
               "reperes": []
             },
             {
               "mot": "presque",
-              "origine": "q_comment_ca_va",
+              "origine": "q_besoin",
               "reperes": []
             },
             {
               "mot": "pleure",
-              "origine": "q_comment_ca_va",
+              "origine": "q_besoin",
               "reperes": []
             },
             {
               "mot": "soirs",
-              "origine": "q_comment_ca_va",
+              "origine": "q_besoin",
               "reperes": []
-            },
-            {
-              "mot": "besançon",
-              "origine": "q_comment_ca_va",
-              "reperes": [
-                "commune"
-              ]
             }
           ],
           "champs_manquants": [],
           "suivi_questions": {
-            "q_comment_ca_va": "ok",
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_quartier": "ok",
             "q_switch": "ok",
-            "q_quartier": "ok"
+            "q_pour_qui": "ok",
+            "q_duree": "ok",
+            "q_impact": "ok",
+            "q_impact_niveau": "ok",
+            "q_besoin": "ok"
           },
           "go_chat": false
         }
       },
       "reponse_du_front": {
-        "session_id": "4d7819a854319e44",
-        "id_question": "q_chose_a_rajouter",
-        "reponse": "elle est suivie par l'infirmière du collège"
+        "session_id": "4b568ce96d79c9c2",
+        "id_question": "q_accompagnement",
+        "reponse": "oui"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "4d7819a854319e44",
+    "session_id": "4b568ce96d79c9c2",
     "demandeur": {
       "value": "proche",
-      "confidence": 0.9,
-      "source": "regex",
+      "confidence": 1.0,
+      "source": "utilisateur",
       "evidence": "ma fille"
     },
     "personne": {
       "age_ans": {
         "value": 13,
-        "confidence": 0.95,
-        "source": "regex",
-        "evidence": "ma fille de 13 ans"
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
       },
       "tranche_age": {
         "value": "13-17",
-        "confidence": 0.95,
+        "confidence": 1.0,
         "source": "derive",
         "evidence": null
       },
       "commune_insee": {
         "value": "25056",
         "confidence": 1.0,
-        "source": "gazetteer",
+        "source": "utilisateur",
         "evidence": null
       },
       "commune_nom": {
         "value": "Besançon",
         "confidence": 1.0,
-        "source": "gazetteer",
+        "source": "utilisateur",
         "evidence": "besancon"
       },
       "quartier_besancon": {
@@ -676,21 +1547,14 @@
         "source": "derive",
         "evidence": null
       },
-      "statuts": [
-        {
-          "value": "eleve",
-          "confidence": 0.6,
-          "source": "lexique",
-          "evidence": "college"
-        }
-      ]
+      "statuts": []
     },
     "besoin": {
       "parcours_principal": {
         "value": "enfant_adolescent",
         "confidence": 0.6,
-        "source": "lexique",
-        "evidence": "college"
+        "source": "derive",
+        "evidence": null
       },
       "parcours_secondaires": [],
       "type_demande": {
@@ -701,9 +1565,27 @@
       },
       "deja_suivi": {
         "value": true,
-        "confidence": 0.7,
-        "source": "lexique",
-        "evidence": "elle est suivie"
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "duree": {
+        "value": "moins_1_mois",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "impact_domaine": {
+        "value": "famille",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "impact_niveau": {
+        "value": "moderement",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
       }
     },
     "risque": {
@@ -715,63 +1597,44 @@
     "mots_cles": [
       {
         "mot": "fille",
-        "origine": "q_comment_ca_va",
+        "origine": "q_besoin",
         "reperes": [
           "demandeur"
         ]
       },
       {
         "mot": "mange",
-        "origine": "q_comment_ca_va",
+        "origine": "q_besoin",
         "reperes": []
       },
       {
         "mot": "presque",
-        "origine": "q_comment_ca_va",
+        "origine": "q_besoin",
         "reperes": []
       },
       {
         "mot": "pleure",
-        "origine": "q_comment_ca_va",
+        "origine": "q_besoin",
         "reperes": []
       },
       {
         "mot": "soirs",
-        "origine": "q_comment_ca_va",
+        "origine": "q_besoin",
         "reperes": []
-      },
-      {
-        "mot": "besançon",
-        "origine": "q_comment_ca_va",
-        "reperes": [
-          "commune"
-        ]
-      },
-      {
-        "mot": "suivie",
-        "origine": "q_chose_a_rajouter",
-        "reperes": []
-      },
-      {
-        "mot": "infirmière",
-        "origine": "q_chose_a_rajouter",
-        "reperes": []
-      },
-      {
-        "mot": "collège",
-        "origine": "q_chose_a_rajouter",
-        "reperes": [
-          "parcours:enfant_adolescent",
-          "statut:eleve"
-        ]
       }
     ],
     "champs_manquants": [],
     "suivi_questions": {
-      "q_comment_ca_va": "ok",
-      "q_switch": "ok",
+      "q_age": "ok",
+      "q_adresse": "ok",
       "q_quartier": "ok",
-      "q_chose_a_rajouter": "ok"
+      "q_switch": "ok",
+      "q_pour_qui": "ok",
+      "q_duree": "ok",
+      "q_impact": "ok",
+      "q_impact_niveau": "ok",
+      "q_besoin": "ok",
+      "q_accompagnement": "ok"
     },
     "go_chat": false,
     "id_question": "fin"

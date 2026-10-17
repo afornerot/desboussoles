@@ -1,6 +1,6 @@
 # API Guide — DesBoussoles (Python / FastAPI)
 
-API du **questionnaire d'orientation** (espace « Guide » de DesBoussoles). Elle reçoit le texte libre de la personne (« Comment ça va ? »), en extrait un **JSON patient** structuré, pose **uniquement les questions nécessaires** pour compléter ce qui manque, puis renvoie le JSON final.
+API du **questionnaire d'orientation** (espace « Guide » de DesBoussoles). Elle pose les questions une à une (âge, adresse, pour qui, durée, impact, besoin…). Elle remplit au fur et à mesure un **JSON patient** structuré, en analysant aussi la réponse libre sur le besoin, puis renvoie le JSON final.
 
 Elle implémente le contrat de `fake-guide/server.py` et peut le remplacer directement : il suffit de renseigner `GUIDE_API_URL`.
 
@@ -56,10 +56,10 @@ Crée une session et renvoie la première question :
 ```json
 {
   "session_id": "ded8c3296826f476",
-  "id_question": "q_comment_ca_va",
-  "type": "textarea",
-  "champ": null,
-  "texte": "Comment ça va ?",
+  "id_question": "q_age",
+  "type": "texte",
+  "champ": "age",
+  "texte": "Quel âge a la personne concernée ? (en années)",
   "mandatory": true,
   "options": [],
   "go_chat": false,
@@ -70,13 +70,33 @@ Crée une session et renvoie la première question :
 ### `POST /reponse` — `{session_id, id_question, reponse}`
 
 ```json
-{ "session_id": "ded8c3296826f476", "id_question": "q_comment_ca_va", "reponse": "mon fils a 15 ans il fume des joints tous les jours" }
+{ "session_id": "ded8c3296826f476", "id_question": "q_age", "reponse": "15" }
 ```
 
 Deux réponses possibles :
 
 - **La question suivante**, au même format que ci-dessus, avec `json_patient` mis à jour.
 - **Le JSON patient final**, quand le questionnaire est terminé (complet, ou alerte de crise). On le reconnaît à `"id_question": "fin"` (voir [§4](#4-le-json-patient-final)).
+
+### Déroulé des questions (`config/questions.json`)
+
+| # | `id_question` | Type | Remplit | Posée | Obligatoire |
+|---|---|---|---|---|---|
+| 1 | `q_age` | **texte** libre (« 12 », « 12 ans », « il a 12 ans », « douze ans »), enregistré en **entier** | `personne.age_ans` (+ `tranche_age` déduite) | si manquant | oui |
+| 2 | `q_adresse` | **adresse** | `personne.commune_*`, secteurs | si manquant | oui |
+| – | `q_quartier` | choice | `personne.quartier_besancon` | seulement pour un mineur à Besançon | oui |
+| 3 | `q_switch` | choice oui/non | `go_chat` | toujours | oui |
+| 4 | `q_pour_qui` | choice : moi / un tiers | `demandeur` | si manquant | oui |
+| 5 | `q_duree` | choice | `besoin.duree` | toujours | non |
+| 6 | `q_impact` | choice | `besoin.impact_domaine` | toujours | non |
+| 7 | `q_impact_niveau` | choice | `besoin.impact_niveau` | toujours | non |
+| 8 | `q_besoin` | textarea | analysé → parcours, statuts, risque, mots-clés | toujours | non |
+| 9 | `q_accompagnement` | choice oui/non | `besoin.deja_suivi` | toujours | non |
+
+- **Pour qui** : « moi » → `demandeur: soi`. « Un tiers » → `demandeur: proche`, ou `professionnel` si le texte libre l'indique (« je suis infirmière scolaire… »).
+- **Textes adaptés** : quand la personne écrit pour un tiers, l'API envoie la variante à la troisième personne (« La personne bénéficie-t-elle… » au lieu de « Bénéficiez-vous… »). Les questions posées avant `q_pour_qui` (âge, adresse) utilisent la version directe, faute de savoir encore pour qui on écrit.
+- **Adresse** : l'API en extrait la commune, par le code postal ou le nom de la commune ; le dernier cité l'emporte, donc « rue de Morteau, 25000 Besançon » donne Besançon. **L'adresse complète n'est pas conservée**, seule la commune l'est. Hors Doubs, « 21000 Dijon » est acceptée et marquée hors périmètre. Sans commune reconnaissable, ou avec un code postal partagé, la réponse est refusée avec un message pour préciser.
+- **Seule saisie libre** : `q_besoin`. C'est elle qui peut déclencher l'alerte (fin immédiate).
 
 ### `go_chat` — passage au chatbot (question `q_switch`)
 
@@ -97,6 +117,7 @@ Deux réponses possibles :
 | `choice` | boutons (`options[].libelle`) | `options[].valeur` |
 | `texte` | champ texte court | le texte |
 | `commune` | champ commune (autocomplétion) | nom de la commune ou code postal |
+| `adresse` | champ adresse (rue, code postal, ville) | l'adresse ; la commune en est extraite |
 
 ### Questions facultatives (`mandatory: false`)
 
@@ -180,12 +201,15 @@ Schéma complet : [`config/personne_finale.schema.json`](config/personne_finale.
     "hors_perimetre_guide": { "value": false },
     "statuts": []
   },
-  "besoin": { "parcours_principal": { "value": "enfant_adolescent" }, "parcours_secondaires": ["addiction"],
-              "type_demande": { "value": "aide_pour_un_proche" }, "deja_suivi": { "value": null } },
+  "besoin": { "parcours_principal": { "value": "addiction" }, "parcours_secondaires": ["enfant_adolescent"],
+              "type_demande": { "value": "aide_pour_un_proche" }, "deja_suivi": { "value": false },
+              "duree": { "value": "moins_6_mois" }, "impact_domaine": { "value": "etudes" },
+              "impact_niveau": { "value": "beaucoup" } },
   "risque": { "niveau": 0, "indices": [], "negation_detectee": false },
-  "mots_cles": [ { "mot": "joints", "origine": "q_comment_ca_va", "reperes": ["parcours:addiction"] } ],
+  "mots_cles": [ { "mot": "joints", "origine": "q_besoin", "reperes": ["parcours:addiction"] } ],
   "champs_manquants": [],
-  "suivi_questions": { "q_comment_ca_va": "ok", "q_commune": "ok", "q_chose_a_rajouter": "pass" },
+  "suivi_questions": { "q_age": "ok", "q_adresse": "ok", "q_switch": "ok", "q_pour_qui": "ok", "q_duree": "ok",
+                       "q_impact": "ok", "q_impact_niveau": "ok", "q_besoin": "ok", "q_accompagnement": "pass" },
   "go_chat": false
 }
 ```
@@ -197,6 +221,9 @@ Chaque champ suit la même forme `{value, confidence, source, evidence}`. La sou
 | `personne.secteur_adulte` / `secteur_infanto_juvenile` | pôle de psychiatrie adulte / CGI de secteur, tirés des tables du guide PTSM 25. Pour un adulte à Besançon : `BESANCON_A_PRECISER` (sectorisation par rue) |
 | `personne.hors_perimetre_guide` | commune hors Doubs, ou dans le pays de Montbéliard |
 | `besoin.parcours_principal` / `parcours_secondaires` | `ecoute_soutien`, `humeur_depression`, `addiction`, `enfant_adolescent`, `perinatalite`, `victimologie_vif`, `specifique`… |
+| `besoin.duree` | `moins_15_jours`, `moins_1_mois`, `moins_6_mois`, `plus_6_mois` (ou `pass`) |
+| `besoin.impact_domaine` / `impact_niveau` | `travail`, `etudes`, `logement`, `famille`, `relations_sociales` / `peu`, `moderement`, `beaucoup` |
+| `besoin.deja_suivi` | `true` / `false` : déjà un accompagnement, ou déjà parlé à son médecin (ou `pass`) |
 | `risque.niveau` | 0 aucun indice · 1 détresse · 2 idées suicidaires / auto-agression / violences · 3 danger immédiat |
 | `mots_cles` | mots écrits par la personne, même hors lexique ; `reperes` vide = mot non reconnu (piste d'enrichissement) |
 
@@ -205,22 +232,23 @@ Chaque champ suit la même forme `{value, confidence, source, evidence}`. La sou
 ## 5. Comment ça marche
 
 ```
-POST /sessions → « Comment ça va ? » (textarea)
-        │  texte libre
+POST /sessions → q_age → q_adresse → (q_quartier) → q_switch → q_pour_qui → q_duree → q_impact
+              → q_impact_niveau → q_besoin (texte libre) → q_accompagnement
+        │  chaque réponse
         ▼
-  normalisation (minuscules, accents, SMS : « jsp », « chui », nombres en lettres)
-        ▼
-  extracteurs déterministes : âge · commune (gazetteer 563 communes + quartiers de Besançon)
-  · demandeur (soi / proche / professionnel) · lexique (parcours, statuts, suivi) · CRISE · mots-clés
+  réponses à boutons / adresse  → champs du JSON patient (la commune et les secteurs sont déduits de l'adresse)
+  texte libre (q_besoin)        → normalisation (accents, SMS, nombres en lettres) → extracteurs déterministes :
+                                  âge · commune · demandeur · lexique (parcours, statuts, suivi) · CRISE · mots-clés
         ▼
   JSON patient ──► décision (app/decision.py) :
-        1. risque ≥ SEUIL_ALERTE (3)  → FIN immédiate (alerte), même si des champs manquent
+        1. risque ≥ SEUIL_ALERTE (3)  → FIN immédiate (alerte), même si des questions restent
         2. plus aucune question        → FIN (complet)
-        3. sinon                       → question suivante (champs manquants, puis « Une chose à rajouter ? »)
+        3. sinon                       → question suivante
 ```
 
-- **Champs requis** : âge (ou tranche), commune, demandeur, parcours, plus le quartier pour un mineur à Besançon. Un champ dont la confiance est inférieure à 0,6 est considéré « à confirmer » et donne lieu à une question.
-- **Les réponses de l'utilisateur priment** sur l'extraction. Les réponses aux `textarea` sont ré-analysées : elles peuvent compléter le JSON ou déclencher une alerte.
+- **Champs requis** : âge (ou tranche), commune, demandeur, plus le quartier pour un mineur à Besançon. Leurs questions ne sont posées que s'ils manquent. Le parcours est déduit du texte libre (`q_besoin`).
+- **Questions « toujours »** (durée, impact, niveau, accompagnement) et `q_besoin` : posées à tout le monde, facultatives.
+- **Les réponses de l'utilisateur priment** sur l'extraction. Exemple : `q_accompagnement = non` l'emporte sur « je vois un psy » dans le texte.
 - **Crise** : le lexique est indépendant de tout LLM. La négation est gérée (« pas d'idées noires » abaisse le niveau d'un cran, sans jamais le ramener à 0), ainsi que le discours rapporté (« mon frère s'est suicidé il y a 5 ans » → niveau 1).
 - **Pas de LLM** dans cette version : uniquement des règles et des lexiques, ce qui donne une réponse instantanée et ne nécessite ni clé ni envoi de données.
 
@@ -230,7 +258,7 @@ POST /sessions → « Comment ça va ? » (textarea)
 
 | Fichier | Rôle |
 |---|---|
-| [`config/questions.json`](config/questions.json) | questions posées : **ordre**, `texte`, `type`, `mandatory`, `options`, `id_question` unique. Validé au démarrage (le serveur refuse de démarrer si le fichier est incohérent), schéma d'édition `questions.schema.json` |
+| [`config/questions.json`](config/questions.json) | questions posées : **ordre**, `id_question` unique, `type`, `champ`, `texte` (direct), `texte_tiers` (troisième personne, facultatif), `mandatory`, `toujours` (posée même si le champ est déjà rempli), `options`. Validé au démarrage (le serveur refuse de démarrer si le fichier est incohérent), schéma d'édition `questions.schema.json` |
 | [`lexiques/crise.yaml`](lexiques/crise.yaml) | expressions de crise par niveau (regex, accents ignorés). **Toute modification doit être validée cliniquement** |
 | [`lexiques/parcours.yaml`](lexiques/parcours.yaml) | expressions courantes → parcours, statuts, type de demande, suivi existant |
 | [`lexiques/sms.yaml`](lexiques/sms.yaml) | abréviations SMS |
@@ -250,7 +278,7 @@ Après une modification des modèles Pydantic, régénérer les schémas JSON : 
 ## 7. Tests et outils
 
 ```bash
-python -m pytest                 # 125 tests, sans réseau ni clé
+python -m pytest                 # 143 tests, sans réseau ni clé
 python scenarios_jsontest.py     # rejoue 5 parcours fictifs → jsontest/*.json (échanges + JSON final)
 ```
 
@@ -291,12 +319,13 @@ python/
 
 ## 9. Points à harmoniser
 
-1. **Ton** : la charte « Salut, comment vas-tu ? » tutoie, alors que les questions actuelles vouvoient (« Vous écrivez pour… »). C'est à adapter dans `config/questions.json`, sans toucher au code.
+1. **Ton** : les questions vouvoient (choix validé). La charte « Salut, comment vas-tu ? » tutoie ; pour changer, il suffit de modifier `texte` / `texte_tiers` dans `config/questions.json`.
 2. **Fin du questionnaire** : `guide.html` appelle `showEnd()` sans exploiter le JSON final. Pistes :
    - afficher `bloc_crise` s'il est présent ;
    - utiliser `secteur_*`, `parcours_principal` et `commune_insee` pour pré-filtrer la carte et les ressources.
 3. **Urgence** : le widget flottant 15 / 17 / 112 / 3114 et `bloc_crise` se recoupent. Il faudrait un seul texte, validé par la coordination PTSM.
-4. **Commune** : l'autocomplétion geo.api.gouv.fr envoie le nom officiel, ce qui convient. Les communes hors Doubs sont acceptées et marquées `hors_perimetre_guide`.
+4. **Adresse (`type: "adresse"`)** : `guide.html` ne connaît pas encore ce type. Il affiche donc un simple champ texte, qui fonctionne mais sans autocomplétion. Il faudrait lui ajouter un champ adresse, éventuellement avec l'autocomplétion de l'API Adresse (api-adresse.data.gouv.fr). Les adresses hors Doubs sont acceptées et marquées `hors_perimetre_guide`.
 5. **Codes HTTP** : `POST /sessions` répond `201` (le fake répondait `200`). Le front teste `res.ok`, donc c'est compatible.
 6. **Langage** : cette API est en Python, alors que le reste de la plateforme est en Go. Elle reste un service séparé derrière `GUIDE_API_URL`.
 7. **Valeurs cliniques à valider** : seuil d'alerte (3), niveaux du lexique de crise, numéros du bloc de crise.
+8. **Ordre « Pour qui ? »** : la question arrive en 4e position. L'âge est donc demandé de façon générique (« la personne concernée ») et l'adresse en version directe (« votre adresse »), même quand la personne écrit pour un tiers. Placer `q_pour_qui` en premier permettrait d'adapter ces textes aussi.

@@ -1,0 +1,1757 @@
+{
+  "description": "Infirmière scolaire (tiers → professionnel) ; adresse sans commune refusée, puis code postal partagé refusé, puis adresse complète.",
+  "echanges": [
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_age",
+        "type": "texte",
+        "champ": "age",
+        "texte": "Quel âge a la personne concernée ? (en années)",
+        "mandatory": true,
+        "options": [],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "age",
+            "commune",
+            "demandeur",
+            "parcours"
+          ],
+          "suivi_questions": {},
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_age",
+        "reponse": "14"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_adresse",
+        "type": "adresse",
+        "champ": "commune",
+        "texte": "Quelle est votre adresse ?",
+        "mandatory": true,
+        "options": [],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 14,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "commune",
+            "demandeur"
+          ],
+          "suivi_questions": {
+            "q_age": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_adresse",
+        "reponse": "12 rue des Lilas"
+      },
+      "refus": "commune introuvable dans l'adresse : ajoutez le code postal ou le nom de la commune"
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_adresse",
+        "type": "adresse",
+        "champ": "commune",
+        "texte": "Quelle est votre adresse ?",
+        "mandatory": true,
+        "options": [],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "bloc_crise": null,
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 14,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "commune",
+            "demandeur"
+          ],
+          "suivi_questions": {
+            "q_age": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_adresse",
+        "reponse": "rue des Lilas, 25300"
+      },
+      "refus": "code postal partagé par plusieurs communes, précisez la commune : Arçon, Chaffois, Dommartin, Doubs, Granges-Narboz, Houtaud, La Cluse-et-Mijoux, Les Alliés, Les Fourgs, Pontarlier, Sainte-Colombe, Verrières-de-Joux, Vuillecin"
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_adresse",
+        "type": "adresse",
+        "champ": "commune",
+        "texte": "Quelle est votre adresse ?",
+        "mandatory": true,
+        "options": [],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "bloc_crise": null,
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 14,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "commune",
+            "demandeur"
+          ],
+          "suivi_questions": {
+            "q_age": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_adresse",
+        "reponse": "rue des Lilas, 25300 Pontarlier"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_switch",
+        "type": "choice",
+        "champ": null,
+        "texte": "Voulez-vous continuer le questionnaire ou passer à un chatbot ?",
+        "mandatory": true,
+        "options": [
+          {
+            "valeur": "oui",
+            "libelle": "Passer au chatbot"
+          },
+          {
+            "valeur": "non",
+            "libelle": "Continuer le questionnaire"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 14,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25462",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Pontarlier",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "pontarlier"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Pontarlier",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "demandeur"
+          ],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_switch",
+        "reponse": "non"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_pour_qui",
+        "type": "choice",
+        "champ": "demandeur",
+        "texte": "Pour qui cherchez-vous de l'aide ?",
+        "mandatory": true,
+        "options": [
+          {
+            "valeur": "soi",
+            "libelle": "Pour moi"
+          },
+          {
+            "valeur": "tiers",
+            "libelle": "Pour un tiers"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 14,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25462",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Pontarlier",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "pontarlier"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Pontarlier",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "demandeur"
+          ],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_switch": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_pour_qui",
+        "reponse": "tiers"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_duree",
+        "type": "choice",
+        "champ": "duree",
+        "texte": "Depuis combien de temps dure la difficulté ?",
+        "mandatory": false,
+        "options": [
+          {
+            "valeur": "moins_15_jours",
+            "libelle": "Moins de 15 jours"
+          },
+          {
+            "valeur": "moins_1_mois",
+            "libelle": "Moins d'un mois"
+          },
+          {
+            "valeur": "moins_6_mois",
+            "libelle": "Moins de 6 mois"
+          },
+          {
+            "valeur": "plus_6_mois",
+            "libelle": "Plus de 6 mois"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 1.0,
+            "source": "utilisateur",
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 14,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25462",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Pontarlier",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "pontarlier"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Pontarlier",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_switch": "ok",
+            "q_pour_qui": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_duree",
+        "reponse": "moins_15_jours"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_impact",
+        "type": "choice",
+        "champ": "impact_domaine",
+        "texte": "Cette situation a-t-elle un impact sur :",
+        "mandatory": false,
+        "options": [
+          {
+            "valeur": "travail",
+            "libelle": "Le travail"
+          },
+          {
+            "valeur": "etudes",
+            "libelle": "Les études"
+          },
+          {
+            "valeur": "logement",
+            "libelle": "Le logement"
+          },
+          {
+            "valeur": "famille",
+            "libelle": "La famille"
+          },
+          {
+            "valeur": "relations_sociales",
+            "libelle": "Les relations sociales"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 1.0,
+            "source": "utilisateur",
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 14,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25462",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Pontarlier",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "pontarlier"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Pontarlier",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": "moins_15_jours",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_switch": "ok",
+            "q_pour_qui": "ok",
+            "q_duree": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_impact",
+        "reponse": "etudes"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_impact_niveau",
+        "type": "choice",
+        "champ": "impact_niveau",
+        "texte": "Niveau d'impact :",
+        "mandatory": false,
+        "options": [
+          {
+            "valeur": "peu",
+            "libelle": "Peu"
+          },
+          {
+            "valeur": "moderement",
+            "libelle": "Modérément"
+          },
+          {
+            "valeur": "beaucoup",
+            "libelle": "Beaucoup"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 1.0,
+            "source": "utilisateur",
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 14,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25462",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Pontarlier",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "pontarlier"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Pontarlier",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": "moins_15_jours",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": "etudes",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_switch": "ok",
+            "q_pour_qui": "ok",
+            "q_duree": "ok",
+            "q_impact": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_impact_niveau",
+        "reponse": "beaucoup"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_besoin",
+        "type": "textarea",
+        "champ": null,
+        "texte": "Quel est le principal besoin de la personne, ou quelle difficulté rencontre-t-elle ?",
+        "mandatory": false,
+        "options": [],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 1.0,
+            "source": "utilisateur",
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": 14,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25462",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Pontarlier",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "pontarlier"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Pontarlier",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "enfant_adolescent",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": "moins_15_jours",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": "etudes",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": "beaucoup",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_switch": "ok",
+            "q_pour_qui": "ok",
+            "q_duree": "ok",
+            "q_impact": "ok",
+            "q_impact_niveau": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_besoin",
+        "reponse": "je suis infirmière scolaire, une élève me dit qu'elle se fait harceler et qu'elle veut disparaître pour toujours"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_accompagnement",
+        "type": "choice",
+        "champ": "deja_suivi",
+        "texte": "La personne bénéficie-t-elle déjà d'un accompagnement, ou en a-t-elle déjà parlé à son médecin ?",
+        "mandatory": false,
+        "options": [
+          {
+            "valeur": "oui",
+            "libelle": "Oui"
+          },
+          {
+            "valeur": "non",
+            "libelle": "Non"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "59bd08bfb518665c",
+        "bloc_crise": [
+          "Si vous ou la personne concernée êtes en danger maintenant : appelez le 15 (SAMU) ou le 112.",
+          "Pensées suicidaires, ou inquiet pour un proche : 3114, numéro national de prévention du suicide, gratuit, 24h/24, 7j/7.",
+          "Violences : 17 (police) — 3919 (violences conjugales, gratuit, 24h/24) — 119 (enfance en danger).",
+          "Urgences psychiatriques : CHU de Besançon (urgences adultes) ; pour un mineur, urgences pédiatriques du CHU."
+        ],
+        "json_patient": {
+          "session_id": "59bd08bfb518665c",
+          "demandeur": {
+            "value": "professionnel",
+            "confidence": 1.0,
+            "source": "utilisateur",
+            "evidence": "une eleve"
+          },
+          "personne": {
+            "age_ans": {
+              "value": 14,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25462",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Pontarlier",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "pontarlier"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Pontarlier",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": [
+              {
+                "value": "eleve",
+                "confidence": 0.6,
+                "source": "lexique",
+                "evidence": "eleve"
+              }
+            ]
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "humeur_depression",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "parcours_secondaires": [
+              "enfant_adolescent"
+            ],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "duree": {
+              "value": "moins_15_jours",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_domaine": {
+              "value": "etudes",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "impact_niveau": {
+              "value": "beaucoup",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 2,
+            "indices": [
+              "disparaitre pour toujours"
+            ],
+            "negation_detectee": false,
+            "sources": [
+              "lexique"
+            ]
+          },
+          "mots_cles": [
+            {
+              "mot": "infirmière",
+              "origine": "q_besoin",
+              "reperes": []
+            },
+            {
+              "mot": "scolaire",
+              "origine": "q_besoin",
+              "reperes": []
+            },
+            {
+              "mot": "élève",
+              "origine": "q_besoin",
+              "reperes": [
+                "statut:eleve"
+              ]
+            },
+            {
+              "mot": "harceler",
+              "origine": "q_besoin",
+              "reperes": []
+            },
+            {
+              "mot": "disparaître",
+              "origine": "q_besoin",
+              "reperes": [
+                "crise:2"
+              ]
+            }
+          ],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_age": "ok",
+            "q_adresse": "ok",
+            "q_switch": "ok",
+            "q_pour_qui": "ok",
+            "q_duree": "ok",
+            "q_impact": "ok",
+            "q_impact_niveau": "ok",
+            "q_besoin": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "59bd08bfb518665c",
+        "id_question": "q_accompagnement",
+        "reponse": "pass"
+      }
+    }
+  ],
+  "json_patient_final": {
+    "session_id": "59bd08bfb518665c",
+    "demandeur": {
+      "value": "professionnel",
+      "confidence": 1.0,
+      "source": "utilisateur",
+      "evidence": "une eleve"
+    },
+    "personne": {
+      "age_ans": {
+        "value": 14,
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "tranche_age": {
+        "value": "13-17",
+        "confidence": 1.0,
+        "source": "derive",
+        "evidence": null
+      },
+      "commune_insee": {
+        "value": "25462",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "commune_nom": {
+        "value": "Pontarlier",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": "pontarlier"
+      },
+      "quartier_besancon": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      },
+      "secteur_adulte": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      },
+      "secteur_infanto_juvenile": {
+        "value": "CGI Pontarlier",
+        "confidence": 1.0,
+        "source": "derive",
+        "evidence": null
+      },
+      "hors_perimetre_guide": {
+        "value": false,
+        "confidence": 1.0,
+        "source": "derive",
+        "evidence": null
+      },
+      "statuts": [
+        {
+          "value": "eleve",
+          "confidence": 0.6,
+          "source": "lexique",
+          "evidence": "eleve"
+        }
+      ]
+    },
+    "besoin": {
+      "parcours_principal": {
+        "value": "humeur_depression",
+        "confidence": 0.6,
+        "source": "derive",
+        "evidence": null
+      },
+      "parcours_secondaires": [
+        "enfant_adolescent"
+      ],
+      "type_demande": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      },
+      "deja_suivi": {
+        "value": "pass",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "duree": {
+        "value": "moins_15_jours",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "impact_domaine": {
+        "value": "etudes",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "impact_niveau": {
+        "value": "beaucoup",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      }
+    },
+    "risque": {
+      "niveau": 2,
+      "indices": [
+        "disparaitre pour toujours"
+      ],
+      "negation_detectee": false,
+      "sources": [
+        "lexique"
+      ]
+    },
+    "mots_cles": [
+      {
+        "mot": "infirmière",
+        "origine": "q_besoin",
+        "reperes": []
+      },
+      {
+        "mot": "scolaire",
+        "origine": "q_besoin",
+        "reperes": []
+      },
+      {
+        "mot": "élève",
+        "origine": "q_besoin",
+        "reperes": [
+          "statut:eleve"
+        ]
+      },
+      {
+        "mot": "harceler",
+        "origine": "q_besoin",
+        "reperes": []
+      },
+      {
+        "mot": "disparaître",
+        "origine": "q_besoin",
+        "reperes": [
+          "crise:2"
+        ]
+      }
+    ],
+    "champs_manquants": [],
+    "suivi_questions": {
+      "q_age": "ok",
+      "q_adresse": "ok",
+      "q_switch": "ok",
+      "q_pour_qui": "ok",
+      "q_duree": "ok",
+      "q_impact": "ok",
+      "q_impact_niveau": "ok",
+      "q_besoin": "ok",
+      "q_accompagnement": "pass"
+    },
+    "go_chat": false,
+    "id_question": "fin",
+    "bloc_crise": [
+      "Si vous ou la personne concernée êtes en danger maintenant : appelez le 15 (SAMU) ou le 112.",
+      "Pensées suicidaires, ou inquiet pour un proche : 3114, numéro national de prévention du suicide, gratuit, 24h/24, 7j/7.",
+      "Violences : 17 (police) — 3919 (violences conjugales, gratuit, 24h/24) — 119 (enfance en danger).",
+      "Urgences psychiatriques : CHU de Besançon (urgences adultes) ; pour un mineur, urgences pédiatriques du CHU."
+    ]
+  }
+}

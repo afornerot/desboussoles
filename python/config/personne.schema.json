@@ -20,7 +20,19 @@
         },
         "deja_suivi": {
           "$ref": "#/$defs/Champ_bool_",
-          "description": "la personne concernée est déjà suivie"
+          "description": "déjà un accompagnement, ou déjà parlé à son médecin (question q_accompagnement)"
+        },
+        "duree": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "depuis combien de temps dure la difficulté — valeurs : moins_15_jours, moins_1_mois, moins_6_mois, plus_6_mois"
+        },
+        "impact_domaine": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "domaine de vie touché — valeurs : travail, etudes, logement, famille, relations_sociales"
+        },
+        "impact_niveau": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "niveau d'impact — valeurs : peu, moderement, beaucoup"
         }
       },
       "title": "Besoin",

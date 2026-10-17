@@ -2,32 +2,26 @@
   "$schema": "./questions.schema.json",
   "questions": [
     {
-      "id_question": "q_comment_ca_va",
-      "type": "textarea",
-      "texte": "Comment ça va ?",
+      "id_question": "q_age",
+      "type": "texte",
+      "champ": "age",
+      "texte": "Quel âge a la personne concernée ? (en années)",
       "mandatory": true
     },
     {
-      "id_question": "q_age",
-      "type": "choice",
-      "champ": "age",
-      "texte": "Quel âge a la personne concernée ? (vous pouvez aussi taper l'âge)",
-      "mandatory": true,
-      "options": [
-        {"valeur": "0-2", "libelle": "0-2 ans"},
-        {"valeur": "3-6", "libelle": "3-6 ans"},
-        {"valeur": "7-12", "libelle": "7-12 ans"},
-        {"valeur": "13-17", "libelle": "13-17 ans"},
-        {"valeur": "18-25", "libelle": "18-25 ans"},
-        {"valeur": "26-64", "libelle": "26-64 ans"},
-        {"valeur": "65+", "libelle": "65 ans et plus"}
-      ]
+      "id_question": "q_adresse",
+      "type": "adresse",
+      "champ": "commune",
+      "texte": "Quelle est votre adresse ?",
+      "texte_tiers": "Quelle est l'adresse de la personne concernée ?",
+      "mandatory": true
     },
     {
-      "id_question": "q_commune",
-      "type": "commune",
-      "champ": "commune",
-      "texte": "Dans quelle commune habitez-vous (ou la personne concernée) ? Le code postal suffit.",
+      "id_question": "q_quartier",
+      "type": "choice",
+      "champ": "quartier",
+      "texte": "Dans quel quartier de Besançon habitez-vous ?",
+      "texte_tiers": "Dans quel quartier de Besançon habite la personne concernée ?",
       "mandatory": true
     },
     {
@@ -41,48 +35,77 @@
       ]
     },
     {
-      "id_question": "q_demandeur",
+      "id_question": "q_pour_qui",
       "type": "choice",
       "champ": "demandeur",
-      "texte": "Vous écrivez pour…",
+      "texte": "Pour qui cherchez-vous de l'aide ?",
       "mandatory": true,
       "options": [
-        {"valeur": "soi", "libelle": "vous-même"},
-        {"valeur": "proche", "libelle": "un proche"},
-        {"valeur": "professionnel", "libelle": "en tant que professionnel"}
+        {"valeur": "soi", "libelle": "Pour moi"},
+        {"valeur": "tiers", "libelle": "Pour un tiers"}
       ]
     },
     {
-      "id_question": "q_parcours",
+      "id_question": "q_duree",
       "type": "choice",
-      "champ": "parcours",
-      "texte": "Qu'est-ce qui vous aiderait le plus ?",
-      "mandatory": true,
+      "champ": "duree",
+      "texte": "Depuis combien de temps dure la difficulté ?",
+      "mandatory": false,
+      "toujours": true,
       "options": [
-        {"valeur": "ecoute_soutien", "libelle": "parler à quelqu'un"},
-        {"valeur": "humeur_depression", "libelle": "je me sens mal, déprimé(e)"},
-        {"valeur": "soins_ambulatoires", "libelle": "un soin, voir un psy"},
-        {"valeur": "addiction", "libelle": "alcool, drogues, jeux, écrans"},
-        {"valeur": "victimologie_vif", "libelle": "violences"},
-        {"valeur": "enfant_adolescent", "libelle": "un enfant ou un ado"},
-        {"valeur": "perinatalite", "libelle": "grossesse, bébé"},
-        {"valeur": "hebergement", "libelle": "une solution d'hébergement"},
-        {"valeur": "social", "libelle": "une aide sociale ou administrative"},
-        {"valeur": "adulte_general", "libelle": "autre chose"}
+        {"valeur": "moins_15_jours", "libelle": "Moins de 15 jours"},
+        {"valeur": "moins_1_mois", "libelle": "Moins d'un mois"},
+        {"valeur": "moins_6_mois", "libelle": "Moins de 6 mois"},
+        {"valeur": "plus_6_mois", "libelle": "Plus de 6 mois"}
       ]
     },
     {
-      "id_question": "q_quartier",
+      "id_question": "q_impact",
       "type": "choice",
-      "champ": "quartier",
-      "texte": "Dans quel quartier de Besançon ?",
-      "mandatory": true
+      "champ": "impact_domaine",
+      "texte": "Cette situation a-t-elle un impact sur :",
+      "mandatory": false,
+      "toujours": true,
+      "options": [
+        {"valeur": "travail", "libelle": "Le travail"},
+        {"valeur": "etudes", "libelle": "Les études"},
+        {"valeur": "logement", "libelle": "Le logement"},
+        {"valeur": "famille", "libelle": "La famille"},
+        {"valeur": "relations_sociales", "libelle": "Les relations sociales"}
+      ]
     },
     {
-      "id_question": "q_chose_a_rajouter",
+      "id_question": "q_impact_niveau",
+      "type": "choice",
+      "champ": "impact_niveau",
+      "texte": "Niveau d'impact :",
+      "mandatory": false,
+      "toujours": true,
+      "options": [
+        {"valeur": "peu", "libelle": "Peu"},
+        {"valeur": "moderement", "libelle": "Modérément"},
+        {"valeur": "beaucoup", "libelle": "Beaucoup"}
+      ]
+    },
+    {
+      "id_question": "q_besoin",
       "type": "textarea",
-      "texte": "Une chose à rajouter ?",
+      "texte": "Quel est votre principal besoin, ou quelle difficulté rencontrez-vous ?",
+      "texte_tiers": "Quel est le principal besoin de la personne, ou quelle difficulté rencontre-t-elle ?",
       "mandatory": false
+    },
+    {
+      "id_question": "q_accompagnement",
+      "type": "choice",
+      "champ": "deja_suivi",
+      "texte": "Bénéficiez-vous déjà d'un accompagnement, ou en avez-vous déjà parlé à votre médecin ?",
+      "texte_tiers": "La personne bénéficie-t-elle déjà d'un accompagnement, ou en a-t-elle déjà parlé à son médecin ?",
+      "mandatory": false,
+      "toujours": true,
+      "options": [
+        {"valeur": "oui", "libelle": "Oui"},
+        {"valeur": "non", "libelle": "Non"}
+      ]
     }
   ]
 }

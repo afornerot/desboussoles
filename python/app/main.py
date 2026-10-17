@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field
 
 from .decision import SEUIL_ALERTE, Statut, decider
 from .fusion import construire, evaluer
-from .questions import QUESTIONS, premiere_textarea, question, questions_pour, valider_reponse
+from .questions import QUESTIONS, question, questions_pour, valider_reponse
 from .schema import PASS, Personne, Question
 
 AVERTISSEMENT = "Démonstrateur : n'utilisez que des situations fictives. Aucun diagnostic, aucun conseil de soin."
@@ -166,7 +166,7 @@ def _enregistrer(s: Session, q: Question, reponse: str) -> None:
             s.go_chat = True
     else:
         try:
-            s.reponses[q.champ] = valider_reponse(q.champ, r)
+            s.reponses[q.champ] = valider_reponse(q.champ, r, q.type)
         except ValueError as e:
             _refus(s, q, str(e))
     s.suivi[q.id_question] = "ok"
@@ -187,12 +187,11 @@ def accueil():
 
 @app.post("/sessions", response_model=QuestionEnvoyee, status_code=201, tags=["questionnaire"])
 def creer_session():
-    """Crée une session (corps vide) et renvoie la première question : « Comment ça va ? » (saisie libre),
+    """Crée une session (corps vide) et renvoie la première question de config/questions.json,
     avec le JSON patient temporaire (vide)."""
     s = Session(id=secrets.token_hex(8))
     SESSIONS[s.id] = s
-    q = premiere_textarea() or QUESTIONS[0]
-    return _sortie(_question(s, q, _patient(s)), 201)
+    return _sortie(_suite(s), 201)
 
 
 @app.post("/reponse", response_model=Union[QuestionEnvoyee, PersonneFinale], tags=["questionnaire"],

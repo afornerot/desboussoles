@@ -27,7 +27,9 @@ def construire(session_id: str, messages: list[str], reponses: dict[str, str] | 
     d = ex.extraire_demandeur(txt)
     if d.valeur:
         p.demandeur = champ(d.valeur, d.confidence, R, d.evidence)
-    if "demandeur" in reponses:
+    if reponses.get("demandeur") == "tiers":  # « Pour un tiers » : professionnel si le texte l'indique, sinon proche
+        p.demandeur = champ("professionnel" if d.valeur == "professionnel" else "proche", 1, U, d.evidence)
+    elif "demandeur" in reponses:
         p.demandeur = champ(reponses["demandeur"], 1, U)
 
     # Âge : rattaché à la personne concernée selon le demandeur
@@ -89,6 +91,13 @@ def construire(session_id: str, messages: list[str], reponses: dict[str, str] | 
             b.parcours_secondaires.append(parcours)
     if lx.deja_suivi is not None:
         b.deja_suivi = champ(lx.deja_suivi, 0.7, L, lx.suivi_extrait)
+    # Réponses aux questions de durée, d'impact et d'accompagnement (valeur ou « pass »)
+    if "deja_suivi" in reponses:
+        v = reponses["deja_suivi"]
+        b.deja_suivi = champ(PASS if v == PASS else v == "oui", 1, U)
+    for cle_champ in ("duree", "impact_domaine", "impact_niveau"):
+        if cle_champ in reponses:
+            setattr(b, cle_champ, champ(reponses[cle_champ], 1, U))
 
     # Risque : composant de sécurité, indépendant de tout LLM
     niveau, dets, negation = ex.detecter_crise(txt)

@@ -32,11 +32,12 @@
           "type": "string"
         },
         "type": {
-          "description": "choice : boutons · texte : saisie courte · commune : commune ou code postal · textarea : texte libre",
+          "description": "choice : boutons · texte : saisie courte · commune : commune ou code postal · adresse : adresse complète (la commune en est extraite) · textarea : texte libre analysé",
           "enum": [
             "choice",
             "texte",
             "commune",
+            "adresse",
             "textarea"
           ],
           "title": "Type",
@@ -50,7 +51,11 @@
                 "commune",
                 "demandeur",
                 "parcours",
-                "quartier"
+                "quartier",
+                "duree",
+                "impact_domaine",
+                "impact_niveau",
+                "deja_suivi"
               ],
               "type": "string"
             },
@@ -59,18 +64,38 @@
             }
           ],
           "default": null,
-          "description": "champ du schéma patient rempli par la réponse (absent pour textarea et pour q_switch)",
+          "description": "champ du schéma patient rempli par la réponse (absent pour textarea et q_switch)",
           "title": "Champ"
         },
         "texte": {
-          "description": "question posée, en langage courant",
+          "description": "question posée en s'adressant à la personne (vouvoiement)",
           "minLength": 1,
           "title": "Texte",
           "type": "string"
         },
+        "texte_tiers": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "variante quand la personne écrit pour quelqu'un d'autre (« La personne… ») ; défaut : texte",
+          "title": "Texte Tiers"
+        },
         "mandatory": {
-          "description": "true : réponse obligatoire ; false : la question peut être passée (réponse vide)",
+          "description": "true : réponse obligatoire ; false : la question peut être passée (« pass »)",
           "title": "Mandatory",
+          "type": "boolean"
+        },
+        "toujours": {
+          "default": false,
+          "description": "true : posée même si le champ est déjà rempli par le texte libre",
+          "title": "Toujours",
           "type": "boolean"
         },
         "options": {
