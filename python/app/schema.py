@@ -124,6 +124,7 @@ class Personne(BaseModel):
     champs_manquants: list[str] = Field(default_factory=list, description="calculé : champs requis manquants, dans l'ordre des questions")
     suivi_questions: dict[str, str] = Field(default_factory=dict,
                                             description="id_question → « ok » (répondue) ou « pass » (facultative laissée vide)")
+    go_chat: bool = Field(default=False, description="true dès que le front a envoyé go_chat = « oui » (la personne veut passer au chat)")
 
     # --- aides ---
     def est_mineur(self) -> bool:
@@ -182,6 +183,7 @@ class Question(BaseModel):
     texte: str
     mandatory: bool  # obligatoire : une réponse vide est refusée ; sinon la question peut être passée
     options: list[Option] = Field(default_factory=list)
+    go_chat: bool = False  # passe à true dans les questions suivantes si la réponse à « q_switch » est « oui »
 
 
 if __name__ == "__main__":  # python -m app.schema : écrit config/personne.schema.json

@@ -1,11 +1,12 @@
 """API FastAPI — questionnaire question par question.
 
 Contrat avec le front :
-  1. POST /sessions (corps vide)            → { session_id, ...question "q_comment_ca_va" }
+  1. POST /sessions (corps vide)            → { session_id, ...question "q_comment_ca_va", go_chat, json_patient }
   2. POST /reponse {session_id, id_question, reponse}
-        → question suivante                  { session_id, ...question }            (le JSON patient n'est PAS renvoyé)
+        → question suivante                  { session_id, ...question (go_chat compris), json_patient (temporaire) }
         → ou, si complet ou alerte          { "id_question": "fin", ...JSON patient final }
   Question facultative laissée vide : le front envoie "pass" → enregistré dans le JSON patient, question non reposée.
+  go_chat (schéma question) : false par défaut ; true dès que la réponse à la question q_switch est "oui".
 
 Lancer : uvicorn app.main:app --reload   puis ouvrir http://localhost:8000/docs
 Sessions en mémoire uniquement (expiration 30 min) ; aucun texte utilisateur écrit sur disque.
@@ -61,6 +62,7 @@ class Session:
     origines: list[str] = field(default_factory=list)       # id_question de chaque message (origine des mots-clés)
     reponses: dict[str, str] = field(default_factory=dict)  # champ → valeur (ou « pass »)
     suivi: dict[str, str] = field(default_factory=dict)     # id_question → « ok » / « pass »
+    go_chat: bool = False                                   # passe à True dès que le front envoie go_chat = « oui »
     maj: float = field(default_factory=time.time)
 
 
@@ -80,9 +82,14 @@ def _session(sid: str) -> Session:
 
 # --- modèles échangés avec le front ---
 class QuestionEnvoyee(Question):
-    """Question à afficher. `bloc_crise` n'apparaît que si un risque est détecté (texte fixe, à afficher en premier)."""
+    """Question à afficher, accompagnée du JSON patient temporaire (état après la dernière réponse).
+    `bloc_crise` n'apparaît que si un risque est détecté (texte fixe, à afficher en premier)."""
     session_id: str
     bloc_crise: Optional[list[str]] = None
+    json_patient: Optional[Personne] = None
+
+
+ID_SWITCH = "q_switch"  # question dont la réponse « oui » fait passer go_chat à true
 
 
 class ReponseFront(BaseModel):
@@ -103,14 +110,27 @@ def _bloc(p: Personne) -> Optional[list[str]]:
     return BLOC_CRISE if p.risque.niveau >= 2 else None
 
 
-def _suite(s: Session) -> Union[QuestionEnvoyee, PersonneFinale]:
-    """Complète le JSON patient, puis renvoie la question suivante — ou le JSON final si complet / alerte."""
+def _patient(s: Session) -> Personne:
+    """JSON patient temporaire de la session (recalculé à partir de tout l'historique)."""
     p = construire(s.id, s.messages, s.reponses, origines=s.origines)
     p.suivi_questions = dict(s.suivi)
+    p.go_chat = s.go_chat
+    return p
+
+
+def _question(s: Session | None, q: Question, p: Personne) -> QuestionEnvoyee:
+    d = q.model_dump() | {"go_chat": p.go_chat}  # go_chat : true si la réponse à q_switch a été « oui »
+    return QuestionEnvoyee(session_id=s.id if s else p.session_id, bloc_crise=_bloc(p), json_patient=p, **d)
+
+
+def _suite(s: Session) -> Union[QuestionEnvoyee, PersonneFinale]:
+    """Complète le JSON patient, puis renvoie la question suivante (avec le JSON temporaire)
+    — ou le JSON final si complet / alerte."""
+    p = _patient(s)
     restantes = questions_pour(p, set(s.suivi))
     statut, _ = decider(p, restantes)
     if statut == Statut.en_cours:
-        return QuestionEnvoyee(session_id=s.id, bloc_crise=_bloc(p), **restantes[0].model_dump())
+        return _question(s, restantes[0], p)
     return PersonneFinale(bloc_crise=_bloc(p), **p.model_dump())
 
 
@@ -123,7 +143,7 @@ def _sortie(obj: BaseModel, code: int = 200) -> JSONUTF8:
 
 def _refus(s: Session, q: Question, message: str):
     """Réponse refusée : 422 avec le message et la même question à reposer."""
-    raise HTTPException(422, {"erreur": message, "question": QuestionEnvoyee(session_id=s.id, **q.model_dump()).model_dump()})
+    raise HTTPException(422, {"erreur": message, "question": _question(s, q, _patient(s)).model_dump(mode="json")})
 
 
 def _enregistrer(s: Session, q: Question, reponse: str) -> None:
@@ -138,6 +158,12 @@ def _enregistrer(s: Session, q: Question, reponse: str) -> None:
     if q.type == "textarea":  # texte libre : ajouté à l'historique et ré-analysé (mots-clés compris)
         s.messages.append(r)
         s.origines.append(q.id_question)
+    elif q.champ is None:  # question sans champ du schéma patient (ex. q_switch)
+        valeurs = {o.valeur.lower() for o in q.options}
+        if valeurs and r.lower() not in valeurs:
+            _refus(s, q, f"valeurs possibles : {[o.valeur for o in q.options]}")
+        if q.id_question == ID_SWITCH and r.lower() == "oui":
+            s.go_chat = True
     else:
         try:
             s.reponses[q.champ] = valider_reponse(q.champ, r)
@@ -154,25 +180,28 @@ def accueil():
                         "2": "POST /reponse {session_id, id_question, reponse} → question suivante, "
                              "ou JSON patient final avec id_question = « fin » (complet, ou alerte de niveau ≥ "
                              f"{SEUIL_ALERTE})",
-                        "pass": "question facultative sans réponse : envoyer reponse = « pass »"}}
+                        "pass": "question facultative sans réponse : envoyer reponse = « pass »",
+                        "json_patient": "chaque question est accompagnée du JSON patient temporaire",
+                        "go_chat": "false par défaut dans chaque question ; true dès que la réponse à q_switch est « oui »"}}
 
 
 @app.post("/sessions", response_model=QuestionEnvoyee, status_code=201, tags=["questionnaire"])
 def creer_session():
-    """Crée une session (corps vide) et renvoie la première question : « Comment ça va ? » (saisie libre)."""
+    """Crée une session (corps vide) et renvoie la première question : « Comment ça va ? » (saisie libre),
+    avec le JSON patient temporaire (vide)."""
     s = Session(id=secrets.token_hex(8))
     SESSIONS[s.id] = s
     q = premiere_textarea() or QUESTIONS[0]
-    return _sortie(QuestionEnvoyee(session_id=s.id, **q.model_dump()), 201)
+    return _sortie(_question(s, q, _patient(s)), 201)
 
 
 @app.post("/reponse", response_model=Union[QuestionEnvoyee, PersonneFinale], tags=["questionnaire"],
           responses={422: {"description": "réponse refusée : {erreur, question} (la même question est à reposer)"},
                      404: {"description": "session inconnue ou expirée"}})
 def recevoir_reponse(corps: ReponseFront):
-    """Reçoit {session_id, id_question, reponse}, complète le JSON patient (sans le renvoyer) et répond par
-    la question suivante — ou, si le questionnaire est complet ou en alerte, par le JSON patient final
-    (avec "id_question": "fin")."""
+    """Reçoit {session_id, id_question, reponse}, complète le JSON patient et répond par la question suivante
+    accompagnée du JSON patient temporaire — ou, si le questionnaire est complet ou en alerte, par le JSON
+    patient final (avec "id_question": "fin"). Réponse « oui » à q_switch : go_chat = true dans les questions suivantes."""
     s = _session(corps.session_id)
     q = question(corps.id_question)
     if q is None:
@@ -185,11 +214,8 @@ def recevoir_reponse(corps: ReponseFront):
 # --- outils (débogage / tests) ---
 @app.get("/sessions/{sid}", response_model=Personne, tags=["outils"])
 def json_patient_courant(sid: str):
-    """JSON patient en cours de remplissage (débogage ; le front n'en a pas besoin)."""
-    s = _session(sid)
-    p = construire(s.id, s.messages, s.reponses, origines=s.origines)
-    p.suivi_questions = dict(s.suivi)
-    return p
+    """JSON patient en cours de remplissage (le même que `json_patient` dans les questions)."""
+    return _patient(_session(sid))
 
 
 @app.delete("/sessions/{sid}", status_code=204, tags=["outils"])
@@ -212,7 +238,7 @@ def evaluer_personne(personne: Personne):
     restantes = questions_pour(p, set(p.suivi_questions), avec_textarea=False)
     statut, _ = decider(p, restantes)
     if statut == Statut.en_cours:
-        return _sortie(QuestionEnvoyee(session_id=p.session_id, bloc_crise=_bloc(p), **restantes[0].model_dump()))
+        return _sortie(_question(None, restantes[0], p))
     return _sortie(PersonneFinale(bloc_crise=_bloc(p), **p.model_dump()))
 
 

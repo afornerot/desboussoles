@@ -14,6 +14,7 @@ def test_post_sessions_avec_corps_vide_json():
 def test_bouton_passer_envoie_passe():
     sid = client.post("/sessions").json()["session_id"]
     client.post("/reponse", json={"session_id": sid, "id_question": "q_comment_ca_va", "reponse": "j'ai 30 ans, je vis à Ornans et je déprime"})
+    client.post("/reponse", json={"session_id": sid, "id_question": "q_switch", "reponse": "non"})
     fin = client.post("/reponse", json={"session_id": sid, "id_question": "q_chose_a_rajouter", "reponse": "passe"}).json()
     assert fin["id_question"] == "fin" and fin["suivi_questions"]["q_chose_a_rajouter"] == "pass"
     assert not any(m["mot"] == "passe" for m in fin["mots_cles"])  # pas pris pour du texte libre

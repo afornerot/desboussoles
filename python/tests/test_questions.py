@@ -23,7 +23,7 @@ def ids(qs):
 
 def test_fichier_livre_valide():
     qs = charger()
-    assert ids(qs) == ["q_comment_ca_va", "q_age", "q_commune", "q_demandeur", "q_parcours", "q_quartier", "q_chose_a_rajouter"]
+    assert ids(qs) == ["q_comment_ca_va", "q_age", "q_commune", "q_switch", "q_demandeur", "q_parcours", "q_quartier", "q_chose_a_rajouter"]
     assert qs[0].type == qs[-1].type == "textarea" and qs[0].mandatory and not qs[-1].mandatory
 
 
@@ -44,7 +44,7 @@ def test_question_passee_n_est_plus_posee():
     (lambda qs: qs.pop(1), "il manque une question"),
     (lambda qs: qs.append(dict(qs[1], id_question="q_autre")), "en double"),
     (lambda qs: qs.append(dict(qs[0])), "id_question en double"),
-    (lambda qs: qs[3]["options"].append({"valeur": "voisin", "libelle": "x"}), "invalide"),
+    (lambda qs: qs[4]["options"].append({"valeur": "voisin", "libelle": "x"}), "invalide"),
     (lambda qs: qs[1].pop("mandatory"), "mandatory"),
     (lambda qs: qs[1].update(type="liste"), "type"),
     (lambda qs: qs[2].update(type="texte"), "commune"),

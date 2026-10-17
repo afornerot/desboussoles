@@ -1,5 +1,216 @@
 {
   "$defs": {
+    "Besoin": {
+      "properties": {
+        "parcours_principal": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "besoin principal — valeurs : ecoute_soutien, urgence, enfant_adolescent, perinatalite, adulte_general, humeur_depression, addiction, soins_ambulatoires, precarite, victimologie_vif, specifique, personnes_agees, social, hebergement, somatique, retablissement, inconnu"
+        },
+        "parcours_secondaires": {
+          "description": "autres besoins — valeurs : ecoute_soutien, urgence, enfant_adolescent, perinatalite, adulte_general, humeur_depression, addiction, soins_ambulatoires, precarite, victimologie_vif, specifique, personnes_agees, social, hebergement, somatique, retablissement, inconnu",
+          "items": {
+            "type": "string"
+          },
+          "title": "Parcours Secondaires",
+          "type": "array"
+        },
+        "type_demande": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "ce que la personne attend — valeurs : parler, information, soin, urgence, hebergement, aide_sociale, aide_pour_un_proche, inconnu"
+        },
+        "deja_suivi": {
+          "$ref": "#/$defs/Champ_bool_",
+          "description": "la personne concernée est déjà suivie"
+        }
+      },
+      "title": "Besoin",
+      "type": "object"
+    },
+    "Champ_bool_": {
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "const": "pass",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "confidence": {
+          "default": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Source"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence"
+        }
+      },
+      "title": "Champ[bool]",
+      "type": "object"
+    },
+    "Champ_int_": {
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "const": "pass",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "confidence": {
+          "default": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Source"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence"
+        }
+      },
+      "title": "Champ[int]",
+      "type": "object"
+    },
+    "Champ_str_": {
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "const": "pass",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "confidence": {
+          "default": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Source"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence"
+        }
+      },
+      "title": "Champ[str]",
+      "type": "object"
+    },
+    "MotCle": {
+      "description": "Mot important écrit par la personne, qu'il figure ou non dans un lexique.",
+      "properties": {
+        "mot": {
+          "title": "Mot",
+          "type": "string"
+        },
+        "origine": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "id_question de la réponse d'où vient le mot (ex. q_comment_ca_va)",
+          "title": "Origine"
+        },
+        "reperes": {
+          "description": "ce que le mot a permis de repérer : parcours:…, statut:…, crise:N, commune, demandeur",
+          "items": {
+            "type": "string"
+          },
+          "title": "Reperes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "mot"
+      ],
+      "title": "MotCle",
+      "type": "object"
+    },
     "Option": {
       "properties": {
         "valeur": {
@@ -17,9 +228,155 @@
       ],
       "title": "Option",
       "type": "object"
+    },
+    "Personne": {
+      "description": "Schéma patient. Les champs requis sont age, commune, demandeur, parcours (+ quartier pour un mineur à\nBesançon) ; un champ dont la confiance est < 0.6 reste « à confirmer ». L'ordre des questions posées pour\nles champs manquants est celui de config/questions.json.",
+      "properties": {
+        "session_id": {
+          "default": "",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "demandeur": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "qui écrit — valeurs : soi, proche, professionnel"
+        },
+        "personne": {
+          "$ref": "#/$defs/PersonneConcernee"
+        },
+        "besoin": {
+          "$ref": "#/$defs/Besoin"
+        },
+        "risque": {
+          "$ref": "#/$defs/Risque"
+        },
+        "mots_cles": {
+          "description": "mots importants des réponses libres (début et fin)",
+          "items": {
+            "$ref": "#/$defs/MotCle"
+          },
+          "title": "Mots Cles",
+          "type": "array"
+        },
+        "champs_manquants": {
+          "description": "calculé : champs requis manquants, dans l'ordre des questions",
+          "items": {
+            "type": "string"
+          },
+          "title": "Champs Manquants",
+          "type": "array"
+        },
+        "suivi_questions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "id_question → « ok » (répondue) ou « pass » (facultative laissée vide)",
+          "title": "Suivi Questions",
+          "type": "object"
+        },
+        "go_chat": {
+          "default": false,
+          "description": "true dès que le front a envoyé go_chat = « oui » (la personne veut passer au chat)",
+          "title": "Go Chat",
+          "type": "boolean"
+        }
+      },
+      "title": "Personne",
+      "type": "object"
+    },
+    "PersonneConcernee": {
+      "properties": {
+        "age_ans": {
+          "$ref": "#/$defs/Champ_int_",
+          "description": "âge de la personne concernée (0-110)"
+        },
+        "tranche_age": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "tranche d'âge — valeurs : 0-2, 3-6, 7-12, 13-17, 18-25, 26-64, 65+"
+        },
+        "commune_insee": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "code INSEE de la commune (ex. 25056 Besançon)"
+        },
+        "commune_nom": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "nom officiel de la commune"
+        },
+        "quartier_besancon": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "quartier, si Besançon (requis pour un mineur)"
+        },
+        "secteur_adulte": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "dérivé : pôle de psychiatrie adulte"
+        },
+        "secteur_infanto_juvenile": {
+          "$ref": "#/$defs/Champ_str_",
+          "description": "dérivé : CGI de secteur"
+        },
+        "hors_perimetre_guide": {
+          "$ref": "#/$defs/Champ_bool_",
+          "description": "commune hors du périmètre du guide"
+        },
+        "statuts": {
+          "description": "statuts de la personne concernée — valeurs : agriculteur, entrepreneur, professionnel_sante, etudiant, eleve, parent, femme_enceinte, sans_domicile, migrant, victime_violences, aidant, retraite, sans_emploi",
+          "items": {
+            "$ref": "#/$defs/Champ_str_"
+          },
+          "title": "Statuts",
+          "type": "array"
+        }
+      },
+      "title": "PersonneConcernee",
+      "type": "object"
+    },
+    "Risque": {
+      "properties": {
+        "niveau": {
+          "default": 0,
+          "description": "0 aucun indice · 1 détresse · 2 idées/auto-agression · 3 plan, moyen, danger immédiat",
+          "maximum": 3,
+          "minimum": 0,
+          "title": "Niveau",
+          "type": "integer"
+        },
+        "indices": {
+          "description": "extraits du message qui justifient le niveau",
+          "items": {
+            "type": "string"
+          },
+          "title": "Indices",
+          "type": "array"
+        },
+        "negation_detectee": {
+          "default": false,
+          "title": "Negation Detectee",
+          "type": "boolean"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        }
+      },
+      "title": "Risque",
+      "type": "object"
+    },
+    "Source": {
+      "enum": [
+        "regex",
+        "gazetteer",
+        "lexique",
+        "utilisateur",
+        "derive"
+      ],
+      "title": "Source",
+      "type": "string"
     }
   },
-  "description": "Question à afficher. `bloc_crise` n'apparaît que si un risque est détecté (texte fixe, à afficher en premier).",
+  "description": "Question à afficher, accompagnée du JSON patient temporaire (état après la dernière réponse).\n`bloc_crise` n'apparaît que si un risque est détecté (texte fixe, à afficher en premier).",
   "properties": {
     "id_question": {
       "title": "Id Question",
@@ -62,6 +419,11 @@
       "title": "Options",
       "type": "array"
     },
+    "go_chat": {
+      "default": false,
+      "title": "Go Chat",
+      "type": "boolean"
+    },
     "session_id": {
       "title": "Session Id",
       "type": "string"
@@ -80,6 +442,17 @@
       ],
       "default": null,
       "title": "Bloc Crise"
+    },
+    "json_patient": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Personne"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
     },
     "$schema": {
       "type": "string"

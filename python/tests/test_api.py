@@ -23,26 +23,30 @@ def test_post_sessions_vide_renvoie_comment_ca_va():
     q = demarrer()
     assert set(q) >= {"session_id", "id_question", "type", "texte", "mandatory", "options", "champ"}
     assert (q["id_question"], q["type"], q["texte"], q["mandatory"]) == ("q_comment_ca_va", "textarea", "Comment ça va ?", True)
-    assert "personne" not in q and "bloc_crise" not in q
+    assert q["go_chat"] is False and "bloc_crise" not in q
+    assert q["json_patient"]["champs_manquants"] == ["age", "commune", "demandeur", "parcours"]  # JSON temporaire vide
 
 
 def test_cascade_jusqu_au_json_final():
     sid = demarrer()["session_id"]
     q = repondre(sid, "q_comment_ca_va", "mon fils a 15 ans il fume des joints tous les jours").json()
     assert q["id_question"] == "q_commune" and q["type"] == "commune"
-    assert "personne" not in q and "demandeur" not in q  # le JSON patient n'est pas renvoyé à chaque tour
+    tmp = q["json_patient"]  # JSON patient temporaire renvoyé avec chaque question
+    assert tmp["personne"]["age_ans"]["value"] == 15 and tmp["champs_manquants"] == ["commune"]
 
     r = repondre(sid, "q_commune", "25500")
     assert r.status_code == 422
     assert "précisez" in r.json()["detail"]["erreur"] and r.json()["detail"]["question"]["id_question"] == "q_commune"
 
     q = repondre(sid, "q_commune", "Morteau").json()
+    assert q["id_question"] == "q_switch"
+    q = repondre(sid, "q_switch", "non").json()
     assert q["id_question"] == "q_chose_a_rajouter" and q["mandatory"] is False
 
     fin = repondre(sid, "q_chose_a_rajouter", "pass").json()
     assert fin["id_question"] == "fin"
     assert fin["personne"]["secteur_infanto_juvenile"]["value"] == "CGI Morteau"
-    assert fin["suivi_questions"] == {"q_comment_ca_va": "ok", "q_commune": "ok", "q_chose_a_rajouter": "pass"}
+    assert fin["suivi_questions"] == {"q_comment_ca_va": "ok", "q_commune": "ok", "q_switch": "ok", "q_chose_a_rajouter": "pass"}
     assert "bloc_crise" not in fin
 
 

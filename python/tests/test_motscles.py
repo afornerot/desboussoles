@@ -40,6 +40,7 @@ def test_mots_cles_debut_et_fin_dans_le_json_final():
     sid = client.post("/sessions").json()["session_id"]
     envoi = lambda iq, r: client.post("/reponse", json={"session_id": sid, "id_question": iq, "reponse": r}).json()
     envoi("q_comment_ca_va", "j'ai 40 ans, je vis à Ornans et je déprime")
+    envoi("q_switch", "non")
     fin = envoi("q_chose_a_rajouter", "mon chien est mort la semaine dernière")
     assert fin["id_question"] == "fin"
     origine = {m["mot"]: m["origine"] for m in fin["mots_cles"]}

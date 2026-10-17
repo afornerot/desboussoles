@@ -9,17 +9,114 @@
         "texte": "Comment ça va ?",
         "mandatory": true,
         "options": [],
-        "session_id": "78dc0ef8e613b7a4"
+        "go_chat": false,
+        "session_id": "226508efba91a1f4",
+        "json_patient": {
+          "session_id": "226508efba91a1f4",
+          "demandeur": {
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "age",
+            "commune",
+            "demandeur",
+            "parcours"
+          ],
+          "suivi_questions": {},
+          "go_chat": false
+        }
       },
       "reponse_du_front": {
-        "session_id": "78dc0ef8e613b7a4",
+        "session_id": "226508efba91a1f4",
         "id_question": "q_comment_ca_va",
         "reponse": "j'en peux plus, ce soir je le fais, j'ai préparé ma lettre"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "78dc0ef8e613b7a4",
+    "session_id": "226508efba91a1f4",
     "demandeur": {
       "value": "soi",
       "confidence": 0.7,
@@ -140,6 +237,7 @@
     "suivi_questions": {
       "q_comment_ca_va": "ok"
     },
+    "go_chat": false,
     "id_question": "fin",
     "bloc_crise": [
       "Si vous ou la personne concernée êtes en danger maintenant : appelez le 15 (SAMU) ou le 112.",

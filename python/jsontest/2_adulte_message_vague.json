@@ -1,5 +1,5 @@
 {
-  "description": "Message court et vague : âge, commune et besoin sont demandés ; un complément est ajouté à la fin.",
+  "description": "Message court et vague : âge, commune et besoin sont demandés ; la personne choisit le chat (q_switch = oui → go_chat = true) ; un complément est ajouté à la fin.",
   "echanges": [
     {
       "question_envoyee_au_front": {
@@ -9,10 +9,107 @@
         "texte": "Comment ça va ?",
         "mandatory": true,
         "options": [],
-        "session_id": "d83b6fe6e75f8cf6"
+        "go_chat": false,
+        "session_id": "22cceea94937b755",
+        "json_patient": {
+          "session_id": "22cceea94937b755",
+          "demandeur": {
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "age",
+            "commune",
+            "demandeur",
+            "parcours"
+          ],
+          "suivi_questions": {},
+          "go_chat": false
+        }
       },
       "reponse_du_front": {
-        "session_id": "d83b6fe6e75f8cf6",
+        "session_id": "22cceea94937b755",
         "id_question": "q_comment_ca_va",
         "reponse": "slt ca va pas du tout en ce moment, chui crevé"
       }
@@ -54,10 +151,118 @@
             "libelle": "65 ans et plus"
           }
         ],
-        "session_id": "d83b6fe6e75f8cf6"
+        "go_chat": false,
+        "session_id": "22cceea94937b755",
+        "json_patient": {
+          "session_id": "22cceea94937b755",
+          "demandeur": {
+            "value": "soi",
+            "confidence": 0.7,
+            "source": "regex",
+            "evidence": "je suis"
+          },
+          "personne": {
+            "age_ans": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 1,
+            "indices": [
+              "ca va pas du tout"
+            ],
+            "negation_detectee": false,
+            "sources": [
+              "lexique"
+            ]
+          },
+          "mots_cles": [
+            {
+              "mot": "crevé",
+              "origine": "q_comment_ca_va",
+              "reperes": []
+            }
+          ],
+          "champs_manquants": [
+            "age",
+            "commune",
+            "parcours"
+          ],
+          "suivi_questions": {
+            "q_comment_ca_va": "ok"
+          },
+          "go_chat": false
+        }
       },
       "reponse_du_front": {
-        "session_id": "d83b6fe6e75f8cf6",
+        "session_id": "22cceea94937b755",
         "id_question": "q_age",
         "reponse": "41"
       }
@@ -70,12 +275,253 @@
         "texte": "Dans quelle commune habitez-vous (ou la personne concernée) ? Le code postal suffit.",
         "mandatory": true,
         "options": [],
-        "session_id": "d83b6fe6e75f8cf6"
+        "go_chat": false,
+        "session_id": "22cceea94937b755",
+        "json_patient": {
+          "session_id": "22cceea94937b755",
+          "demandeur": {
+            "value": "soi",
+            "confidence": 0.7,
+            "source": "regex",
+            "evidence": "je suis"
+          },
+          "personne": {
+            "age_ans": {
+              "value": 41,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "26-64",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 1,
+            "indices": [
+              "ca va pas du tout"
+            ],
+            "negation_detectee": false,
+            "sources": [
+              "lexique"
+            ]
+          },
+          "mots_cles": [
+            {
+              "mot": "crevé",
+              "origine": "q_comment_ca_va",
+              "reperes": []
+            }
+          ],
+          "champs_manquants": [
+            "commune",
+            "parcours"
+          ],
+          "suivi_questions": {
+            "q_comment_ca_va": "ok",
+            "q_age": "ok"
+          },
+          "go_chat": false
+        }
       },
       "reponse_du_front": {
-        "session_id": "d83b6fe6e75f8cf6",
+        "session_id": "22cceea94937b755",
         "id_question": "q_commune",
         "reponse": "Ornans"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_switch",
+        "type": "choice",
+        "champ": null,
+        "texte": "Voulez-vous continuer le questionnaire ou passer à un chatbot ?",
+        "mandatory": true,
+        "options": [
+          {
+            "valeur": "oui",
+            "libelle": "Passer au chatbot"
+          },
+          {
+            "valeur": "non",
+            "libelle": "Continuer le questionnaire"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "22cceea94937b755",
+        "json_patient": {
+          "session_id": "22cceea94937b755",
+          "demandeur": {
+            "value": "soi",
+            "confidence": 0.7,
+            "source": "regex",
+            "evidence": "je suis"
+          },
+          "personne": {
+            "age_ans": {
+              "value": 41,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "26-64",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25434",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Ornans",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "ornans"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": "CHU",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 1,
+            "indices": [
+              "ca va pas du tout"
+            ],
+            "negation_detectee": false,
+            "sources": [
+              "lexique"
+            ]
+          },
+          "mots_cles": [
+            {
+              "mot": "crevé",
+              "origine": "q_comment_ca_va",
+              "reperes": []
+            }
+          ],
+          "champs_manquants": [
+            "parcours"
+          ],
+          "suivi_questions": {
+            "q_comment_ca_va": "ok",
+            "q_age": "ok",
+            "q_commune": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "22cceea94937b755",
+        "id_question": "q_switch",
+        "reponse": "oui"
       }
     },
     {
@@ -127,10 +573,119 @@
             "libelle": "autre chose"
           }
         ],
-        "session_id": "d83b6fe6e75f8cf6"
+        "go_chat": true,
+        "session_id": "22cceea94937b755",
+        "json_patient": {
+          "session_id": "22cceea94937b755",
+          "demandeur": {
+            "value": "soi",
+            "confidence": 0.7,
+            "source": "regex",
+            "evidence": "je suis"
+          },
+          "personne": {
+            "age_ans": {
+              "value": 41,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "26-64",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25434",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Ornans",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "ornans"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": "CHU",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 1,
+            "indices": [
+              "ca va pas du tout"
+            ],
+            "negation_detectee": false,
+            "sources": [
+              "lexique"
+            ]
+          },
+          "mots_cles": [
+            {
+              "mot": "crevé",
+              "origine": "q_comment_ca_va",
+              "reperes": []
+            }
+          ],
+          "champs_manquants": [
+            "parcours"
+          ],
+          "suivi_questions": {
+            "q_comment_ca_va": "ok",
+            "q_age": "ok",
+            "q_commune": "ok",
+            "q_switch": "ok"
+          },
+          "go_chat": true
+        }
       },
       "reponse_du_front": {
-        "session_id": "d83b6fe6e75f8cf6",
+        "session_id": "22cceea94937b755",
         "id_question": "q_parcours",
         "reponse": "ecoute_soutien"
       }
@@ -143,17 +698,125 @@
         "texte": "Une chose à rajouter ?",
         "mandatory": false,
         "options": [],
-        "session_id": "d83b6fe6e75f8cf6"
+        "go_chat": true,
+        "session_id": "22cceea94937b755",
+        "json_patient": {
+          "session_id": "22cceea94937b755",
+          "demandeur": {
+            "value": "soi",
+            "confidence": 0.7,
+            "source": "regex",
+            "evidence": "je suis"
+          },
+          "personne": {
+            "age_ans": {
+              "value": 41,
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": "26-64",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25434",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Ornans",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "ornans"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": "CHU",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "ecoute_soutien",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 1,
+            "indices": [
+              "ca va pas du tout"
+            ],
+            "negation_detectee": false,
+            "sources": [
+              "lexique"
+            ]
+          },
+          "mots_cles": [
+            {
+              "mot": "crevé",
+              "origine": "q_comment_ca_va",
+              "reperes": []
+            }
+          ],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_comment_ca_va": "ok",
+            "q_age": "ok",
+            "q_commune": "ok",
+            "q_switch": "ok",
+            "q_parcours": "ok"
+          },
+          "go_chat": true
+        }
       },
       "reponse_du_front": {
-        "session_id": "d83b6fe6e75f8cf6",
+        "session_id": "22cceea94937b755",
         "id_question": "q_chose_a_rajouter",
         "reponse": "j'ai perdu mon boulot il y a deux mois et j'ai des dettes"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "d83b6fe6e75f8cf6",
+    "session_id": "22cceea94937b755",
     "demandeur": {
       "value": "soi",
       "confidence": 0.7,
@@ -286,9 +949,11 @@
       "q_comment_ca_va": "ok",
       "q_age": "ok",
       "q_commune": "ok",
+      "q_switch": "ok",
       "q_parcours": "ok",
       "q_chose_a_rajouter": "ok"
     },
+    "go_chat": true,
     "id_question": "fin"
   }
 }

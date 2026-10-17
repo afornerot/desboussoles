@@ -347,6 +347,12 @@
       "title": "Suivi Questions",
       "type": "object"
     },
+    "go_chat": {
+      "default": false,
+      "description": "true dès que le front a envoyé go_chat = « oui » (la personne veut passer au chat)",
+      "title": "Go Chat",
+      "type": "boolean"
+    },
     "id_question": {
       "const": "fin",
       "default": "fin",

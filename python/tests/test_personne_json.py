@@ -47,4 +47,4 @@ def test_schema_exporte_a_jour():
     fichier = json.loads((EXEMPLES.parent / "config" / "personne.schema.json").read_text(encoding="utf-8"))
     attendu = Personne.model_json_schema()
     assert fichier["properties"].keys() - {"$schema"} == attendu["properties"].keys(), \
-        "schéma obsolète : lancer python -m app.schema"
+        "schéma obsolète : lancer python -m app.exporter_schemas"

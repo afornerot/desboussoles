@@ -24,16 +24,18 @@ SCENARIOS = [
         "reponses": {
             "q_comment_ca_va": ["mon fils a 15 ans il sort plus de sa chambre et il fume des joints tous les jours, je sais plus quoi faire"],
             "q_commune": ["Morteau"],
+            "q_switch": ["non"],
             "q_chose_a_rajouter": ["pass"],
         },
     },
     {
         "fichier": "2_adulte_message_vague.json",
-        "description": "Message court et vague : âge, commune et besoin sont demandés ; un complément est ajouté à la fin.",
+        "description": "Message court et vague : âge, commune et besoin sont demandés ; la personne choisit le chat (q_switch = oui → go_chat = true) ; un complément est ajouté à la fin.",
         "reponses": {
             "q_comment_ca_va": ["slt ca va pas du tout en ce moment, chui crevé"],
             "q_age": ["41"],
             "q_commune": ["Ornans"],
+            "q_switch": ["oui"],
             "q_demandeur": ["soi"],
             "q_parcours": ["ecoute_soutien"],
             "q_chose_a_rajouter": ["j'ai perdu mon boulot il y a deux mois et j'ai des dettes"],
@@ -44,6 +46,7 @@ SCENARIOS = [
         "description": "Mineure à Besançon : le quartier est demandé pour trouver le CGI de secteur.",
         "reponses": {
             "q_comment_ca_va": ["ma fille de 13 ans ne mange presque plus et pleure tous les soirs, on habite à Besançon"],
+            "q_switch": ["non"],
             "q_quartier": ["Planoise"],
             "q_parcours": ["specifique"],
             "q_chose_a_rajouter": ["elle est suivie par l'infirmière du collège"],
@@ -61,6 +64,7 @@ SCENARIOS = [
             "q_comment_ca_va": ["Bonjour, je suis infirmière scolaire, une élève de 4e me dit qu'elle se fait harceler et qu'elle veut disparaître pour toujours"],
             "q_age": ["13-17"],
             "q_commune": ["25300", "Pontarlier"],
+            "q_switch": ["non"],
             "q_parcours": ["victimologie_vif"],
             "q_chose_a_rajouter": ["pass"],
         },

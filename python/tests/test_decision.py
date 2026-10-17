@@ -11,7 +11,7 @@ def test_cascade_complete_en_suivant_les_questions():
     q = client.post("/sessions").json()
     sid = q["session_id"]
     reponses = {"q_comment_ca_va": "je me sens pas bien depuis des semaines", "q_age": "34", "q_commune": "Ornans",
-                "q_demandeur": "soi", "q_parcours": "humeur_depression", "q_chose_a_rajouter": "pass"}
+                "q_switch": "non", "q_demandeur": "soi", "q_parcours": "humeur_depression", "q_chose_a_rajouter": "pass"}
     vues = []
     while q["id_question"] != "fin":
         vues.append(q["id_question"])

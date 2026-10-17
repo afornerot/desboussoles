@@ -9,10 +9,107 @@
         "texte": "Comment ça va ?",
         "mandatory": true,
         "options": [],
-        "session_id": "e65086ae36dada1a"
+        "go_chat": false,
+        "session_id": "cb46fe91d8c453c3",
+        "json_patient": {
+          "session_id": "cb46fe91d8c453c3",
+          "demandeur": {
+            "value": null,
+            "confidence": 0.0,
+            "source": null,
+            "evidence": null
+          },
+          "personne": {
+            "age_ans": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "tranche_age": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "parcours_secondaires": [],
+            "type_demande": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [],
+          "champs_manquants": [
+            "age",
+            "commune",
+            "demandeur",
+            "parcours"
+          ],
+          "suivi_questions": {},
+          "go_chat": false
+        }
       },
       "reponse_du_front": {
-        "session_id": "e65086ae36dada1a",
+        "session_id": "cb46fe91d8c453c3",
         "id_question": "q_comment_ca_va",
         "reponse": "mon fils a 15 ans il sort plus de sa chambre et il fume des joints tous les jours, je sais plus quoi faire"
       }
@@ -25,12 +122,300 @@
         "texte": "Dans quelle commune habitez-vous (ou la personne concernée) ? Le code postal suffit.",
         "mandatory": true,
         "options": [],
-        "session_id": "e65086ae36dada1a"
+        "go_chat": false,
+        "session_id": "cb46fe91d8c453c3",
+        "json_patient": {
+          "session_id": "cb46fe91d8c453c3",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 0.9,
+            "source": "regex",
+            "evidence": "mon fils"
+          },
+          "personne": {
+            "age_ans": {
+              "value": 15,
+              "confidence": 0.95,
+              "source": "regex",
+              "evidence": "mon fils a 15 ans"
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 0.95,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "addiction",
+              "confidence": 0.6,
+              "source": "lexique",
+              "evidence": "joints"
+            },
+            "parcours_secondaires": [
+              "enfant_adolescent"
+            ],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [
+            {
+              "mot": "fils",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "demandeur"
+              ]
+            },
+            {
+              "mot": "sort",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "parcours:enfant_adolescent"
+              ]
+            },
+            {
+              "mot": "chambre",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "parcours:enfant_adolescent"
+              ]
+            },
+            {
+              "mot": "fume",
+              "origine": "q_comment_ca_va",
+              "reperes": []
+            },
+            {
+              "mot": "joints",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "parcours:addiction"
+              ]
+            }
+          ],
+          "champs_manquants": [
+            "commune"
+          ],
+          "suivi_questions": {
+            "q_comment_ca_va": "ok"
+          },
+          "go_chat": false
+        }
       },
       "reponse_du_front": {
-        "session_id": "e65086ae36dada1a",
+        "session_id": "cb46fe91d8c453c3",
         "id_question": "q_commune",
         "reponse": "Morteau"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_switch",
+        "type": "choice",
+        "champ": null,
+        "texte": "Voulez-vous continuer le questionnaire ou passer à un chatbot ?",
+        "mandatory": true,
+        "options": [
+          {
+            "valeur": "oui",
+            "libelle": "Passer au chatbot"
+          },
+          {
+            "valeur": "non",
+            "libelle": "Continuer le questionnaire"
+          }
+        ],
+        "go_chat": false,
+        "session_id": "cb46fe91d8c453c3",
+        "json_patient": {
+          "session_id": "cb46fe91d8c453c3",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 0.9,
+            "source": "regex",
+            "evidence": "mon fils"
+          },
+          "personne": {
+            "age_ans": {
+              "value": 15,
+              "confidence": 0.95,
+              "source": "regex",
+              "evidence": "mon fils a 15 ans"
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 0.95,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25411",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Morteau",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "morteau"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Morteau",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "addiction",
+              "confidence": 0.6,
+              "source": "lexique",
+              "evidence": "joints"
+            },
+            "parcours_secondaires": [
+              "enfant_adolescent"
+            ],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [
+            {
+              "mot": "fils",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "demandeur"
+              ]
+            },
+            {
+              "mot": "sort",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "parcours:enfant_adolescent"
+              ]
+            },
+            {
+              "mot": "chambre",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "parcours:enfant_adolescent"
+              ]
+            },
+            {
+              "mot": "fume",
+              "origine": "q_comment_ca_va",
+              "reperes": []
+            },
+            {
+              "mot": "joints",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "parcours:addiction"
+              ]
+            }
+          ],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_comment_ca_va": "ok",
+            "q_commune": "ok"
+          },
+          "go_chat": false
+        }
+      },
+      "reponse_du_front": {
+        "session_id": "cb46fe91d8c453c3",
+        "id_question": "q_switch",
+        "reponse": "non"
       }
     },
     {
@@ -41,17 +426,149 @@
         "texte": "Une chose à rajouter ?",
         "mandatory": false,
         "options": [],
-        "session_id": "e65086ae36dada1a"
+        "go_chat": false,
+        "session_id": "cb46fe91d8c453c3",
+        "json_patient": {
+          "session_id": "cb46fe91d8c453c3",
+          "demandeur": {
+            "value": "proche",
+            "confidence": 0.9,
+            "source": "regex",
+            "evidence": "mon fils"
+          },
+          "personne": {
+            "age_ans": {
+              "value": 15,
+              "confidence": 0.95,
+              "source": "regex",
+              "evidence": "mon fils a 15 ans"
+            },
+            "tranche_age": {
+              "value": "13-17",
+              "confidence": 0.95,
+              "source": "derive",
+              "evidence": null
+            },
+            "commune_insee": {
+              "value": "25411",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": null
+            },
+            "commune_nom": {
+              "value": "Morteau",
+              "confidence": 1.0,
+              "source": "utilisateur",
+              "evidence": "morteau"
+            },
+            "quartier_besancon": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_adulte": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            },
+            "secteur_infanto_juvenile": {
+              "value": "CGI Morteau",
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "hors_perimetre_guide": {
+              "value": false,
+              "confidence": 1.0,
+              "source": "derive",
+              "evidence": null
+            },
+            "statuts": []
+          },
+          "besoin": {
+            "parcours_principal": {
+              "value": "addiction",
+              "confidence": 0.6,
+              "source": "lexique",
+              "evidence": "joints"
+            },
+            "parcours_secondaires": [
+              "enfant_adolescent"
+            ],
+            "type_demande": {
+              "value": "aide_pour_un_proche",
+              "confidence": 0.6,
+              "source": "derive",
+              "evidence": null
+            },
+            "deja_suivi": {
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
+              "evidence": null
+            }
+          },
+          "risque": {
+            "niveau": 0,
+            "indices": [],
+            "negation_detectee": false,
+            "sources": []
+          },
+          "mots_cles": [
+            {
+              "mot": "fils",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "demandeur"
+              ]
+            },
+            {
+              "mot": "sort",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "parcours:enfant_adolescent"
+              ]
+            },
+            {
+              "mot": "chambre",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "parcours:enfant_adolescent"
+              ]
+            },
+            {
+              "mot": "fume",
+              "origine": "q_comment_ca_va",
+              "reperes": []
+            },
+            {
+              "mot": "joints",
+              "origine": "q_comment_ca_va",
+              "reperes": [
+                "parcours:addiction"
+              ]
+            }
+          ],
+          "champs_manquants": [],
+          "suivi_questions": {
+            "q_comment_ca_va": "ok",
+            "q_commune": "ok",
+            "q_switch": "ok"
+          },
+          "go_chat": false
+        }
       },
       "reponse_du_front": {
-        "session_id": "e65086ae36dada1a",
+        "session_id": "cb46fe91d8c453c3",
         "id_question": "q_chose_a_rajouter",
         "reponse": "pass"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "e65086ae36dada1a",
+    "session_id": "cb46fe91d8c453c3",
     "demandeur": {
       "value": "proche",
       "confidence": 0.9,
@@ -177,8 +694,10 @@
     "suivi_questions": {
       "q_comment_ca_va": "ok",
       "q_commune": "ok",
+      "q_switch": "ok",
       "q_chose_a_rajouter": "pass"
     },
+    "go_chat": false,
     "id_question": "fin"
   }
 }

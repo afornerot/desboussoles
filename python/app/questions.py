@@ -36,7 +36,7 @@ class QuestionConfig(BaseModel):
     type: Literal["choice", "texte", "commune", "textarea"] = Field(
         description="choice : boutons · texte : saisie courte · commune : commune ou code postal · textarea : texte libre")
     champ: Optional[Literal["age", "commune", "demandeur", "parcours", "quartier"]] = Field(
-        default=None, description="champ du schéma patient rempli par la réponse (absent pour textarea)")
+        default=None, description="champ du schéma patient rempli par la réponse (absent pour textarea et pour q_switch)")
     texte: str = Field(min_length=1, description="question posée, en langage courant")
     mandatory: bool = Field(description="true : réponse obligatoire ; false : la question peut être passée (réponse vide)")
     options: list[OptionConfig] = Field(default_factory=list, description="boutons (type choice) ; quartier : vide = liste du gazetteer")
@@ -48,8 +48,14 @@ class QuestionConfig(BaseModel):
             if self.champ or self.options:
                 raise ValueError(f"{q} : une question textarea n'a ni champ ni options")
             return self
-        if self.champ is None:
-            raise ValueError(f"{q} : indiquer le champ rempli (age, commune, demandeur, parcours, quartier)")
+        if self.champ is None:  # question sans champ du schéma patient (ex. q_switch) : choice ou texte
+            if self.type == "commune":
+                raise ValueError(f"{q} : une question commune remplit le champ commune")
+            if self.type == "choice" and not self.options:
+                raise ValueError(f"{q} : une question choice a besoin d'options")
+            if self.id_question == "q_switch" and "oui" not in {o.valeur.lower() for o in self.options}:
+                raise ValueError(f"{q} : q_switch doit proposer l'option « oui » (elle fait passer go_chat à true)")
+            return self
         if (self.type == "commune") != (self.champ == "commune"):
             raise ValueError(f"{q} : le champ commune utilise le type « commune » (et lui seul)")
         if self.type == "choice" and not self.options and self.champ != "quartier":
@@ -130,15 +136,16 @@ def premiere_textarea() -> Question | None:
 def questions_pour(p: Personne, traitees: set[str] | None = None, avec_textarea: bool = True,
                    questions: list[Question] | None = None) -> list[Question]:
     """Questions restant à poser, dans l'ordre du fichier :
-    - textarea : tant qu'elle n'a pas reçu de réponse (ou n'a pas été passée) ;
-    - question de champ : si le champ manque dans le schéma patient et qu'elle n'a pas été passée."""
+    - textarea et questions sans champ (ex. q_switch) : tant qu'elles n'ont pas reçu de réponse (ou été passées) ;
+    - question de champ : si le champ manque dans le schéma patient et qu'elle n'a pas été passée.
+    avec_textarea=False (fiche écrite à la main) : seules les questions de champ."""
     traitees = traitees or set()
     manquants = set(p.champs_manquants)
     out = []
     for q in questions or QUESTIONS:
         if q.id_question in traitees:
             continue
-        if q.type == "textarea":
+        if q.type == "textarea" or q.champ is None:
             if avec_textarea:
                 out.append(q)
         elif q.champ in manquants:

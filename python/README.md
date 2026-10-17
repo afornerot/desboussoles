@@ -47,7 +47,7 @@ Sous Windows, `lancer.bat` fait tout (environnement, installation, lancement, ou
 
 ## 2. Contrat avec le front
 
-Deux routes suffisent. Le front n'a jamais besoin du JSON patient pendant le questionnaire.
+Deux routes suffisent. Chaque question arrive avec le **JSON patient temporaire** (`json_patient`), c'est-à-dire l'état du JSON après la dernière réponse.
 
 ### `POST /sessions` — corps vide (ou `{}`)
 
@@ -61,7 +61,9 @@ Crée une session et renvoie la première question :
   "champ": null,
   "texte": "Comment ça va ?",
   "mandatory": true,
-  "options": []
+  "options": [],
+  "go_chat": false,
+  "json_patient": { "...": "JSON patient temporaire (même schéma que le JSON final, §4)" }
 }
 ```
 
@@ -73,8 +75,19 @@ Crée une session et renvoie la première question :
 
 Deux réponses possibles :
 
-- **La question suivante**, au même format que ci-dessus.
+- **La question suivante**, au même format que ci-dessus, avec `json_patient` mis à jour.
 - **Le JSON patient final**, quand le questionnaire est terminé (complet, ou alerte de crise). On le reconnaît à `"id_question": "fin"` (voir [§4](#4-le-json-patient-final)).
+
+### `go_chat` — passage au chatbot (question `q_switch`)
+
+`go_chat` fait partie du **schéma de question**. Il vaut `false` par défaut.
+
+- La question **`q_switch`** demande : « Voulez-vous continuer le questionnaire ou passer à un chatbot ? » (`oui` = passer au chatbot, `non` = continuer).
+- Si la réponse à `q_switch` est **`oui`**, toutes les questions suivantes arrivent avec `go_chat: true`. Le JSON patient (`json_patient` et JSON final) porte aussi `go_chat: true`.
+- Le questionnaire **ne s'arrête pas** : c'est au front de basculer vers le chat quand il reçoit `go_chat: true`.
+- Le front n'envoie jamais `go_chat` : seule la réponse à `q_switch` compte.
+
+`q_switch` ne remplit aucun champ du schéma patient (`champ: null`). Sa place, son texte et ses libellés se règlent dans `config/questions.json` ; elle doit garder l'option de valeur `oui`.
 
 ### Types de questions
 
@@ -143,7 +156,7 @@ Les tests de `tests/test_compat_desboussoles.py` vérifient la compatibilité av
 
 ## 4. Le JSON patient final
 
-Il est renvoyé seul, avec deux clés en plus du schéma patient :
+Il est renvoyé seul, avec deux clés en plus du schéma patient. Le JSON patient temporaire (`json_patient` des questions) suit le même schéma, sans ces deux clés.
 
 | Clé | Contenu |
 |---|---|
@@ -172,7 +185,8 @@ Schéma complet : [`config/personne_finale.schema.json`](config/personne_finale.
   "risque": { "niveau": 0, "indices": [], "negation_detectee": false },
   "mots_cles": [ { "mot": "joints", "origine": "q_comment_ca_va", "reperes": ["parcours:addiction"] } ],
   "champs_manquants": [],
-  "suivi_questions": { "q_comment_ca_va": "ok", "q_commune": "ok", "q_chose_a_rajouter": "pass" }
+  "suivi_questions": { "q_comment_ca_va": "ok", "q_commune": "ok", "q_chose_a_rajouter": "pass" },
+  "go_chat": false
 }
 ```
 
@@ -236,7 +250,7 @@ Après une modification des modèles Pydantic, régénérer les schémas JSON : 
 ## 7. Tests et outils
 
 ```bash
-python -m pytest                 # 120 tests, sans réseau ni clé
+python -m pytest                 # 125 tests, sans réseau ni clé
 python scenarios_jsontest.py     # rejoue 5 parcours fictifs → jsontest/*.json (échanges + JSON final)
 ```
 
