@@ -1,0 +1,294 @@
+{
+  "description": "Message court et vague : âge, commune et besoin sont demandés ; un complément est ajouté à la fin.",
+  "echanges": [
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_comment_ca_va",
+        "type": "textarea",
+        "champ": null,
+        "texte": "Comment ça va ?",
+        "mandatory": true,
+        "options": [],
+        "session_id": "d83b6fe6e75f8cf6"
+      },
+      "reponse_du_front": {
+        "session_id": "d83b6fe6e75f8cf6",
+        "id_question": "q_comment_ca_va",
+        "reponse": "slt ca va pas du tout en ce moment, chui crevé"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_age",
+        "type": "choice",
+        "champ": "age",
+        "texte": "Quel âge a la personne concernée ? (vous pouvez aussi taper l'âge)",
+        "mandatory": true,
+        "options": [
+          {
+            "valeur": "0-2",
+            "libelle": "0-2 ans"
+          },
+          {
+            "valeur": "3-6",
+            "libelle": "3-6 ans"
+          },
+          {
+            "valeur": "7-12",
+            "libelle": "7-12 ans"
+          },
+          {
+            "valeur": "13-17",
+            "libelle": "13-17 ans"
+          },
+          {
+            "valeur": "18-25",
+            "libelle": "18-25 ans"
+          },
+          {
+            "valeur": "26-64",
+            "libelle": "26-64 ans"
+          },
+          {
+            "valeur": "65+",
+            "libelle": "65 ans et plus"
+          }
+        ],
+        "session_id": "d83b6fe6e75f8cf6"
+      },
+      "reponse_du_front": {
+        "session_id": "d83b6fe6e75f8cf6",
+        "id_question": "q_age",
+        "reponse": "41"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_commune",
+        "type": "commune",
+        "champ": "commune",
+        "texte": "Dans quelle commune habitez-vous (ou la personne concernée) ? Le code postal suffit.",
+        "mandatory": true,
+        "options": [],
+        "session_id": "d83b6fe6e75f8cf6"
+      },
+      "reponse_du_front": {
+        "session_id": "d83b6fe6e75f8cf6",
+        "id_question": "q_commune",
+        "reponse": "Ornans"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_parcours",
+        "type": "choice",
+        "champ": "parcours",
+        "texte": "Qu'est-ce qui vous aiderait le plus ?",
+        "mandatory": true,
+        "options": [
+          {
+            "valeur": "ecoute_soutien",
+            "libelle": "parler à quelqu'un"
+          },
+          {
+            "valeur": "humeur_depression",
+            "libelle": "je me sens mal, déprimé(e)"
+          },
+          {
+            "valeur": "soins_ambulatoires",
+            "libelle": "un soin, voir un psy"
+          },
+          {
+            "valeur": "addiction",
+            "libelle": "alcool, drogues, jeux, écrans"
+          },
+          {
+            "valeur": "victimologie_vif",
+            "libelle": "violences"
+          },
+          {
+            "valeur": "enfant_adolescent",
+            "libelle": "un enfant ou un ado"
+          },
+          {
+            "valeur": "perinatalite",
+            "libelle": "grossesse, bébé"
+          },
+          {
+            "valeur": "hebergement",
+            "libelle": "une solution d'hébergement"
+          },
+          {
+            "valeur": "social",
+            "libelle": "une aide sociale ou administrative"
+          },
+          {
+            "valeur": "adulte_general",
+            "libelle": "autre chose"
+          }
+        ],
+        "session_id": "d83b6fe6e75f8cf6"
+      },
+      "reponse_du_front": {
+        "session_id": "d83b6fe6e75f8cf6",
+        "id_question": "q_parcours",
+        "reponse": "ecoute_soutien"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_chose_a_rajouter",
+        "type": "textarea",
+        "champ": null,
+        "texte": "Une chose à rajouter ?",
+        "mandatory": false,
+        "options": [],
+        "session_id": "d83b6fe6e75f8cf6"
+      },
+      "reponse_du_front": {
+        "session_id": "d83b6fe6e75f8cf6",
+        "id_question": "q_chose_a_rajouter",
+        "reponse": "j'ai perdu mon boulot il y a deux mois et j'ai des dettes"
+      }
+    }
+  ],
+  "json_patient_final": {
+    "session_id": "d83b6fe6e75f8cf6",
+    "demandeur": {
+      "value": "soi",
+      "confidence": 0.7,
+      "source": "regex",
+      "evidence": "je suis"
+    },
+    "personne": {
+      "age_ans": {
+        "value": 41,
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "tranche_age": {
+        "value": "26-64",
+        "confidence": 1.0,
+        "source": "derive",
+        "evidence": null
+      },
+      "commune_insee": {
+        "value": "25434",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "commune_nom": {
+        "value": "Ornans",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": "ornans"
+      },
+      "quartier_besancon": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      },
+      "secteur_adulte": {
+        "value": "CHU",
+        "confidence": 1.0,
+        "source": "derive",
+        "evidence": null
+      },
+      "secteur_infanto_juvenile": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      },
+      "hors_perimetre_guide": {
+        "value": false,
+        "confidence": 1.0,
+        "source": "derive",
+        "evidence": null
+      },
+      "statuts": [
+        {
+          "value": "sans_emploi",
+          "confidence": 0.6,
+          "source": "lexique",
+          "evidence": "perdu mon boulot"
+        }
+      ]
+    },
+    "besoin": {
+      "parcours_principal": {
+        "value": "ecoute_soutien",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "parcours_secondaires": [
+        "humeur_depression",
+        "precarite"
+      ],
+      "type_demande": {
+        "value": "aide_sociale",
+        "confidence": 0.6,
+        "source": "lexique",
+        "evidence": "dettes"
+      },
+      "deja_suivi": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      }
+    },
+    "risque": {
+      "niveau": 1,
+      "indices": [
+        "ca va pas du tout"
+      ],
+      "negation_detectee": false,
+      "sources": [
+        "lexique"
+      ]
+    },
+    "mots_cles": [
+      {
+        "mot": "crevé",
+        "origine": "q_comment_ca_va",
+        "reperes": []
+      },
+      {
+        "mot": "perdu",
+        "origine": "q_chose_a_rajouter",
+        "reperes": [
+          "parcours:humeur_depression",
+          "statut:sans_emploi"
+        ]
+      },
+      {
+        "mot": "boulot",
+        "origine": "q_chose_a_rajouter",
+        "reperes": [
+          "statut:sans_emploi"
+        ]
+      },
+      {
+        "mot": "dettes",
+        "origine": "q_chose_a_rajouter",
+        "reperes": [
+          "parcours:precarite"
+        ]
+      }
+    ],
+    "champs_manquants": [],
+    "suivi_questions": {
+      "q_comment_ca_va": "ok",
+      "q_age": "ok",
+      "q_commune": "ok",
+      "q_parcours": "ok",
+      "q_chose_a_rajouter": "ok"
+    },
+    "id_question": "fin"
+  }
+}

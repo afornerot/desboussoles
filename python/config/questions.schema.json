@@ -1,0 +1,123 @@
+{
+  "$defs": {
+    "OptionConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "valeur": {
+          "description": "valeur enregistrée quand l'utilisateur clique sur l'option",
+          "title": "Valeur",
+          "type": "string"
+        },
+        "libelle": {
+          "description": "texte affiché sur le bouton",
+          "minLength": 1,
+          "title": "Libelle",
+          "type": "string"
+        }
+      },
+      "required": [
+        "valeur",
+        "libelle"
+      ],
+      "title": "OptionConfig",
+      "type": "object"
+    },
+    "QuestionConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "id_question": {
+          "description": "identifiant unique (minuscules, chiffres, _)",
+          "pattern": "^[a-z0-9_]+$",
+          "title": "Id Question",
+          "type": "string"
+        },
+        "type": {
+          "description": "choice : boutons · texte : saisie courte · commune : commune ou code postal · textarea : texte libre",
+          "enum": [
+            "choice",
+            "texte",
+            "commune",
+            "textarea"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "champ": {
+          "anyOf": [
+            {
+              "enum": [
+                "age",
+                "commune",
+                "demandeur",
+                "parcours",
+                "quartier"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "champ du schéma patient rempli par la réponse (absent pour textarea)",
+          "title": "Champ"
+        },
+        "texte": {
+          "description": "question posée, en langage courant",
+          "minLength": 1,
+          "title": "Texte",
+          "type": "string"
+        },
+        "mandatory": {
+          "description": "true : réponse obligatoire ; false : la question peut être passée (réponse vide)",
+          "title": "Mandatory",
+          "type": "boolean"
+        },
+        "options": {
+          "description": "boutons (type choice) ; quartier : vide = liste du gazetteer",
+          "items": {
+            "$ref": "#/$defs/OptionConfig"
+          },
+          "title": "Options",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id_question",
+        "type",
+        "texte",
+        "mandatory"
+      ],
+      "title": "QuestionConfig",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Fichier de questions : l'ordre de la liste est l'ordre dans lequel les questions sont posées.",
+  "properties": {
+    "$schema": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "$Schema"
+    },
+    "questions": {
+      "items": {
+        "$ref": "#/$defs/QuestionConfig"
+      },
+      "title": "Questions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "questions"
+  ],
+  "title": "Questions du parcours (l'ordre de la liste = l'ordre des questions)",
+  "type": "object"
+}

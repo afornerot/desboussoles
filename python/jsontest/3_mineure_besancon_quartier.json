@@ -1,0 +1,261 @@
+{
+  "description": "Mineure à Besançon : le quartier est demandé pour trouver le CGI de secteur.",
+  "echanges": [
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_comment_ca_va",
+        "type": "textarea",
+        "champ": null,
+        "texte": "Comment ça va ?",
+        "mandatory": true,
+        "options": [],
+        "session_id": "1e04a1a7b8517029"
+      },
+      "reponse_du_front": {
+        "session_id": "1e04a1a7b8517029",
+        "id_question": "q_comment_ca_va",
+        "reponse": "ma fille de 13 ans ne mange presque plus et pleure tous les soirs, on habite à Besançon"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_quartier",
+        "type": "choice",
+        "champ": "quartier",
+        "texte": "Dans quel quartier de Besançon ?",
+        "mandatory": true,
+        "options": [
+          {
+            "valeur": "Chaprais /Cras",
+            "libelle": "Chaprais /Cras"
+          },
+          {
+            "valeur": "Battant",
+            "libelle": "Battant"
+          },
+          {
+            "valeur": "Bregille",
+            "libelle": "Bregille"
+          },
+          {
+            "valeur": "Centre/Chapelle des buis",
+            "libelle": "Centre/Chapelle des buis"
+          },
+          {
+            "valeur": "Montrapon/Montboucon",
+            "libelle": "Montrapon/Montboucon"
+          },
+          {
+            "valeur": "Palente/Orchamps",
+            "libelle": "Palente/Orchamps"
+          },
+          {
+            "valeur": "Planoise Chateaufarine",
+            "libelle": "Planoise Chateaufarine"
+          },
+          {
+            "valeur": "St Claude/Torcols",
+            "libelle": "St Claude/Torcols"
+          },
+          {
+            "valeur": "St Ferjeux/Rosemeont",
+            "libelle": "St Ferjeux/Rosemeont"
+          },
+          {
+            "valeur": "Tilleroyes",
+            "libelle": "Tilleroyes"
+          },
+          {
+            "valeur": "Vaite/Clairs soleils",
+            "libelle": "Vaite/Clairs soleils"
+          },
+          {
+            "valeur": "Velotte",
+            "libelle": "Velotte"
+          },
+          {
+            "valeur": "Butte/Grette",
+            "libelle": "Butte/Grette"
+          }
+        ],
+        "session_id": "1e04a1a7b8517029"
+      },
+      "reponse_du_front": {
+        "session_id": "1e04a1a7b8517029",
+        "id_question": "q_quartier",
+        "reponse": "Planoise"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_chose_a_rajouter",
+        "type": "textarea",
+        "champ": null,
+        "texte": "Une chose à rajouter ?",
+        "mandatory": false,
+        "options": [],
+        "session_id": "1e04a1a7b8517029"
+      },
+      "reponse_du_front": {
+        "session_id": "1e04a1a7b8517029",
+        "id_question": "q_chose_a_rajouter",
+        "reponse": "elle est suivie par l'infirmière du collège"
+      }
+    }
+  ],
+  "json_patient_final": {
+    "session_id": "1e04a1a7b8517029",
+    "demandeur": {
+      "value": "proche",
+      "confidence": 0.9,
+      "source": "regex",
+      "evidence": "ma fille"
+    },
+    "personne": {
+      "age_ans": {
+        "value": 13,
+        "confidence": 0.95,
+        "source": "regex",
+        "evidence": "ma fille de 13 ans"
+      },
+      "tranche_age": {
+        "value": "13-17",
+        "confidence": 0.95,
+        "source": "derive",
+        "evidence": null
+      },
+      "commune_insee": {
+        "value": "25056",
+        "confidence": 1.0,
+        "source": "gazetteer",
+        "evidence": null
+      },
+      "commune_nom": {
+        "value": "Besançon",
+        "confidence": 1.0,
+        "source": "gazetteer",
+        "evidence": "besancon"
+      },
+      "quartier_besancon": {
+        "value": "Planoise Chateaufarine",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "secteur_adulte": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      },
+      "secteur_infanto_juvenile": {
+        "value": "CGI Planoise Besançon",
+        "confidence": 1.0,
+        "source": "derive",
+        "evidence": null
+      },
+      "hors_perimetre_guide": {
+        "value": false,
+        "confidence": 1.0,
+        "source": "derive",
+        "evidence": null
+      },
+      "statuts": [
+        {
+          "value": "eleve",
+          "confidence": 0.6,
+          "source": "lexique",
+          "evidence": "college"
+        }
+      ]
+    },
+    "besoin": {
+      "parcours_principal": {
+        "value": "enfant_adolescent",
+        "confidence": 0.6,
+        "source": "lexique",
+        "evidence": "college"
+      },
+      "parcours_secondaires": [],
+      "type_demande": {
+        "value": "aide_pour_un_proche",
+        "confidence": 0.6,
+        "source": "derive",
+        "evidence": null
+      },
+      "deja_suivi": {
+        "value": true,
+        "confidence": 0.7,
+        "source": "lexique",
+        "evidence": "elle est suivie"
+      }
+    },
+    "risque": {
+      "niveau": 0,
+      "indices": [],
+      "negation_detectee": false,
+      "sources": []
+    },
+    "mots_cles": [
+      {
+        "mot": "fille",
+        "origine": "q_comment_ca_va",
+        "reperes": [
+          "demandeur"
+        ]
+      },
+      {
+        "mot": "mange",
+        "origine": "q_comment_ca_va",
+        "reperes": []
+      },
+      {
+        "mot": "presque",
+        "origine": "q_comment_ca_va",
+        "reperes": []
+      },
+      {
+        "mot": "pleure",
+        "origine": "q_comment_ca_va",
+        "reperes": []
+      },
+      {
+        "mot": "soirs",
+        "origine": "q_comment_ca_va",
+        "reperes": []
+      },
+      {
+        "mot": "besançon",
+        "origine": "q_comment_ca_va",
+        "reperes": [
+          "commune"
+        ]
+      },
+      {
+        "mot": "suivie",
+        "origine": "q_chose_a_rajouter",
+        "reperes": []
+      },
+      {
+        "mot": "infirmière",
+        "origine": "q_chose_a_rajouter",
+        "reperes": []
+      },
+      {
+        "mot": "collège",
+        "origine": "q_chose_a_rajouter",
+        "reperes": [
+          "parcours:enfant_adolescent",
+          "statut:eleve"
+        ]
+      }
+    ],
+    "champs_manquants": [],
+    "suivi_questions": {
+      "q_comment_ca_va": "ok",
+      "q_quartier": "ok",
+      "q_chose_a_rajouter": "ok"
+    },
+    "id_question": "fin"
+  }
+}

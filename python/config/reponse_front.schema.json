@@ -1,0 +1,34 @@
+{
+  "properties": {
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "id_question": {
+      "examples": [
+        "q_comment_ca_va"
+      ],
+      "title": "Id Question",
+      "type": "string"
+    },
+    "reponse": {
+      "description": "« pass » (ou vide) pour une question facultative laissée sans réponse",
+      "examples": [
+        "mon fils a 15 ans il fume des joints tous les jours"
+      ],
+      "maxLength": 5000,
+      "title": "Reponse",
+      "type": "string"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "session_id",
+    "id_question",
+    "reponse"
+  ],
+  "title": "Réponse du front : {session_id, id_question, reponse}",
+  "type": "object"
+}

@@ -1,0 +1,7577 @@
+{
+  "source": "api",
+  "communes": [
+    {
+      "insee": "25001",
+      "nom": "Abbans-Dessous",
+      "nom_norm": "abbans dessous",
+      "codes_postaux": [
+        "25320"
+      ],
+      "population": 250,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25002",
+      "nom": "Abbans-Dessus",
+      "nom_norm": "abbans dessus",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 282,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25003",
+      "nom": "Abbenans",
+      "nom_norm": "abbenans",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 321,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25004",
+      "nom": "Abbévillers",
+      "nom_norm": "abbevillers",
+      "codes_postaux": [
+        "25310"
+      ],
+      "population": 1071,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25005",
+      "nom": "Accolans",
+      "nom_norm": "accolans",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 87,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25006",
+      "nom": "Adam-lès-Passavant",
+      "nom_norm": "adam les passavant",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 88,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25007",
+      "nom": "Adam-lès-Vercel",
+      "nom_norm": "adam les vercel",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 105,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25008",
+      "nom": "Aibre",
+      "nom_norm": "aibre",
+      "codes_postaux": [
+        "25750"
+      ],
+      "population": 434,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25009",
+      "nom": "Aïssey",
+      "nom_norm": "aissey",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 168,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25011",
+      "nom": "Allenjoie",
+      "nom_norm": "allenjoie",
+      "codes_postaux": [
+        "25490"
+      ],
+      "population": 719,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25012",
+      "nom": "Les Alliés",
+      "nom_norm": "les allies",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 172,
+      "alias": [
+        "Les Alliés - les Allemands"
+      ],
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25013",
+      "nom": "Allondans",
+      "nom_norm": "allondans",
+      "codes_postaux": [
+        "25550"
+      ],
+      "population": 234,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25014",
+      "nom": "Amagney",
+      "nom_norm": "amagney",
+      "codes_postaux": [
+        "25220"
+      ],
+      "population": 934,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25015",
+      "nom": "Amancey",
+      "nom_norm": "amancey",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 744,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25016",
+      "nom": "Amathay-Vésigneux",
+      "nom_norm": "amathay vesigneux",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 175,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25017",
+      "nom": "Amondans",
+      "nom_norm": "amondans",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 85,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25018",
+      "nom": "Anteuil",
+      "nom_norm": "anteuil",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 602,
+      "alias": [
+        "Glainans",
+        "Tournedoz"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25019",
+      "nom": "Appenans",
+      "nom_norm": "appenans",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 385,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25020",
+      "nom": "Arbouans",
+      "nom_norm": "arbouans",
+      "codes_postaux": [
+        "25400"
+      ],
+      "population": 876,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25021",
+      "nom": "Arc-et-Senans",
+      "nom_norm": "arc et senans",
+      "codes_postaux": [
+        "25610"
+      ],
+      "population": 1620,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25022",
+      "nom": "Arcey",
+      "nom_norm": "arcey",
+      "codes_postaux": [
+        "25750"
+      ],
+      "population": 1489,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25024",
+      "nom": "Arçon",
+      "nom_norm": "arcon",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 961,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25025",
+      "nom": "Arc-sous-Cicon",
+      "nom_norm": "arc sous cicon",
+      "codes_postaux": [
+        "25520"
+      ],
+      "population": 768,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25026",
+      "nom": "Arc-sous-Montenot",
+      "nom_norm": "arc sous montenot",
+      "codes_postaux": [
+        "25270"
+      ],
+      "population": 227,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25029",
+      "nom": "Aubonne",
+      "nom_norm": "aubonne",
+      "codes_postaux": [
+        "25520"
+      ],
+      "population": 266,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25030",
+      "nom": "Audeux",
+      "nom_norm": "audeux",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 420,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25031",
+      "nom": "Audincourt",
+      "nom_norm": "audincourt",
+      "codes_postaux": [
+        "25400"
+      ],
+      "population": 14071,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25032",
+      "nom": "Autechaux",
+      "nom_norm": "autechaux",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 449,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25033",
+      "nom": "Autechaux-Roide",
+      "nom_norm": "autechaux roide",
+      "codes_postaux": [
+        "25150"
+      ],
+      "population": 487,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25035",
+      "nom": "Les Auxons",
+      "nom_norm": "les auxons",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 2533,
+      "alias": [
+        "Auxon-Dessous",
+        "Auxon-Dessus"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25036",
+      "nom": "Avanne-Aveney",
+      "nom_norm": "avanne aveney",
+      "codes_postaux": [
+        "25720"
+      ],
+      "population": 2256,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25038",
+      "nom": "Avilley",
+      "nom_norm": "avilley",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 150,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25039",
+      "nom": "Avoudrey",
+      "nom_norm": "avoudrey",
+      "codes_postaux": [
+        "25690"
+      ],
+      "population": 982,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25040",
+      "nom": "Badevel",
+      "nom_norm": "badevel",
+      "codes_postaux": [
+        "25490"
+      ],
+      "population": 808,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25041",
+      "nom": "Bannans",
+      "nom_norm": "bannans",
+      "codes_postaux": [
+        "25560"
+      ],
+      "population": 370,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25042",
+      "nom": "Le Barboux",
+      "nom_norm": "le barboux",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 251,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25043",
+      "nom": "Bart",
+      "nom_norm": "bart",
+      "codes_postaux": [
+        "25420"
+      ],
+      "population": 1985,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25044",
+      "nom": "Bartherans",
+      "nom_norm": "bartherans",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 60,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25045",
+      "nom": "Battenans-les-Mines",
+      "nom_norm": "battenans les mines",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 38,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25046",
+      "nom": "Battenans-Varin",
+      "nom_norm": "battenans varin",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 79,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25047",
+      "nom": "Baume-les-Dames",
+      "nom_norm": "baume les dames",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 5155,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25048",
+      "nom": "Bavans",
+      "nom_norm": "bavans",
+      "codes_postaux": [
+        "25550"
+      ],
+      "population": 3582,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25049",
+      "nom": "Belfays",
+      "nom_norm": "belfays",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 127,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25050",
+      "nom": "Le Bélieu",
+      "nom_norm": "le belieu",
+      "codes_postaux": [
+        "25500"
+      ],
+      "population": 512,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25051",
+      "nom": "Belleherbe",
+      "nom_norm": "belleherbe",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 630,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25052",
+      "nom": "Belmont",
+      "nom_norm": "belmont",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 79,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25053",
+      "nom": "Belvoir",
+      "nom_norm": "belvoir",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 95,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25054",
+      "nom": "Berche",
+      "nom_norm": "berche",
+      "codes_postaux": [
+        "25420"
+      ],
+      "population": 534,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25055",
+      "nom": "Berthelange",
+      "nom_norm": "berthelange",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 354,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25056",
+      "nom": "Besançon",
+      "nom_norm": "besancon",
+      "codes_postaux": [
+        "25000"
+      ],
+      "population": 118489,
+      "alias": [
+        "Besac",
+        "Besak"
+      ],
+      "secteur_adulte": "BESANCON_A_PRECISER",
+      "secteur_ij": "",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25057",
+      "nom": "Bethoncourt",
+      "nom_norm": "bethoncourt",
+      "codes_postaux": [
+        "25200"
+      ],
+      "population": 5308,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25058",
+      "nom": "Beure",
+      "nom_norm": "beure",
+      "codes_postaux": [
+        "25720"
+      ],
+      "population": 1305,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25059",
+      "nom": "Beutal",
+      "nom_norm": "beutal",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 271,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25060",
+      "nom": "Val-d'Usiers",
+      "nom_norm": "val d usiers",
+      "codes_postaux": [
+        "25520"
+      ],
+      "population": 2132,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25061",
+      "nom": "Bief",
+      "nom_norm": "bief",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 108,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25062",
+      "nom": "Le Bizot",
+      "nom_norm": "le bizot",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 305,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25063",
+      "nom": "Blamont",
+      "nom_norm": "blamont",
+      "codes_postaux": [
+        "25310"
+      ],
+      "population": 1225,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25065",
+      "nom": "Blarians",
+      "nom_norm": "blarians",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 56,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25066",
+      "nom": "Blussangeaux",
+      "nom_norm": "blussangeaux",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 75,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25067",
+      "nom": "Blussans",
+      "nom_norm": "blussans",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 187,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25070",
+      "nom": "Bolandoz",
+      "nom_norm": "bolandoz",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 383,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25071",
+      "nom": "Bondeval",
+      "nom_norm": "bondeval",
+      "codes_postaux": [
+        "25230"
+      ],
+      "population": 481,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25072",
+      "nom": "Bonnal",
+      "nom_norm": "bonnal",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 20,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25073",
+      "nom": "Bonnay",
+      "nom_norm": "bonnay",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 826,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25074",
+      "nom": "Bonnétage",
+      "nom_norm": "bonnetage",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 987,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25075",
+      "nom": "Bonnevaux",
+      "nom_norm": "bonnevaux",
+      "codes_postaux": [
+        "25560"
+      ],
+      "population": 410,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25077",
+      "nom": "La Bosse",
+      "nom_norm": "la bosse",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 91,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25078",
+      "nom": "Bouclans",
+      "nom_norm": "bouclans",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 1053,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25079",
+      "nom": "Boujailles",
+      "nom_norm": "boujailles",
+      "codes_postaux": [
+        "25560"
+      ],
+      "population": 461,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25082",
+      "nom": "Bourguignon",
+      "nom_norm": "bourguignon",
+      "codes_postaux": [
+        "25150"
+      ],
+      "population": 876,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25083",
+      "nom": "Bournois",
+      "nom_norm": "bournois",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 188,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25084",
+      "nom": "Boussières",
+      "nom_norm": "boussieres",
+      "codes_postaux": [
+        "25320"
+      ],
+      "population": 1208,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25085",
+      "nom": "Bouverans",
+      "nom_norm": "bouverans",
+      "codes_postaux": [
+        "25560"
+      ],
+      "population": 461,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25086",
+      "nom": "Braillans",
+      "nom_norm": "braillans",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 203,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25087",
+      "nom": "Branne",
+      "nom_norm": "branne",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 179,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25088",
+      "nom": "Breconchaux",
+      "nom_norm": "breconchaux",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 85,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25089",
+      "nom": "Bremondans",
+      "nom_norm": "bremondans",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 107,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25090",
+      "nom": "Brères",
+      "nom_norm": "breres",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 78,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25091",
+      "nom": "Les Bréseux",
+      "nom_norm": "les breseux",
+      "codes_postaux": [
+        "25120"
+      ],
+      "population": 494,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25092",
+      "nom": "La Bretenière",
+      "nom_norm": "la breteniere",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 74,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25093",
+      "nom": "Bretigney",
+      "nom_norm": "bretigney",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 74,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25094",
+      "nom": "Bretigney-Notre-Dame",
+      "nom_norm": "bretigney notre dame",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 118,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25095",
+      "nom": "Bretonvillers",
+      "nom_norm": "bretonvillers",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 280,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25096",
+      "nom": "Brey-et-Maison-du-Bois",
+      "nom_norm": "brey et maison du bois",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 188,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25097",
+      "nom": "Brognard",
+      "nom_norm": "brognard",
+      "codes_postaux": [
+        "25600"
+      ],
+      "population": 471,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25098",
+      "nom": "Buffard",
+      "nom_norm": "buffard",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 187,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25099",
+      "nom": "Bugny",
+      "nom_norm": "bugny",
+      "codes_postaux": [
+        "25520"
+      ],
+      "population": 257,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25100",
+      "nom": "Bulle",
+      "nom_norm": "bulle",
+      "codes_postaux": [
+        "25560"
+      ],
+      "population": 505,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25101",
+      "nom": "Burgille",
+      "nom_norm": "burgille",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 562,
+      "alias": [
+        "Chazoy",
+        "Cordiron"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25102",
+      "nom": "Burnevillers",
+      "nom_norm": "burnevillers",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 48,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25103",
+      "nom": "Busy",
+      "nom_norm": "busy",
+      "codes_postaux": [
+        "25320"
+      ],
+      "population": 682,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25104",
+      "nom": "By",
+      "nom_norm": "by",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 79,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25105",
+      "nom": "Byans-sur-Doubs",
+      "nom_norm": "byans sur doubs",
+      "codes_postaux": [
+        "25320"
+      ],
+      "population": 613,
+      "alias": [
+        "Byans-sur-le-Doubs"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25106",
+      "nom": "Cademène",
+      "nom_norm": "cademene",
+      "codes_postaux": [
+        "25290"
+      ],
+      "population": 66,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25107",
+      "nom": "Cendrey",
+      "nom_norm": "cendrey",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 200,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25108",
+      "nom": "Cernay-l'Église",
+      "nom_norm": "cernay l eglise",
+      "codes_postaux": [
+        "25120"
+      ],
+      "population": 319,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25109",
+      "nom": "Cessey",
+      "nom_norm": "cessey",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 326,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25110",
+      "nom": "Chaffois",
+      "nom_norm": "chaffois",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 1032,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25111",
+      "nom": "Chalèze",
+      "nom_norm": "chaleze",
+      "codes_postaux": [
+        "25220"
+      ],
+      "population": 366,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25112",
+      "nom": "Chalezeule",
+      "nom_norm": "chalezeule",
+      "codes_postaux": [
+        "25220"
+      ],
+      "population": 1335,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25113",
+      "nom": "Chamesey",
+      "nom_norm": "chamesey",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 143,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25114",
+      "nom": "Chamesol",
+      "nom_norm": "chamesol",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 383,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25115",
+      "nom": "Champagney",
+      "nom_norm": "champagney",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 269,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25116",
+      "nom": "Champlive",
+      "nom_norm": "champlive",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 253,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25117",
+      "nom": "Champoux",
+      "nom_norm": "champoux",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 90,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25119",
+      "nom": "Champvans-les-Moulins",
+      "nom_norm": "champvans les moulins",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 309,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25120",
+      "nom": "Chantrans",
+      "nom_norm": "chantrans",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 381,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25121",
+      "nom": "Chapelle-des-Bois",
+      "nom_norm": "chapelle des bois",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 268,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25122",
+      "nom": "Chapelle-d'Huin",
+      "nom_norm": "chapelle d huin",
+      "codes_postaux": [
+        "25270"
+      ],
+      "population": 549,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25124",
+      "nom": "Charmauvillers",
+      "nom_norm": "charmauvillers",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 285,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25125",
+      "nom": "Charmoille",
+      "nom_norm": "charmoille",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 317,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25126",
+      "nom": "Charnay",
+      "nom_norm": "charnay",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 467,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25127",
+      "nom": "Charquemont",
+      "nom_norm": "charquemont",
+      "codes_postaux": [
+        "25140"
+      ],
+      "population": 2900,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25129",
+      "nom": "Chassagne-Saint-Denis",
+      "nom_norm": "chassagne saint denis",
+      "codes_postaux": [
+        "25290"
+      ],
+      "population": 138,
+      "alias": [
+        "Chassagnes St Denis"
+      ],
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25130",
+      "nom": "Châteauvieux-les-Fossés",
+      "nom_norm": "chateauvieux les fosses",
+      "codes_postaux": [
+        "25840"
+      ],
+      "population": 9,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25131",
+      "nom": "Châtelblanc",
+      "nom_norm": "chatelblanc",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 117,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25132",
+      "nom": "Châtillon-Guyotte",
+      "nom_norm": "chatillon guyotte",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 141,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25133",
+      "nom": "Châtillon-le-Duc",
+      "nom_norm": "chatillon le duc",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 2042,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25136",
+      "nom": "Chaucenne",
+      "nom_norm": "chaucenne",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 529,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25138",
+      "nom": "Les Terres-de-Chaux",
+      "nom_norm": "les terres de chaux",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 135,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25139",
+      "nom": "La Chaux",
+      "nom_norm": "la chaux",
+      "codes_postaux": [
+        "25650"
+      ],
+      "population": 614,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25141",
+      "nom": "Chaux-lès-Passavant",
+      "nom_norm": "chaux les passavant",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 124,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25142",
+      "nom": "Chaux-Neuve",
+      "nom_norm": "chaux neuve",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 338,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25143",
+      "nom": "Chay",
+      "nom_norm": "chay",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 194,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25145",
+      "nom": "Chazot",
+      "nom_norm": "chazot",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 117,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25147",
+      "nom": "Chemaudin et Vaux",
+      "nom_norm": "chemaudin et vaux",
+      "codes_postaux": [
+        "25320",
+        "25770"
+      ],
+      "population": 2113,
+      "alias": [
+        "Chemaudin"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25148",
+      "nom": "La Chenalotte",
+      "nom_norm": "la chenalotte",
+      "codes_postaux": [
+        "25500"
+      ],
+      "population": 549,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25149",
+      "nom": "Chenecey-Buillon",
+      "nom_norm": "chenecey buillon",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 491,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25150",
+      "nom": "Chevigney-sur-l'Ognon",
+      "nom_norm": "chevigney sur l ognon",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 296,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25151",
+      "nom": "Chevigney-lès-Vercel",
+      "nom_norm": "chevigney les vercel",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 141,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25152",
+      "nom": "La Chevillotte",
+      "nom_norm": "la chevillotte",
+      "codes_postaux": [
+        "25620"
+      ],
+      "population": 135,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25153",
+      "nom": "Chevroz",
+      "nom_norm": "chevroz",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 143,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25154",
+      "nom": "Chouzelot",
+      "nom_norm": "chouzelot",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 249,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25155",
+      "nom": "Cléron",
+      "nom_norm": "cleron",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 289,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25156",
+      "nom": "Pays-de-Clerval",
+      "nom_norm": "pays de clerval",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 1174,
+      "alias": [
+        "Chaux-lès-Clerval",
+        "Clerval"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25157",
+      "nom": "La Cluse-et-Mijoux",
+      "nom_norm": "la cluse et mijoux",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 1310,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25159",
+      "nom": "Colombier-Fontaine",
+      "nom_norm": "colombier fontaine",
+      "codes_postaux": [
+        "25260"
+      ],
+      "population": 1232,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25160",
+      "nom": "Les Combes",
+      "nom_norm": "les combes",
+      "codes_postaux": [
+        "25500"
+      ],
+      "population": 777,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25161",
+      "nom": "Consolation-Maisonnettes",
+      "nom_norm": "consolation maisonnettes",
+      "codes_postaux": [
+        "25390"
+      ],
+      "population": 23,
+      "alias": [
+        "Consolation"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25162",
+      "nom": "Corcelles-Ferrières",
+      "nom_norm": "corcelles ferrieres",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 214,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25163",
+      "nom": "Corcelle-Mieslot",
+      "nom_norm": "corcelle mieslot",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 88,
+      "alias": [
+        "CorcellesMieslot"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25164",
+      "nom": "Corcondray",
+      "nom_norm": "corcondray",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 148,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25166",
+      "nom": "Côtebrune",
+      "nom_norm": "cotebrune",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 76,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25170",
+      "nom": "Courcelles-lès-Montbéliard",
+      "nom_norm": "courcelles les montbeliard",
+      "codes_postaux": [
+        "25420"
+      ],
+      "population": 1370,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25171",
+      "nom": "Courcelles",
+      "nom_norm": "courcelles",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 102,
+      "alias": [
+        "Courcelles-les-Quingey"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25172",
+      "nom": "Courchapon",
+      "nom_norm": "courchapon",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 247,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25173",
+      "nom": "Cour-Saint-Maurice",
+      "nom_norm": "cour saint maurice",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 147,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25174",
+      "nom": "Courtefontaine",
+      "nom_norm": "courtefontaine",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 247,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25175",
+      "nom": "Courtetain-et-Salans",
+      "nom_norm": "courtetain et salans",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 93,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25176",
+      "nom": "Courvières",
+      "nom_norm": "courvieres",
+      "codes_postaux": [
+        "25560"
+      ],
+      "population": 317,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25177",
+      "nom": "Crosey-le-Grand",
+      "nom_norm": "crosey le grand",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 158,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25178",
+      "nom": "Crosey-le-Petit",
+      "nom_norm": "crosey le petit",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 119,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25179",
+      "nom": "Le Crouzet",
+      "nom_norm": "le crouzet",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 51,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25180",
+      "nom": "Crouzet-Migette",
+      "nom_norm": "crouzet migette",
+      "codes_postaux": [
+        "25270"
+      ],
+      "population": 118,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25181",
+      "nom": "Cubrial",
+      "nom_norm": "cubrial",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 146,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25182",
+      "nom": "Cubry",
+      "nom_norm": "cubry",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 104,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25183",
+      "nom": "Cusance",
+      "nom_norm": "cusance",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 76,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25184",
+      "nom": "Cuse-et-Adrisans",
+      "nom_norm": "cuse et adrisans",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 274,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25185",
+      "nom": "Cussey-sur-Lison",
+      "nom_norm": "cussey sur lison",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 68,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25186",
+      "nom": "Cussey-sur-l'Ognon",
+      "nom_norm": "cussey sur l ognon",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 1055,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25187",
+      "nom": "Dambelin",
+      "nom_norm": "dambelin",
+      "codes_postaux": [
+        "25150"
+      ],
+      "population": 512,
+      "alias": [
+        "Mambouhans"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25188",
+      "nom": "Dambenois",
+      "nom_norm": "dambenois",
+      "codes_postaux": [
+        "25600"
+      ],
+      "population": 733,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25189",
+      "nom": "Dammartin-les-Templiers",
+      "nom_norm": "dammartin les templiers",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 218,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25190",
+      "nom": "Dampierre-les-Bois",
+      "nom_norm": "dampierre les bois",
+      "codes_postaux": [
+        "25490"
+      ],
+      "population": 1615,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25191",
+      "nom": "Dampierre-sur-le-Doubs",
+      "nom_norm": "dampierre sur le doubs",
+      "codes_postaux": [
+        "25420"
+      ],
+      "population": 450,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25192",
+      "nom": "Dampjoux",
+      "nom_norm": "dampjoux",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 162,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25193",
+      "nom": "Damprichard",
+      "nom_norm": "damprichard",
+      "codes_postaux": [
+        "25450"
+      ],
+      "population": 1776,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25194",
+      "nom": "Dannemarie",
+      "nom_norm": "dannemarie",
+      "codes_postaux": [
+        "25310"
+      ],
+      "population": 116,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25195",
+      "nom": "Dannemarie-sur-Crète",
+      "nom_norm": "dannemarie sur crete",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 1486,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25196",
+      "nom": "Dasle",
+      "nom_norm": "dasle",
+      "codes_postaux": [
+        "25230"
+      ],
+      "population": 1363,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25197",
+      "nom": "Deluz",
+      "nom_norm": "deluz",
+      "codes_postaux": [
+        "25960"
+      ],
+      "population": 630,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25198",
+      "nom": "Désandans",
+      "nom_norm": "desandans",
+      "codes_postaux": [
+        "25750"
+      ],
+      "population": 709,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25199",
+      "nom": "Déservillers",
+      "nom_norm": "deservillers",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 341,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25200",
+      "nom": "Devecey",
+      "nom_norm": "devecey",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 1296,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25201",
+      "nom": "Dommartin",
+      "nom_norm": "dommartin",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 864,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25202",
+      "nom": "Dompierre-les-Tilleuls",
+      "nom_norm": "dompierre les tilleuls",
+      "codes_postaux": [
+        "25560"
+      ],
+      "population": 291,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25203",
+      "nom": "Domprel",
+      "nom_norm": "domprel",
+      "codes_postaux": [
+        "25510"
+      ],
+      "population": 172,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25204",
+      "nom": "Doubs",
+      "nom_norm": "doubs",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 3335,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25207",
+      "nom": "Dung",
+      "nom_norm": "dung",
+      "codes_postaux": [
+        "25550"
+      ],
+      "population": 630,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25208",
+      "nom": "Durnes",
+      "nom_norm": "durnes",
+      "codes_postaux": [
+        "25580"
+      ],
+      "population": 204,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25209",
+      "nom": "Échay",
+      "nom_norm": "echay",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 113,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25210",
+      "nom": "Échenans",
+      "nom_norm": "echenans",
+      "codes_postaux": [
+        "25550"
+      ],
+      "population": 163,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25211",
+      "nom": "Échevannes",
+      "nom_norm": "echevannes",
+      "codes_postaux": [
+        "25580"
+      ],
+      "population": 88,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25212",
+      "nom": "École-Valentin",
+      "nom_norm": "ecole valentin",
+      "codes_postaux": [
+        "25480"
+      ],
+      "population": 2579,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25213",
+      "nom": "Les Écorces",
+      "nom_norm": "les ecorces",
+      "codes_postaux": [
+        "25140"
+      ],
+      "population": 777,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25214",
+      "nom": "Écot",
+      "nom_norm": "ecot",
+      "codes_postaux": [
+        "25150"
+      ],
+      "population": 510,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25215",
+      "nom": "L'Écouvotte",
+      "nom_norm": "l ecouvotte",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 101,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25216",
+      "nom": "Écurcey",
+      "nom_norm": "ecurcey",
+      "codes_postaux": [
+        "25150"
+      ],
+      "population": 270,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25217",
+      "nom": "Émagny",
+      "nom_norm": "emagny",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 629,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25218",
+      "nom": "Épenouse",
+      "nom_norm": "epenouse",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 167,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25219",
+      "nom": "Épenoy",
+      "nom_norm": "epenoy",
+      "codes_postaux": [
+        "25800"
+      ],
+      "population": 649,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25220",
+      "nom": "Épeugney",
+      "nom_norm": "epeugney",
+      "codes_postaux": [
+        "25290"
+      ],
+      "population": 590,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25221",
+      "nom": "Esnans",
+      "nom_norm": "esnans",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 65,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25222",
+      "nom": "Étalans",
+      "nom_norm": "etalans",
+      "codes_postaux": [
+        "25580",
+        "25620"
+      ],
+      "population": 1643,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25223",
+      "nom": "Éternoz-Vallée-du-Lison",
+      "nom_norm": "eternoz vallee du lison",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 343,
+      "alias": [
+        "Alaise",
+        "Coulans-sur-Lizon",
+        "Doulaize",
+        "Refranche",
+        "Saraz",
+        "Éternoz"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25224",
+      "nom": "Étouvans",
+      "nom_norm": "etouvans",
+      "codes_postaux": [
+        "25260"
+      ],
+      "population": 823,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25225",
+      "nom": "Étrabonne",
+      "nom_norm": "etrabonne",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 182,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25226",
+      "nom": "Étrappe",
+      "nom_norm": "etrappe",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 202,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25227",
+      "nom": "Étray",
+      "nom_norm": "etray",
+      "codes_postaux": [
+        "25800"
+      ],
+      "population": 293,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25228",
+      "nom": "Étupes",
+      "nom_norm": "etupes",
+      "codes_postaux": [
+        "25460"
+      ],
+      "population": 3689,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25229",
+      "nom": "Évillers",
+      "nom_norm": "evillers",
+      "codes_postaux": [
+        "25520"
+      ],
+      "population": 387,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25230",
+      "nom": "Exincourt",
+      "nom_norm": "exincourt",
+      "codes_postaux": [
+        "25400"
+      ],
+      "population": 3277,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25231",
+      "nom": "Eysson",
+      "nom_norm": "eysson",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 121,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25232",
+      "nom": "Faimbe",
+      "nom_norm": "faimbe",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 96,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25233",
+      "nom": "Fallerans",
+      "nom_norm": "fallerans",
+      "codes_postaux": [
+        "25580"
+      ],
+      "population": 293,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25234",
+      "nom": "Ferrières-le-Lac",
+      "nom_norm": "ferrieres le lac",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 160,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25235",
+      "nom": "Ferrières-les-Bois",
+      "nom_norm": "ferrieres les bois",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 328,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25236",
+      "nom": "Fertans",
+      "nom_norm": "fertans",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 319,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25237",
+      "nom": "Fesches-le-Châtel",
+      "nom_norm": "fesches le chatel",
+      "codes_postaux": [
+        "25490"
+      ],
+      "population": 2129,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25238",
+      "nom": "Fessevillers",
+      "nom_norm": "fessevillers",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 161,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25239",
+      "nom": "Feule",
+      "nom_norm": "feule",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 190,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25240",
+      "nom": "Les Fins",
+      "nom_norm": "les fins",
+      "codes_postaux": [
+        "25500"
+      ],
+      "population": 3048,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25241",
+      "nom": "Flagey",
+      "nom_norm": "flagey",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 129,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25242",
+      "nom": "Flagey-Rigney",
+      "nom_norm": "flagey rigney",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 137,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25243",
+      "nom": "Flangebouche",
+      "nom_norm": "flangebouche",
+      "codes_postaux": [
+        "25390"
+      ],
+      "population": 850,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25244",
+      "nom": "Fleurey",
+      "nom_norm": "fleurey",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 84,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25245",
+      "nom": "Fontain",
+      "nom_norm": "fontain",
+      "codes_postaux": [
+        "25660",
+        "25720"
+      ],
+      "population": 1207,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25246",
+      "nom": "Fontaine-lès-Clerval",
+      "nom_norm": "fontaine les clerval",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 253,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25247",
+      "nom": "Fontenelle-Montby",
+      "nom_norm": "fontenelle montby",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 84,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25248",
+      "nom": "Les Fontenelles",
+      "nom_norm": "les fontenelles",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 537,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25249",
+      "nom": "Fontenotte",
+      "nom_norm": "fontenotte",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 60,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25251",
+      "nom": "Fourbanne",
+      "nom_norm": "fourbanne",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 155,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25252",
+      "nom": "Fourcatier-et-Maison-Neuve",
+      "nom_norm": "fourcatier et maison neuve",
+      "codes_postaux": [
+        "25370"
+      ],
+      "population": 130,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25253",
+      "nom": "Fourg",
+      "nom_norm": "fourg",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 370,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25254",
+      "nom": "Les Fourgs",
+      "nom_norm": "les fourgs",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 1443,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25255",
+      "nom": "Fournet-Blancheroche",
+      "nom_norm": "fournet blancheroche",
+      "codes_postaux": [
+        "25140"
+      ],
+      "population": 353,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25256",
+      "nom": "Frambouhans",
+      "nom_norm": "frambouhans",
+      "codes_postaux": [
+        "25140"
+      ],
+      "population": 867,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25257",
+      "nom": "Franey",
+      "nom_norm": "franey",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 263,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25258",
+      "nom": "Franois",
+      "nom_norm": "franois",
+      "codes_postaux": [
+        "25770"
+      ],
+      "population": 2257,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25259",
+      "nom": "Frasne",
+      "nom_norm": "frasne",
+      "codes_postaux": [
+        "25560"
+      ],
+      "population": 1975,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25261",
+      "nom": "Froidevaux",
+      "nom_norm": "froidevaux",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 83,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25262",
+      "nom": "Fuans",
+      "nom_norm": "fuans",
+      "codes_postaux": [
+        "25390"
+      ],
+      "population": 473,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25263",
+      "nom": "Gellin",
+      "nom_norm": "gellin",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 267,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25264",
+      "nom": "Gémonval",
+      "nom_norm": "gemonval",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 81,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25265",
+      "nom": "Geneuille",
+      "nom_norm": "geneuille",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 1280,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25266",
+      "nom": "Geney",
+      "nom_norm": "geney",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 125,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25267",
+      "nom": "Gennes",
+      "nom_norm": "gennes",
+      "codes_postaux": [
+        "25660"
+      ],
+      "population": 669,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25268",
+      "nom": "Germéfontaine",
+      "nom_norm": "germefontaine",
+      "codes_postaux": [
+        "25510"
+      ],
+      "population": 121,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25269",
+      "nom": "Germondans",
+      "nom_norm": "germondans",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 57,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25270",
+      "nom": "Gevresin",
+      "nom_norm": "gevresin",
+      "codes_postaux": [
+        "25270"
+      ],
+      "population": 158,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25271",
+      "nom": "Gilley",
+      "nom_norm": "gilley",
+      "codes_postaux": [
+        "25650"
+      ],
+      "population": 1842,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25273",
+      "nom": "Glamondans",
+      "nom_norm": "glamondans",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 195,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25274",
+      "nom": "Glay",
+      "nom_norm": "glay",
+      "codes_postaux": [
+        "25310"
+      ],
+      "population": 339,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25275",
+      "nom": "Glère",
+      "nom_norm": "glere",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 176,
+      "alias": [
+        "Montursin",
+        "Vernois-le-Fol"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25276",
+      "nom": "Gondenans-Montby",
+      "nom_norm": "gondenans montby",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 161,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25277",
+      "nom": "Gondenans-les-Moulins",
+      "nom_norm": "gondenans les moulins",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 84,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25278",
+      "nom": "Gonsans",
+      "nom_norm": "gonsans",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 554,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25279",
+      "nom": "Gouhelans",
+      "nom_norm": "gouhelans",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 118,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25280",
+      "nom": "Goumois",
+      "nom_norm": "goumois",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 181,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25281",
+      "nom": "Goux-lès-Dambelin",
+      "nom_norm": "goux les dambelin",
+      "codes_postaux": [
+        "25150"
+      ],
+      "population": 270,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25283",
+      "nom": "Goux-sous-Landet",
+      "nom_norm": "goux sous landet",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 61,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25284",
+      "nom": "Grand-Charmont",
+      "nom_norm": "grand charmont",
+      "codes_postaux": [
+        "25200"
+      ],
+      "population": 5873,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25285",
+      "nom": "Grand'Combe-Châteleu",
+      "nom_norm": "grand combe chateleu",
+      "codes_postaux": [
+        "25570"
+      ],
+      "population": 1491,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25286",
+      "nom": "Grand'Combe-des-Bois",
+      "nom_norm": "grand combe des bois",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 125,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25287",
+      "nom": "Grandfontaine",
+      "nom_norm": "grandfontaine",
+      "codes_postaux": [
+        "25320"
+      ],
+      "population": 1827,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25288",
+      "nom": "Fournets-Luisans",
+      "nom_norm": "fournets luisans",
+      "codes_postaux": [
+        "25390"
+      ],
+      "population": 744,
+      "alias": [
+        "Fournet Luisans"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25289",
+      "nom": "Grandfontaine-sur-Creuse",
+      "nom_norm": "grandfontaine sur creuse",
+      "codes_postaux": [
+        "25510"
+      ],
+      "population": 75,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25290",
+      "nom": "La Grange",
+      "nom_norm": "la grange",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 97,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25293",
+      "nom": "Granges-Narboz",
+      "nom_norm": "granges narboz",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 1359,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25295",
+      "nom": "Les Grangettes",
+      "nom_norm": "les grangettes",
+      "codes_postaux": [
+        "25160"
+      ],
+      "population": 334,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25296",
+      "nom": "Les Gras",
+      "nom_norm": "les gras",
+      "codes_postaux": [
+        "25790"
+      ],
+      "population": 817,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25298",
+      "nom": "Grosbois",
+      "nom_norm": "grosbois",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 255,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25299",
+      "nom": "Guillon-les-Bains",
+      "nom_norm": "guillon les bains",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 108,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25300",
+      "nom": "Guyans-Durnes",
+      "nom_norm": "guyans durnes",
+      "codes_postaux": [
+        "25580"
+      ],
+      "population": 318,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25301",
+      "nom": "Guyans-Vennes",
+      "nom_norm": "guyans vennes",
+      "codes_postaux": [
+        "25390"
+      ],
+      "population": 838,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25304",
+      "nom": "Hérimoncourt",
+      "nom_norm": "herimoncourt",
+      "codes_postaux": [
+        "25310"
+      ],
+      "population": 3508,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25305",
+      "nom": "L'Hôpital-du-Grosbois",
+      "nom_norm": "l hopital du grosbois",
+      "codes_postaux": [
+        "25620"
+      ],
+      "population": 611,
+      "alias": [
+        "Hôpital"
+      ],
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25306",
+      "nom": "L'Hôpital-Saint-Lieffroy",
+      "nom_norm": "l hopital saint lieffroy",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 121,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25307",
+      "nom": "Les Hôpitaux-Neufs",
+      "nom_norm": "les hopitaux neufs",
+      "codes_postaux": [
+        "25370"
+      ],
+      "population": 967,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25308",
+      "nom": "Les Hôpitaux-Vieux",
+      "nom_norm": "les hopitaux vieux",
+      "codes_postaux": [
+        "25370"
+      ],
+      "population": 462,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25309",
+      "nom": "Houtaud",
+      "nom_norm": "houtaud",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 1216,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25310",
+      "nom": "Huanne-Montmartin",
+      "nom_norm": "huanne montmartin",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 101,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25311",
+      "nom": "Hyémondans",
+      "nom_norm": "hyemondans",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 191,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25312",
+      "nom": "Hyèvre-Magny",
+      "nom_norm": "hyevre magny",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 61,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25313",
+      "nom": "Hyèvre-Paroisse",
+      "nom_norm": "hyevre paroisse",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 190,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25314",
+      "nom": "Indevillers",
+      "nom_norm": "indevillers",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 236,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25315",
+      "nom": "L'Isle-sur-le-Doubs",
+      "nom_norm": "l isle sur le doubs",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 2780,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25316",
+      "nom": "Issans",
+      "nom_norm": "issans",
+      "codes_postaux": [
+        "25550"
+      ],
+      "population": 239,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25317",
+      "nom": "Jallerange",
+      "nom_norm": "jallerange",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 279,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25318",
+      "nom": "Jougne",
+      "nom_norm": "jougne",
+      "codes_postaux": [
+        "25370"
+      ],
+      "population": 1937,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25320",
+      "nom": "Labergement-Sainte-Marie",
+      "nom_norm": "labergement sainte marie",
+      "codes_postaux": [
+        "25160"
+      ],
+      "population": 1273,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25321",
+      "nom": "Villers-le-Lac",
+      "nom_norm": "villers le lac",
+      "codes_postaux": [
+        "25130"
+      ],
+      "population": 5292,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25322",
+      "nom": "Laire",
+      "nom_norm": "laire",
+      "codes_postaux": [
+        "25550"
+      ],
+      "population": 405,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25323",
+      "nom": "Laissey",
+      "nom_norm": "laissey",
+      "codes_postaux": [
+        "25820"
+      ],
+      "population": 438,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25324",
+      "nom": "Lanans",
+      "nom_norm": "lanans",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 163,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25325",
+      "nom": "Landresse",
+      "nom_norm": "landresse",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 236,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25326",
+      "nom": "Lantenne-Vertière",
+      "nom_norm": "lantenne vertiere",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 562,
+      "alias": [
+        "Lantenne-et-Vertière"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25327",
+      "nom": "Lanthenans",
+      "nom_norm": "lanthenans",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 68,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25328",
+      "nom": "Larnod",
+      "nom_norm": "larnod",
+      "codes_postaux": [
+        "25720"
+      ],
+      "population": 773,
+      "alias": [
+        "Larnod-Gare"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25329",
+      "nom": "Laval-le-Prieuré",
+      "nom_norm": "laval le prieure",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 32,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25330",
+      "nom": "Lavans-Quingey",
+      "nom_norm": "lavans quingey",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 188,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25331",
+      "nom": "Lavans-Vuillafans",
+      "nom_norm": "lavans vuillafans",
+      "codes_postaux": [
+        "25580"
+      ],
+      "population": 232,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25332",
+      "nom": "Lavernay",
+      "nom_norm": "lavernay",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 589,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25333",
+      "nom": "Laviron",
+      "nom_norm": "laviron",
+      "codes_postaux": [
+        "25510"
+      ],
+      "population": 356,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25334",
+      "nom": "Levier",
+      "nom_norm": "levier",
+      "codes_postaux": [
+        "25270"
+      ],
+      "population": 2400,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25335",
+      "nom": "Liebvillers",
+      "nom_norm": "liebvillers",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 148,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25336",
+      "nom": "Liesle",
+      "nom_norm": "liesle",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 558,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25338",
+      "nom": "Lizine",
+      "nom_norm": "lizine",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 87,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25339",
+      "nom": "Lods",
+      "nom_norm": "lods",
+      "codes_postaux": [
+        "25930"
+      ],
+      "population": 253,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25340",
+      "nom": "Lombard",
+      "nom_norm": "lombard",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 195,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25341",
+      "nom": "Lomont-sur-Crête",
+      "nom_norm": "lomont sur crete",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 170,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25342",
+      "nom": "Longechaux",
+      "nom_norm": "longechaux",
+      "codes_postaux": [
+        "25690"
+      ],
+      "population": 78,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25343",
+      "nom": "Longemaison",
+      "nom_norm": "longemaison",
+      "codes_postaux": [
+        "25690"
+      ],
+      "population": 167,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25344",
+      "nom": "Longevelle-lès-Russey",
+      "nom_norm": "longevelle les russey",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 37,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25345",
+      "nom": "Longevelle-sur-Doubs",
+      "nom_norm": "longevelle sur doubs",
+      "codes_postaux": [
+        "25260"
+      ],
+      "population": 646,
+      "alias": [
+        "Longevelle-sur-le-Doubs"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25346",
+      "nom": "Longeville",
+      "nom_norm": "longeville",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 174,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25348",
+      "nom": "Longevilles-Mont-d'Or",
+      "nom_norm": "longevilles mont d or",
+      "codes_postaux": [
+        "25370"
+      ],
+      "population": 625,
+      "alias": [
+        "Les Longevilles-Mont-d'Or"
+      ],
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25349",
+      "nom": "Loray",
+      "nom_norm": "loray",
+      "codes_postaux": [
+        "25390"
+      ],
+      "population": 623,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25350",
+      "nom": "Lougres",
+      "nom_norm": "lougres",
+      "codes_postaux": [
+        "25260"
+      ],
+      "population": 742,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25351",
+      "nom": "Le Luhier",
+      "nom_norm": "le luhier",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 244,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25354",
+      "nom": "Luxiol",
+      "nom_norm": "luxiol",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 157,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25355",
+      "nom": "Magny-Châtelard",
+      "nom_norm": "magny chatelard",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 60,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25356",
+      "nom": "Maîche",
+      "nom_norm": "maiche",
+      "codes_postaux": [
+        "25120"
+      ],
+      "population": 4254,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25357",
+      "nom": "Maisons-du-Bois-Lièvremont",
+      "nom_norm": "maisons du bois lievremont",
+      "codes_postaux": [
+        "25650"
+      ],
+      "population": 835,
+      "alias": [
+        "Lièvremont"
+      ],
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25359",
+      "nom": "Malans",
+      "nom_norm": "malans",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 157,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25360",
+      "nom": "Malbrans",
+      "nom_norm": "malbrans",
+      "codes_postaux": [
+        "25620"
+      ],
+      "population": 155,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25361",
+      "nom": "Malbuisson",
+      "nom_norm": "malbuisson",
+      "codes_postaux": [
+        "25160"
+      ],
+      "population": 903,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25362",
+      "nom": "Malpas",
+      "nom_norm": "malpas",
+      "codes_postaux": [
+        "25160"
+      ],
+      "population": 300,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25364",
+      "nom": "Mamirolle",
+      "nom_norm": "mamirolle",
+      "codes_postaux": [
+        "25620"
+      ],
+      "population": 1988,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25365",
+      "nom": "Mancenans",
+      "nom_norm": "mancenans",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 321,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25366",
+      "nom": "Mancenans-Lizerne",
+      "nom_norm": "mancenans lizerne",
+      "codes_postaux": [
+        "25120"
+      ],
+      "population": 181,
+      "alias": [
+        "Mancenans-la-Lizerne"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25367",
+      "nom": "Mandeure",
+      "nom_norm": "mandeure",
+      "codes_postaux": [
+        "25350"
+      ],
+      "population": 4612,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25368",
+      "nom": "Marchaux-Chaudefontaine",
+      "nom_norm": "marchaux chaudefontaine",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 1447,
+      "alias": [
+        "Chaudefontaine",
+        "Marchaux"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25369",
+      "nom": "Marvelise",
+      "nom_norm": "marvelise",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 147,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25370",
+      "nom": "Mathay",
+      "nom_norm": "mathay",
+      "codes_postaux": [
+        "25700"
+      ],
+      "population": 2115,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25371",
+      "nom": "Mazerolles-le-Salin",
+      "nom_norm": "mazerolles le salin",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 218,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25372",
+      "nom": "Médière",
+      "nom_norm": "mediere",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 281,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25373",
+      "nom": "Le Mémont",
+      "nom_norm": "le memont",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 47,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25374",
+      "nom": "Mercey-le-Grand",
+      "nom_norm": "mercey le grand",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 520,
+      "alias": [
+        "Cottier"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25375",
+      "nom": "Les Monts-Ronds",
+      "nom_norm": "les monts ronds",
+      "codes_postaux": [
+        "25620",
+        "25660"
+      ],
+      "population": 667,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25376",
+      "nom": "Mérey-Vieilley",
+      "nom_norm": "merey vieilley",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 178,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25377",
+      "nom": "Mésandans",
+      "nom_norm": "mesandans",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 233,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25378",
+      "nom": "Meslières",
+      "nom_norm": "meslieres",
+      "codes_postaux": [
+        "25310"
+      ],
+      "population": 323,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25379",
+      "nom": "Mesmay",
+      "nom_norm": "mesmay",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 67,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25380",
+      "nom": "Métabief",
+      "nom_norm": "metabief",
+      "codes_postaux": [
+        "25370"
+      ],
+      "population": 1375,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25381",
+      "nom": "Miserey-Salines",
+      "nom_norm": "miserey salines",
+      "codes_postaux": [
+        "25480"
+      ],
+      "population": 2661,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25382",
+      "nom": "Moncey",
+      "nom_norm": "moncey",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 610,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25383",
+      "nom": "Moncley",
+      "nom_norm": "moncley",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 308,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25384",
+      "nom": "Mondon",
+      "nom_norm": "mondon",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 77,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25385",
+      "nom": "Montagney-Servigney",
+      "nom_norm": "montagney servigney",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 121,
+      "alias": [
+        "Servigney",
+        "Montagney-et-Servigney"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25386",
+      "nom": "Montancy",
+      "nom_norm": "montancy",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 127,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25387",
+      "nom": "Montandon",
+      "nom_norm": "montandon",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 371,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25388",
+      "nom": "Montbéliard",
+      "nom_norm": "montbeliard",
+      "codes_postaux": [
+        "25200"
+      ],
+      "population": 24672,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25389",
+      "nom": "Montbéliardot",
+      "nom_norm": "montbeliardot",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 114,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25390",
+      "nom": "Pays-de-Montbenoît",
+      "nom_norm": "pays de montbenoit",
+      "codes_postaux": [
+        "25650"
+      ],
+      "population": 1923,
+      "alias": [
+        "Hauterive-la-Fresse",
+        "La Longeville",
+        "Montbenoît",
+        "Montflovin",
+        "Ville-du-Pont"
+      ],
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25391",
+      "nom": "Mont-de-Laval",
+      "nom_norm": "mont de laval",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 194,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25392",
+      "nom": "Mont-de-Vougney",
+      "nom_norm": "mont de vougney",
+      "codes_postaux": [
+        "25120"
+      ],
+      "population": 193,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25393",
+      "nom": "Montécheroux",
+      "nom_norm": "montecheroux",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 563,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25394",
+      "nom": "Montenois",
+      "nom_norm": "montenois",
+      "codes_postaux": [
+        "25260"
+      ],
+      "population": 1362,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25395",
+      "nom": "Montfaucon",
+      "nom_norm": "montfaucon",
+      "codes_postaux": [
+        "25660"
+      ],
+      "population": 1622,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25397",
+      "nom": "Montferrand-le-Château",
+      "nom_norm": "montferrand le chateau",
+      "codes_postaux": [
+        "25320"
+      ],
+      "population": 2180,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25400",
+      "nom": "Montgesoye",
+      "nom_norm": "montgesoye",
+      "codes_postaux": [
+        "25111"
+      ],
+      "population": 498,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25401",
+      "nom": "Montivernage",
+      "nom_norm": "montivernage",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 27,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25402",
+      "nom": "Montjoie-le-Château",
+      "nom_norm": "montjoie le chateau",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 23,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25403",
+      "nom": "Montlebon",
+      "nom_norm": "montlebon",
+      "codes_postaux": [
+        "25500"
+      ],
+      "population": 2244,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25404",
+      "nom": "Montmahoux",
+      "nom_norm": "montmahoux",
+      "codes_postaux": [
+        "25270"
+      ],
+      "population": 94,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25405",
+      "nom": "Montperreux",
+      "nom_norm": "montperreux",
+      "codes_postaux": [
+        "25160"
+      ],
+      "population": 940,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25406",
+      "nom": "Montrond-le-Château",
+      "nom_norm": "montrond le chateau",
+      "codes_postaux": [
+        "25660"
+      ],
+      "population": 558,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25408",
+      "nom": "Montussaint",
+      "nom_norm": "montussaint",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 54,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25410",
+      "nom": "Morre",
+      "nom_norm": "morre",
+      "codes_postaux": [
+        "25660"
+      ],
+      "population": 1303,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25411",
+      "nom": "Morteau",
+      "nom_norm": "morteau",
+      "codes_postaux": [
+        "25500"
+      ],
+      "population": 6953,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25413",
+      "nom": "Mouthe",
+      "nom_norm": "mouthe",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 1037,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25414",
+      "nom": "Le Moutherot",
+      "nom_norm": "le moutherot",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 132,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25415",
+      "nom": "Mouthier-Haute-Pierre",
+      "nom_norm": "mouthier haute pierre",
+      "codes_postaux": [
+        "25920"
+      ],
+      "population": 363,
+      "alias": [
+        "Mouthier-Hautepierre"
+      ],
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25416",
+      "nom": "Myon",
+      "nom_norm": "myon",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 182,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25417",
+      "nom": "Naisey-les-Granges",
+      "nom_norm": "naisey les granges",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 835,
+      "alias": [
+        "Granges-de-Vienney"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25418",
+      "nom": "Nancray",
+      "nom_norm": "nancray",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 1308,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25419",
+      "nom": "Nans",
+      "nom_norm": "nans",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 96,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25420",
+      "nom": "Nans-sous-Sainte-Anne",
+      "nom_norm": "nans sous sainte anne",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 167,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25421",
+      "nom": "Narbief",
+      "nom_norm": "narbief",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 109,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25422",
+      "nom": "Neuchâtel-Urtière",
+      "nom_norm": "neuchatel urtiere",
+      "codes_postaux": [
+        "25150"
+      ],
+      "population": 164,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25424",
+      "nom": "Les Premiers Sapins",
+      "nom_norm": "les premiers sapins",
+      "codes_postaux": [
+        "25580"
+      ],
+      "population": 1587,
+      "alias": [
+        "Athose",
+        "Nods",
+        "Chasnans",
+        "Hautepierre le Châtelet",
+        "Rantechaux",
+        "Vanclans"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25425",
+      "nom": "Noël-Cerneux",
+      "nom_norm": "noel cerneux",
+      "codes_postaux": [
+        "25500"
+      ],
+      "population": 453,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25426",
+      "nom": "Noirefontaine",
+      "nom_norm": "noirefontaine",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 324,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25427",
+      "nom": "Noironte",
+      "nom_norm": "noironte",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 405,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25428",
+      "nom": "Nommay",
+      "nom_norm": "nommay",
+      "codes_postaux": [
+        "25600"
+      ],
+      "population": 1596,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25429",
+      "nom": "Novillars",
+      "nom_norm": "novillars",
+      "codes_postaux": [
+        "25220"
+      ],
+      "population": 1334,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25430",
+      "nom": "Ollans",
+      "nom_norm": "ollans",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 43,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25431",
+      "nom": "Onans",
+      "nom_norm": "onans",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 368,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25432",
+      "nom": "Orchamps-Vennes",
+      "nom_norm": "orchamps vennes",
+      "codes_postaux": [
+        "25390"
+      ],
+      "population": 2189,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25433",
+      "nom": "Orgeans-Blanchefontaine",
+      "nom_norm": "orgeans blanchefontaine",
+      "codes_postaux": [
+        "25120"
+      ],
+      "population": 41,
+      "alias": [
+        "Blanchefontaine"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25434",
+      "nom": "Ornans",
+      "nom_norm": "ornans",
+      "codes_postaux": [
+        "25290",
+        "25620"
+      ],
+      "population": 4419,
+      "alias": [
+        "Bonnevaux-le-Prieuré"
+      ],
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25435",
+      "nom": "Orsans",
+      "nom_norm": "orsans",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 179,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25436",
+      "nom": "Orve",
+      "nom_norm": "orve",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 59,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25437",
+      "nom": "Osse",
+      "nom_norm": "osse",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 372,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25438",
+      "nom": "Osselle-Routelle",
+      "nom_norm": "osselle routelle",
+      "codes_postaux": [
+        "25320",
+        "25410"
+      ],
+      "population": 961,
+      "alias": [
+        "Osselle",
+        "Routelle"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25439",
+      "nom": "Ougney-Douvot",
+      "nom_norm": "ougney douvot",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 252,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25440",
+      "nom": "Ouhans",
+      "nom_norm": "ouhans",
+      "codes_postaux": [
+        "25520"
+      ],
+      "population": 398,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25441",
+      "nom": "Ouvans",
+      "nom_norm": "ouvans",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 68,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25442",
+      "nom": "Oye-et-Pallet",
+      "nom_norm": "oye et pallet",
+      "codes_postaux": [
+        "25160"
+      ],
+      "population": 709,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25443",
+      "nom": "Palantine",
+      "nom_norm": "palantine",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 61,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25444",
+      "nom": "Palise",
+      "nom_norm": "palise",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 150,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25445",
+      "nom": "Paroy",
+      "nom_norm": "paroy",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 116,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25446",
+      "nom": "Passavant",
+      "nom_norm": "passavant",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 191,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25447",
+      "nom": "Passonfontaine",
+      "nom_norm": "passonfontaine",
+      "codes_postaux": [
+        "25690"
+      ],
+      "population": 331,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25448",
+      "nom": "Pelousey",
+      "nom_norm": "pelousey",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 1617,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25449",
+      "nom": "Péseux",
+      "nom_norm": "peseux",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 133,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25450",
+      "nom": "Pessans",
+      "nom_norm": "pessans",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 89,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25451",
+      "nom": "Petite-Chaux",
+      "nom_norm": "petite chaux",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 177,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25452",
+      "nom": "Pierrefontaine-lès-Blamont",
+      "nom_norm": "pierrefontaine les blamont",
+      "codes_postaux": [
+        "25310"
+      ],
+      "population": 484,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25453",
+      "nom": "Pierrefontaine-les-Varans",
+      "nom_norm": "pierrefontaine les varans",
+      "codes_postaux": [
+        "25510"
+      ],
+      "population": 1356,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25454",
+      "nom": "Pirey",
+      "nom_norm": "pirey",
+      "codes_postaux": [
+        "25480"
+      ],
+      "population": 2156,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25455",
+      "nom": "Placey",
+      "nom_norm": "placey",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 197,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25456",
+      "nom": "Plaimbois-du-Miroir",
+      "nom_norm": "plaimbois du miroir",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 276,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25457",
+      "nom": "Plaimbois-Vennes",
+      "nom_norm": "plaimbois vennes",
+      "codes_postaux": [
+        "25390"
+      ],
+      "population": 113,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25458",
+      "nom": "Les Plains-et-Grands-Essarts",
+      "nom_norm": "les plains et grands essarts",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 207,
+      "alias": [
+        "Plains-et-Grands-Essarts"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25459",
+      "nom": "La Planée",
+      "nom_norm": "la planee",
+      "codes_postaux": [
+        "25160"
+      ],
+      "population": 332,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25460",
+      "nom": "Le Val",
+      "nom_norm": "le val",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 251,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25461",
+      "nom": "Pompierre-sur-Doubs",
+      "nom_norm": "pompierre sur doubs",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 300,
+      "alias": [
+        "Pompierre-sur-le-Doubs"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25462",
+      "nom": "Pontarlier",
+      "nom_norm": "pontarlier",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 18067,
+      "alias": [
+        "Pontarl",
+        "Pontar"
+      ],
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25463",
+      "nom": "Pont-de-Roide-Vermondans",
+      "nom_norm": "pont de roide vermondans",
+      "codes_postaux": [
+        "25150"
+      ],
+      "population": 3912,
+      "alias": [
+        "Pont-de-Roide"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25464",
+      "nom": "Les Pontets",
+      "nom_norm": "les pontets",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 141,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25465",
+      "nom": "Pont-les-Moulins",
+      "nom_norm": "pont les moulins",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 208,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25466",
+      "nom": "Pouilley-Français",
+      "nom_norm": "pouilley francais",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 816,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25467",
+      "nom": "Pouilley-les-Vignes",
+      "nom_norm": "pouilley les vignes",
+      "codes_postaux": [
+        "25115"
+      ],
+      "population": 2195,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25468",
+      "nom": "Pouligney-Lusans",
+      "nom_norm": "pouligney lusans",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 850,
+      "alias": [
+        "Lusans"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25469",
+      "nom": "Présentevillers",
+      "nom_norm": "presentevillers",
+      "codes_postaux": [
+        "25550"
+      ],
+      "population": 461,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25470",
+      "nom": "La Prétière",
+      "nom_norm": "la pretiere",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 159,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25471",
+      "nom": "Provenchère",
+      "nom_norm": "provenchere",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 142,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25472",
+      "nom": "Puessans",
+      "nom_norm": "puessans",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 32,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25473",
+      "nom": "Pugey",
+      "nom_norm": "pugey",
+      "codes_postaux": [
+        "25720"
+      ],
+      "population": 676,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25474",
+      "nom": "Le Puy",
+      "nom_norm": "le puy",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 104,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25475",
+      "nom": "Quingey",
+      "nom_norm": "quingey",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 1299,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25476",
+      "nom": "Rahon",
+      "nom_norm": "rahon",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 140,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25477",
+      "nom": "Rancenay",
+      "nom_norm": "rancenay",
+      "codes_postaux": [
+        "25320"
+      ],
+      "population": 436,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25478",
+      "nom": "Randevillers",
+      "nom_norm": "randevillers",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 106,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25479",
+      "nom": "Rang",
+      "nom_norm": "rang",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 389,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25481",
+      "nom": "Raynans",
+      "nom_norm": "raynans",
+      "codes_postaux": [
+        "25550"
+      ],
+      "population": 338,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25482",
+      "nom": "Recologne",
+      "nom_norm": "recologne",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 730,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25483",
+      "nom": "Reculfoz",
+      "nom_norm": "reculfoz",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 45,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25485",
+      "nom": "Rémondans-Vaivre",
+      "nom_norm": "remondans vaivre",
+      "codes_postaux": [
+        "25150"
+      ],
+      "population": 205,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25486",
+      "nom": "Remoray-Boujeons",
+      "nom_norm": "remoray boujeons",
+      "codes_postaux": [
+        "25160"
+      ],
+      "population": 466,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25487",
+      "nom": "Renédale",
+      "nom_norm": "renedale",
+      "codes_postaux": [
+        "25520"
+      ],
+      "population": 41,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25488",
+      "nom": "Rennes-sur-Loue",
+      "nom_norm": "rennes sur loue",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 108,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25489",
+      "nom": "Reugney",
+      "nom_norm": "reugney",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 268,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25490",
+      "nom": "Rigney",
+      "nom_norm": "rigney",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 367,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25491",
+      "nom": "Rignosot",
+      "nom_norm": "rignosot",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 106,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25492",
+      "nom": "Rillans",
+      "nom_norm": "rillans",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 97,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25493",
+      "nom": "La Rivière-Drugeon",
+      "nom_norm": "la riviere drugeon",
+      "codes_postaux": [
+        "25560"
+      ],
+      "population": 933,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25494",
+      "nom": "Rochejean",
+      "nom_norm": "rochejean",
+      "codes_postaux": [
+        "25370"
+      ],
+      "population": 754,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25495",
+      "nom": "Roche-lez-Beaupré",
+      "nom_norm": "roche lez beaupre",
+      "codes_postaux": [
+        "25220"
+      ],
+      "population": 2158,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25496",
+      "nom": "Roche-lès-Clerval",
+      "nom_norm": "roche les clerval",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 98,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25497",
+      "nom": "Roches-lès-Blamont",
+      "nom_norm": "roches les blamont",
+      "codes_postaux": [
+        "25310"
+      ],
+      "population": 612,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25498",
+      "nom": "Rognon",
+      "nom_norm": "rognon",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 44,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25499",
+      "nom": "Romain",
+      "nom_norm": "romain",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 116,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25500",
+      "nom": "Ronchaux",
+      "nom_norm": "ronchaux",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 103,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25501",
+      "nom": "Rondefontaine",
+      "nom_norm": "rondefontaine",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 38,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25502",
+      "nom": "Roset-Fluans",
+      "nom_norm": "roset fluans",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 599,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25503",
+      "nom": "Rosières-sur-Barbèche",
+      "nom_norm": "rosieres sur barbeche",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 108,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25504",
+      "nom": "Rosureux",
+      "nom_norm": "rosureux",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 79,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25505",
+      "nom": "Rougemont",
+      "nom_norm": "rougemont",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 1051,
+      "alias": [
+        "Chazelot",
+        "Montferney",
+        "Morchamps"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25506",
+      "nom": "Rougemontot",
+      "nom_norm": "rougemontot",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 87,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25507",
+      "nom": "Rouhe",
+      "nom_norm": "rouhe",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 87,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25508",
+      "nom": "Roulans",
+      "nom_norm": "roulans",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 1125,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25510",
+      "nom": "Ruffey-le-Château",
+      "nom_norm": "ruffey le chateau",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 366,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25511",
+      "nom": "Rurey",
+      "nom_norm": "rurey",
+      "codes_postaux": [
+        "25290"
+      ],
+      "population": 354,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25512",
+      "nom": "Le Russey",
+      "nom_norm": "le russey",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 2599,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25513",
+      "nom": "Sainte-Anne",
+      "nom_norm": "sainte anne",
+      "codes_postaux": [
+        "25270"
+      ],
+      "population": 50,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25514",
+      "nom": "Saint-Antoine",
+      "nom_norm": "saint antoine",
+      "codes_postaux": [
+        "25370"
+      ],
+      "population": 305,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25515",
+      "nom": "Sainte-Colombe",
+      "nom_norm": "sainte colombe",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 488,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25516",
+      "nom": "Saint-Georges-Armont",
+      "nom_norm": "saint georges armont",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 122,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25517",
+      "nom": "Saint-Gorgon-Main",
+      "nom_norm": "saint gorgon main",
+      "codes_postaux": [
+        "25520"
+      ],
+      "population": 250,
+      "alias": [
+        "Saint-Gorgon"
+      ],
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25518",
+      "nom": "Saint-Hilaire",
+      "nom_norm": "saint hilaire",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 157,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25519",
+      "nom": "Saint-Hippolyte",
+      "nom_norm": "saint hippolyte",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 981,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25520",
+      "nom": "Saint-Juan",
+      "nom_norm": "saint juan",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 191,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25521",
+      "nom": "Saint-Julien-lès-Montbéliard",
+      "nom_norm": "saint julien les montbeliard",
+      "codes_postaux": [
+        "25550"
+      ],
+      "population": 158,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25522",
+      "nom": "Saint-Julien-lès-Russey",
+      "nom_norm": "saint julien les russey",
+      "codes_postaux": [
+        "25210"
+      ],
+      "population": 181,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25523",
+      "nom": "Sainte-Marie",
+      "nom_norm": "sainte marie",
+      "codes_postaux": [
+        "25113"
+      ],
+      "population": 648,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25524",
+      "nom": "Saint-Maurice-Colombier",
+      "nom_norm": "saint maurice colombier",
+      "codes_postaux": [
+        "25260"
+      ],
+      "population": 875,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25525",
+      "nom": "Saint-Point-Lac",
+      "nom_norm": "saint point lac",
+      "codes_postaux": [
+        "25160"
+      ],
+      "population": 306,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25526",
+      "nom": "Sainte-Suzanne",
+      "nom_norm": "sainte suzanne",
+      "codes_postaux": [
+        "25630"
+      ],
+      "population": 1501,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25527",
+      "nom": "Saint-Vit",
+      "nom_norm": "saint vit",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 5133,
+      "alias": [
+        "Antorpe"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25528",
+      "nom": "Samson",
+      "nom_norm": "samson",
+      "codes_postaux": [
+        "25440"
+      ],
+      "population": 74,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25529",
+      "nom": "Sancey",
+      "nom_norm": "sancey",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 1385,
+      "alias": [
+        "Sancey le Grand",
+        "Sancey le Long"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25532",
+      "nom": "Saône",
+      "nom_norm": "saone",
+      "codes_postaux": [
+        "25660"
+      ],
+      "population": 3195,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25534",
+      "nom": "Sarrageois",
+      "nom_norm": "sarrageois",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 197,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25535",
+      "nom": "Saules",
+      "nom_norm": "saules",
+      "codes_postaux": [
+        "25580"
+      ],
+      "population": 234,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25536",
+      "nom": "Sauvagney",
+      "nom_norm": "sauvagney",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 196,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25537",
+      "nom": "Scey-Maisières",
+      "nom_norm": "scey maisieres",
+      "codes_postaux": [
+        "25290"
+      ],
+      "population": 286,
+      "alias": [
+        "Maisières-Notre-Dame",
+        "Scey en Maisières"
+      ],
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25538",
+      "nom": "Séchin",
+      "nom_norm": "sechin",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 114,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25539",
+      "nom": "Seloncourt",
+      "nom_norm": "seloncourt",
+      "codes_postaux": [
+        "25230"
+      ],
+      "population": 5854,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25540",
+      "nom": "Semondans",
+      "nom_norm": "semondans",
+      "codes_postaux": [
+        "25750"
+      ],
+      "population": 301,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25541",
+      "nom": "Septfontaines",
+      "nom_norm": "septfontaines",
+      "codes_postaux": [
+        "25270"
+      ],
+      "population": 371,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25542",
+      "nom": "Serre-les-Sapins",
+      "nom_norm": "serre les sapins",
+      "codes_postaux": [
+        "25770"
+      ],
+      "population": 2004,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25544",
+      "nom": "Servin",
+      "nom_norm": "servin",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 195,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25545",
+      "nom": "Silley-Amancey",
+      "nom_norm": "silley amancey",
+      "codes_postaux": [
+        "25330"
+      ],
+      "population": 129,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25546",
+      "nom": "Silley-Bléfond",
+      "nom_norm": "silley blefond",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 54,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25547",
+      "nom": "Sochaux",
+      "nom_norm": "sochaux",
+      "codes_postaux": [
+        "25600"
+      ],
+      "population": 3721,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25548",
+      "nom": "Solemont",
+      "nom_norm": "solemont",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 131,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25550",
+      "nom": "La Sommette",
+      "nom_norm": "la sommette",
+      "codes_postaux": [
+        "25510"
+      ],
+      "population": 238,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25551",
+      "nom": "Soulce-Cernay",
+      "nom_norm": "soulce cernay",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 136,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25552",
+      "nom": "Sourans",
+      "nom_norm": "sourans",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 113,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25553",
+      "nom": "Soye",
+      "nom_norm": "soye",
+      "codes_postaux": [
+        "25250"
+      ],
+      "population": 360,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25554",
+      "nom": "Surmont",
+      "nom_norm": "surmont",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 127,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25555",
+      "nom": "Taillecourt",
+      "nom_norm": "taillecourt",
+      "codes_postaux": [
+        "25400"
+      ],
+      "population": 1144,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25556",
+      "nom": "Tallans",
+      "nom_norm": "tallans",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 47,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25557",
+      "nom": "Tallenay",
+      "nom_norm": "tallenay",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 436,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25558",
+      "nom": "Tarcenay-Foucherans",
+      "nom_norm": "tarcenay foucherans",
+      "codes_postaux": [
+        "25620"
+      ],
+      "population": 1498,
+      "alias": [
+        "Foucherans",
+        "Tarcenay"
+      ],
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25559",
+      "nom": "Thiébouhans",
+      "nom_norm": "thiebouhans",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 229,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25560",
+      "nom": "Thise",
+      "nom_norm": "thise",
+      "codes_postaux": [
+        "25220"
+      ],
+      "population": 2994,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25561",
+      "nom": "Thoraise",
+      "nom_norm": "thoraise",
+      "codes_postaux": [
+        "25320"
+      ],
+      "population": 336,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25562",
+      "nom": "Thulay",
+      "nom_norm": "thulay",
+      "codes_postaux": [
+        "25310"
+      ],
+      "population": 203,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25563",
+      "nom": "Thurey-le-Mont",
+      "nom_norm": "thurey le mont",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 114,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25564",
+      "nom": "Torpes",
+      "nom_norm": "torpes",
+      "codes_postaux": [
+        "25320"
+      ],
+      "population": 995,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25565",
+      "nom": "Touillon-et-Loutelet",
+      "nom_norm": "touillon et loutelet",
+      "codes_postaux": [
+        "25370"
+      ],
+      "population": 262,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25566",
+      "nom": "La Tour-de-Sçay",
+      "nom_norm": "la tour de scay",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 315,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25567",
+      "nom": "Tournans",
+      "nom_norm": "tournans",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 112,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25569",
+      "nom": "Trépot",
+      "nom_norm": "trepot",
+      "codes_postaux": [
+        "25620"
+      ],
+      "population": 565,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25570",
+      "nom": "Tressandans",
+      "nom_norm": "tressandans",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 28,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25571",
+      "nom": "Trévillers",
+      "nom_norm": "trevillers",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 533,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25572",
+      "nom": "Trouvans",
+      "nom_norm": "trouvans",
+      "codes_postaux": [
+        "25680"
+      ],
+      "population": 100,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25573",
+      "nom": "Urtière",
+      "nom_norm": "urtiere",
+      "codes_postaux": [
+        "25470"
+      ],
+      "population": 15,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25574",
+      "nom": "Uzelle",
+      "nom_norm": "uzelle",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 194,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25575",
+      "nom": "Vaire",
+      "nom_norm": "vaire",
+      "codes_postaux": [
+        "25220"
+      ],
+      "population": 812,
+      "alias": [
+        "Vaire-Arcier",
+        "Vaire-le-Petit"
+      ],
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25578",
+      "nom": "Valdahon",
+      "nom_norm": "valdahon",
+      "codes_postaux": [
+        "25800"
+      ],
+      "population": 5705,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25579",
+      "nom": "Val-de-Roulans",
+      "nom_norm": "val de roulans",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 190,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25580",
+      "nom": "Valentigney",
+      "nom_norm": "valentigney",
+      "codes_postaux": [
+        "25700"
+      ],
+      "population": 10501,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25582",
+      "nom": "Valleroy",
+      "nom_norm": "valleroy",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 148,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25583",
+      "nom": "Valonne",
+      "nom_norm": "valonne",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 269,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25584",
+      "nom": "Valoreille",
+      "nom_norm": "valoreille",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 128,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25586",
+      "nom": "Vandoncourt",
+      "nom_norm": "vandoncourt",
+      "codes_postaux": [
+        "25230"
+      ],
+      "population": 788,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25588",
+      "nom": "Vaucluse",
+      "nom_norm": "vaucluse",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 115,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25589",
+      "nom": "Vauclusotte",
+      "nom_norm": "vauclusotte",
+      "codes_postaux": [
+        "25380"
+      ],
+      "population": 74,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25590",
+      "nom": "Vaudrivillers",
+      "nom_norm": "vaudrivillers",
+      "codes_postaux": [
+        "25360"
+      ],
+      "population": 77,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25591",
+      "nom": "Vaufrey",
+      "nom_norm": "vaufrey",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 147,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Morteau",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25592",
+      "nom": "Vaux-et-Chantegrue",
+      "nom_norm": "vaux et chantegrue",
+      "codes_postaux": [
+        "25160"
+      ],
+      "population": 689,
+      "alias": [
+        "Vaux-et-Chantegrue-Malpas"
+      ],
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25594",
+      "nom": "Velesmes-Essarts",
+      "nom_norm": "velesmes essarts",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 369,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25595",
+      "nom": "Vellerot-lès-Belvoir",
+      "nom_norm": "vellerot les belvoir",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 95,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25596",
+      "nom": "Vellerot-lès-Vercel",
+      "nom_norm": "vellerot les vercel",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 65,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25597",
+      "nom": "Vellevans",
+      "nom_norm": "vellevans",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 253,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25598",
+      "nom": "Venise",
+      "nom_norm": "venise",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 518,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25599",
+      "nom": "Vennans",
+      "nom_norm": "vennans",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 248,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25600",
+      "nom": "Vennes",
+      "nom_norm": "vennes",
+      "codes_postaux": [
+        "25390"
+      ],
+      "population": 238,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25601",
+      "nom": "Vercel-Villedieu-le-Camp",
+      "nom_norm": "vercel villedieu le camp",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 1762,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25602",
+      "nom": "Vergranne",
+      "nom_norm": "vergranne",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 116,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25604",
+      "nom": "Verne",
+      "nom_norm": "verne",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 125,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25605",
+      "nom": "Vernierfontaine",
+      "nom_norm": "vernierfontaine",
+      "codes_postaux": [
+        "25580"
+      ],
+      "population": 486,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25607",
+      "nom": "Vernois-lès-Belvoir",
+      "nom_norm": "vernois les belvoir",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 50,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25608",
+      "nom": "Le Vernoy",
+      "nom_norm": "le vernoy",
+      "codes_postaux": [
+        "25750"
+      ],
+      "population": 179,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25609",
+      "nom": "Verrières-de-Joux",
+      "nom_norm": "verrieres de joux",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 464,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25611",
+      "nom": "La Vèze",
+      "nom_norm": "la veze",
+      "codes_postaux": [
+        "25660"
+      ],
+      "population": 493,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25612",
+      "nom": "Vieilley",
+      "nom_norm": "vieilley",
+      "codes_postaux": [
+        "25870"
+      ],
+      "population": 664,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI rue des Jardins Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25613",
+      "nom": "Viéthorey",
+      "nom_norm": "viethorey",
+      "codes_postaux": [
+        "25340"
+      ],
+      "population": 86,
+      "alias": [
+        "Viethoreyre"
+      ],
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25614",
+      "nom": "Vieux-Charmont",
+      "nom_norm": "vieux charmont",
+      "codes_postaux": [
+        "25600"
+      ],
+      "population": 2786,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25615",
+      "nom": "Villars-lès-Blamont",
+      "nom_norm": "villars les blamont",
+      "codes_postaux": [
+        "25310"
+      ],
+      "population": 469,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25616",
+      "nom": "Villars-Saint-Georges",
+      "nom_norm": "villars saint georges",
+      "codes_postaux": [
+        "25410"
+      ],
+      "population": 283,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25617",
+      "nom": "Villars-sous-Dampjoux",
+      "nom_norm": "villars sous dampjoux",
+      "codes_postaux": [
+        "25190"
+      ],
+      "population": 350,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25618",
+      "nom": "Villars-sous-Écot",
+      "nom_norm": "villars sous ecot",
+      "codes_postaux": [
+        "25150"
+      ],
+      "population": 332,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25619",
+      "nom": "Les Villedieu",
+      "nom_norm": "les villedieu",
+      "codes_postaux": [
+        "25240"
+      ],
+      "population": 233,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25621",
+      "nom": "Villeneuve-d'Amont",
+      "nom_norm": "villeneuve d amont",
+      "codes_postaux": [
+        "25270"
+      ],
+      "population": 213,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25622",
+      "nom": "Villers-Buzon",
+      "nom_norm": "villers buzon",
+      "codes_postaux": [
+        "25170"
+      ],
+      "population": 312,
+      "alias": [
+        "Villers"
+      ],
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25623",
+      "nom": "Villers-Chief",
+      "nom_norm": "villers chief",
+      "codes_postaux": [
+        "25530"
+      ],
+      "population": 148,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25624",
+      "nom": "Villers-Grélot",
+      "nom_norm": "villers grelot",
+      "codes_postaux": [
+        "25640"
+      ],
+      "population": 152,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25625",
+      "nom": "Villers-la-Combe",
+      "nom_norm": "villers la combe",
+      "codes_postaux": [
+        "25510"
+      ],
+      "population": 49,
+      "alias": null,
+      "secteur_adulte": "POLE B",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25626",
+      "nom": "Villers-Saint-Martin",
+      "nom_norm": "villers saint martin",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 225,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25627",
+      "nom": "Villers-sous-Chalamont",
+      "nom_norm": "villers sous chalamont",
+      "codes_postaux": [
+        "25270"
+      ],
+      "population": 293,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25629",
+      "nom": "Voillans",
+      "nom_norm": "voillans",
+      "codes_postaux": [
+        "25110"
+      ],
+      "population": 193,
+      "alias": null,
+      "secteur_adulte": "POLE C",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25630",
+      "nom": "Voires",
+      "nom_norm": "voires",
+      "codes_postaux": [
+        "25580"
+      ],
+      "population": 77,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25631",
+      "nom": "Vorges-les-Pins",
+      "nom_norm": "vorges les pins",
+      "codes_postaux": [
+        "25320"
+      ],
+      "population": 562,
+      "alias": null,
+      "secteur_adulte": "POLE A",
+      "secteur_ij": "CGI Planoise Besançon",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25632",
+      "nom": "Voujeaucourt",
+      "nom_norm": "voujeaucourt",
+      "codes_postaux": [
+        "25420"
+      ],
+      "population": 3174,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "",
+      "hors_perimetre": true
+    },
+    {
+      "insee": "25633",
+      "nom": "Vuillafans",
+      "nom_norm": "vuillafans",
+      "codes_postaux": [
+        "25840"
+      ],
+      "population": 669,
+      "alias": null,
+      "secteur_adulte": "CHU",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25634",
+      "nom": "Vuillecin",
+      "nom_norm": "vuillecin",
+      "codes_postaux": [
+        "25300"
+      ],
+      "population": 687,
+      "alias": null,
+      "secteur_adulte": "PONTARLIER",
+      "secteur_ij": "CGI Pontarlier",
+      "hors_perimetre": false
+    },
+    {
+      "insee": "25635",
+      "nom": "Vyt-lès-Belvoir",
+      "nom_norm": "vyt les belvoir",
+      "codes_postaux": [
+        "25430"
+      ],
+      "population": 179,
+      "alias": null,
+      "secteur_adulte": "",
+      "secteur_ij": "CGI Baume les Dames",
+      "hors_perimetre": false
+    }
+  ],
+  "quartiers": [
+    {
+      "nom": "Chaprais /Cras",
+      "alias": [
+        "chaprais",
+        "les chaprais",
+        "cras",
+        "les cras"
+      ],
+      "secteur_ij": "CGI rue des Jardins Besançon"
+    },
+    {
+      "nom": "Battant",
+      "alias": [
+        "battant",
+        "quartier battant"
+      ],
+      "secteur_ij": "CGI rue des Jardins Besançon"
+    },
+    {
+      "nom": "Bregille",
+      "alias": [
+        "bregille"
+      ],
+      "secteur_ij": "CGI rue des Jardins Besançon"
+    },
+    {
+      "nom": "Centre/Chapelle des buis",
+      "alias": [
+        "centre-ville de besancon",
+        "centre ville de besancon",
+        "chapelle des buis",
+        "la boucle"
+      ],
+      "secteur_ij": "CGI rue des Jardins Besançon"
+    },
+    {
+      "nom": "Montrapon/Montboucon",
+      "alias": [
+        "montrapon",
+        "montboucon",
+        "fontaine ecu"
+      ],
+      "secteur_ij": "CGI rue des Jardins Besançon"
+    },
+    {
+      "nom": "Palente/Orchamps",
+      "alias": [
+        "palente",
+        "orchamps",
+        "les orchamps",
+        "saragosse"
+      ],
+      "secteur_ij": "CGI rue des Jardins Besançon"
+    },
+    {
+      "nom": "Planoise Chateaufarine",
+      "alias": [
+        "planoise",
+        "chateaufarine",
+        "chateau farine"
+      ],
+      "secteur_ij": "CGI Planoise Besançon"
+    },
+    {
+      "nom": "St Claude/Torcols",
+      "alias": [
+        "saint-claude",
+        "saint claude",
+        "torcols",
+        "les torcols"
+      ],
+      "secteur_ij": "CGI rue des Jardins Besançon"
+    },
+    {
+      "nom": "St Ferjeux/Rosemeont",
+      "alias": [
+        "saint-ferjeux",
+        "saint ferjeux",
+        "rosemont"
+      ],
+      "secteur_ij": "CGI Planoise Besançon"
+    },
+    {
+      "nom": "Tilleroyes",
+      "alias": [
+        "tilleroyes",
+        "les tilleroyes"
+      ],
+      "secteur_ij": "CGI Planoise Besançon"
+    },
+    {
+      "nom": "Vaite/Clairs soleils",
+      "alias": [
+        "vaite",
+        "la vaite",
+        "clairs-soleils",
+        "clairs soleils",
+        "clair soleil",
+        "les clairs soleils"
+      ],
+      "secteur_ij": "CGI rue des Jardins Besançon"
+    },
+    {
+      "nom": "Velotte",
+      "alias": [
+        "velotte"
+      ],
+      "secteur_ij": "CGI Planoise Besançon"
+    },
+    {
+      "nom": "Butte/Grette",
+      "alias": [
+        "la butte",
+        "grette",
+        "la grette",
+        "butte grette"
+      ],
+      "secteur_ij": "CGI Planoise Besançon"
+    }
+  ]
+}

@@ -1,0 +1,279 @@
+{
+  "description": "Infirmière scolaire ; code postal partagé refusé puis précisé ; rien à ajouter.",
+  "echanges": [
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_comment_ca_va",
+        "type": "textarea",
+        "champ": null,
+        "texte": "Comment ça va ?",
+        "mandatory": true,
+        "options": [],
+        "session_id": "05e1c596796d6b9d"
+      },
+      "reponse_du_front": {
+        "session_id": "05e1c596796d6b9d",
+        "id_question": "q_comment_ca_va",
+        "reponse": "Bonjour, je suis infirmière scolaire, une élève de 4e me dit qu'elle se fait harceler et qu'elle veut disparaître pour toujours"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_age",
+        "type": "choice",
+        "champ": "age",
+        "texte": "Quel âge a la personne concernée ? (vous pouvez aussi taper l'âge)",
+        "mandatory": true,
+        "options": [
+          {
+            "valeur": "0-2",
+            "libelle": "0-2 ans"
+          },
+          {
+            "valeur": "3-6",
+            "libelle": "3-6 ans"
+          },
+          {
+            "valeur": "7-12",
+            "libelle": "7-12 ans"
+          },
+          {
+            "valeur": "13-17",
+            "libelle": "13-17 ans"
+          },
+          {
+            "valeur": "18-25",
+            "libelle": "18-25 ans"
+          },
+          {
+            "valeur": "26-64",
+            "libelle": "26-64 ans"
+          },
+          {
+            "valeur": "65+",
+            "libelle": "65 ans et plus"
+          }
+        ],
+        "session_id": "05e1c596796d6b9d",
+        "bloc_crise": [
+          "Si vous ou la personne concernée êtes en danger maintenant : appelez le 15 (SAMU) ou le 112.",
+          "Pensées suicidaires, ou inquiet pour un proche : 3114, numéro national de prévention du suicide, gratuit, 24h/24, 7j/7.",
+          "Violences : 17 (police) — 3919 (violences conjugales, gratuit, 24h/24) — 119 (enfance en danger).",
+          "Urgences psychiatriques : CHU de Besançon (urgences adultes) ; pour un mineur, urgences pédiatriques du CHU."
+        ]
+      },
+      "reponse_du_front": {
+        "session_id": "05e1c596796d6b9d",
+        "id_question": "q_age",
+        "reponse": "13-17"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_commune",
+        "type": "commune",
+        "champ": "commune",
+        "texte": "Dans quelle commune habitez-vous (ou la personne concernée) ? Le code postal suffit.",
+        "mandatory": true,
+        "options": [],
+        "session_id": "05e1c596796d6b9d",
+        "bloc_crise": [
+          "Si vous ou la personne concernée êtes en danger maintenant : appelez le 15 (SAMU) ou le 112.",
+          "Pensées suicidaires, ou inquiet pour un proche : 3114, numéro national de prévention du suicide, gratuit, 24h/24, 7j/7.",
+          "Violences : 17 (police) — 3919 (violences conjugales, gratuit, 24h/24) — 119 (enfance en danger).",
+          "Urgences psychiatriques : CHU de Besançon (urgences adultes) ; pour un mineur, urgences pédiatriques du CHU."
+        ]
+      },
+      "reponse_du_front": {
+        "session_id": "05e1c596796d6b9d",
+        "id_question": "q_commune",
+        "reponse": "25300"
+      },
+      "refus": "code postal partagé par plusieurs communes, précisez : Arçon, Chaffois, Dommartin, Doubs, Granges-Narboz, Houtaud, La Cluse-et-Mijoux, Les Alliés, Les Fourgs, Pontarlier, Sainte-Colombe, Verrières-de-Joux, Vuillecin"
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_commune",
+        "type": "commune",
+        "champ": "commune",
+        "texte": "Dans quelle commune habitez-vous (ou la personne concernée) ? Le code postal suffit.",
+        "mandatory": true,
+        "options": [],
+        "session_id": "05e1c596796d6b9d",
+        "bloc_crise": null
+      },
+      "reponse_du_front": {
+        "session_id": "05e1c596796d6b9d",
+        "id_question": "q_commune",
+        "reponse": "Pontarlier"
+      }
+    },
+    {
+      "question_envoyee_au_front": {
+        "id_question": "q_chose_a_rajouter",
+        "type": "textarea",
+        "champ": null,
+        "texte": "Une chose à rajouter ?",
+        "mandatory": false,
+        "options": [],
+        "session_id": "05e1c596796d6b9d",
+        "bloc_crise": [
+          "Si vous ou la personne concernée êtes en danger maintenant : appelez le 15 (SAMU) ou le 112.",
+          "Pensées suicidaires, ou inquiet pour un proche : 3114, numéro national de prévention du suicide, gratuit, 24h/24, 7j/7.",
+          "Violences : 17 (police) — 3919 (violences conjugales, gratuit, 24h/24) — 119 (enfance en danger).",
+          "Urgences psychiatriques : CHU de Besançon (urgences adultes) ; pour un mineur, urgences pédiatriques du CHU."
+        ]
+      },
+      "reponse_du_front": {
+        "session_id": "05e1c596796d6b9d",
+        "id_question": "q_chose_a_rajouter",
+        "reponse": "pass"
+      }
+    }
+  ],
+  "json_patient_final": {
+    "session_id": "05e1c596796d6b9d",
+    "demandeur": {
+      "value": "professionnel",
+      "confidence": 0.9,
+      "source": "regex",
+      "evidence": "une eleve"
+    },
+    "personne": {
+      "age_ans": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      },
+      "tranche_age": {
+        "value": "13-17",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "commune_insee": {
+        "value": "25462",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": null
+      },
+      "commune_nom": {
+        "value": "Pontarlier",
+        "confidence": 1.0,
+        "source": "utilisateur",
+        "evidence": "pontarlier"
+      },
+      "quartier_besancon": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      },
+      "secteur_adulte": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      },
+      "secteur_infanto_juvenile": {
+        "value": "CGI Pontarlier",
+        "confidence": 1.0,
+        "source": "derive",
+        "evidence": null
+      },
+      "hors_perimetre_guide": {
+        "value": false,
+        "confidence": 1.0,
+        "source": "derive",
+        "evidence": null
+      },
+      "statuts": [
+        {
+          "value": "eleve",
+          "confidence": 0.6,
+          "source": "lexique",
+          "evidence": "eleve"
+        }
+      ]
+    },
+    "besoin": {
+      "parcours_principal": {
+        "value": "humeur_depression",
+        "confidence": 0.6,
+        "source": "derive",
+        "evidence": null
+      },
+      "parcours_secondaires": [
+        "enfant_adolescent"
+      ],
+      "type_demande": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      },
+      "deja_suivi": {
+        "value": null,
+        "confidence": 0.0,
+        "source": null,
+        "evidence": null
+      }
+    },
+    "risque": {
+      "niveau": 2,
+      "indices": [
+        "disparaitre pour toujours"
+      ],
+      "negation_detectee": false,
+      "sources": [
+        "lexique"
+      ]
+    },
+    "mots_cles": [
+      {
+        "mot": "infirmière",
+        "origine": "q_comment_ca_va",
+        "reperes": []
+      },
+      {
+        "mot": "scolaire",
+        "origine": "q_comment_ca_va",
+        "reperes": []
+      },
+      {
+        "mot": "élève",
+        "origine": "q_comment_ca_va",
+        "reperes": [
+          "statut:eleve"
+        ]
+      },
+      {
+        "mot": "harceler",
+        "origine": "q_comment_ca_va",
+        "reperes": []
+      },
+      {
+        "mot": "disparaître",
+        "origine": "q_comment_ca_va",
+        "reperes": [
+          "crise:2"
+        ]
+      }
+    ],
+    "champs_manquants": [],
+    "suivi_questions": {
+      "q_comment_ca_va": "ok",
+      "q_age": "ok",
+      "q_commune": "ok",
+      "q_chose_a_rajouter": "pass"
+    },
+    "id_question": "fin",
+    "bloc_crise": [
+      "Si vous ou la personne concernée êtes en danger maintenant : appelez le 15 (SAMU) ou le 112.",
+      "Pensées suicidaires, ou inquiet pour un proche : 3114, numéro national de prévention du suicide, gratuit, 24h/24, 7j/7.",
+      "Violences : 17 (police) — 3919 (violences conjugales, gratuit, 24h/24) — 119 (enfance en danger).",
+      "Urgences psychiatriques : CHU de Besançon (urgences adultes) ; pour un mineur, urgences pédiatriques du CHU."
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+# Lexique des parcours, statuts et types de demande — secours si le LLM est indisponible,
+# et pour l'évaluation. Expressions en langage courant ; accents retirés au chargement ;
+# correspondance sur mots entiers dans le texte normalisé.
+parcours:
+  addiction: ["je bois trop", "je bois", "il boit", "elle boit", "picole", "l'alcool", "alcool", "bourre", "shit", "joint", "joints", "beuh", "cannabis", "coke", "cocaine", "heroine", "hero", "je fume trop", "les jeux d'argent", "paris sportifs", "accro", "dependant", "dependante", "addiction", "tout le temps sur les ecrans", "sur son telephone", "jeux video", "sevrage", "drogue", "se drogue", "came"]
+  perinatalite: ["enceinte", "grossesse", "j'ai accouche", "accouche", "accouchement", "mon bebe", "baby blues", "m'occuper de mon bebe", "post-partum", "post partum", "nourrisson", "allaitement", "je viens d'accoucher", "jeune maman"]
+  victimologie_vif: ["il me frappe", "il me tape", "me frappe", "me tape", "me bat", "violences", "violence", "violent", "frappe", "tape sur", "harcelement", "harcelee", "harcele", "agressee", "agresse", "agression", "viol", "violee", "attouchements", "emprise", "il me menace", "me menace", "coups", "battue"]
+  humeur_depression: ["deprime", "deprimee", "deprime", "depression", "plus gout a rien", "triste tout le temps", "triste", "je reste au lit", "je me sens nul", "je me sens nulle", "idees noires", "envie de mourir", "en finir", "je pleure tout le temps", "j'arrive plus a rien", "je n'arrive plus a rien", "plus envie de rien", "je dors plus", "je dors mal", "deuil", "moral a zero", "a plat", "vide", "idees sombres", "idee sombre", "idee noire", "suicide", "mon enterrement", "du mal a rester propre", "aucune energie", "aucune envie d'etre la", "perdue", "perdu", "ne dors pas", "ne mange pas", "dors constamment", "mange n'importe comment", "mange n'importe quoi", "j'ai peu d'estime de moi", "peu d'estime de moi", "gore", "violents", "mal a respirer", "traumatise", "traumatisee", "j'en ai marre", "je n'ai plus la force de me battre", "plus la force de me battre"]
+  ecoute_soutien: ["besoin de parler", "quelqu'un a qui parler", "parler a quelqu'un", "je me sens seul", "je me sens seule", "vider mon sac", "personne m'ecoute", "personne me comprend", "besoin d'ecoute", "juste parler", "me confier", "seul", "seule", "ecoute", "besoin de crier"]
+  enfant_adolescent: ["mon ado", "refuse d'aller a l'ecole", "va plus a l'ecole", "phobie scolaire", "crises de colere", "harcelement a l'ecole", "decrochage scolaire", "college", "lycee", "il sort plus de sa chambre", "elle sort plus de sa chambre", "en 6e", "en 5e", "en 4e", "en 3e", "fugue"]
+  specifique: ["autisme", "autiste", "tsa", "tdah", "hyperactif", "hyperactive", "dys", "dyslexie", "anorexie", "anorexique", "boulimie", "boulimique", "il ne mange plus", "elle ne mange plus", "elle mange plus", "il mange plus", "se fait vomir", "traumatisme", "trauma", "stress post-traumatique", "flashbacks", "cauchemars", "troubles alimentaires", "du mal a se faire des amis", "difficile de comprendre les autres", "difficile d'etre compris", "difficile d'etre comprise", "du mal a connecter avec les autres", "incompris", "incomprise", "pas etre comme les autres", "je suis bizarre"]
+  personnes_agees: ["ma mere agee", "mon pere age", "perd la memoire", "alzheimer", "maison de retraite", "ehpad", "personne agee", "mamie", "papy", "il perd la tete", "elle perd la tete", "demence"]
+  hebergement: ["a la rue", "je dors dehors", "dormir dehors", "expulse", "expulsee", "expulsion", "plus de logement", "sans logement", "hebergement", "foyer", "sdf", "dors dans ma voiture", "115", "mis dehors", "mise dehors"]
+  precarite: ["plus d'argent", "pas d'argent", "dettes", "fin de mois", "galere financiere", "precarite", "rsa", "chomage", "pole emploi", "france travail", "peux plus payer", "manger a ma faim"]
+  social: ["papiers", "titre de sejour", "droits", "caf", "assistante sociale", "isolement", "isole", "isolee", "dossier mdph", "mdph", "aide sociale", "administratif", "curatelle", "tutelle"]
+  somatique: ["douleurs", "mal au ventre", "mal a la tete", "maladie", "cancer", "diabete", "malade", "operation", "handicap physique"]
+  retablissement: ["je sors d'hospitalisation", "sorti de l'hopital psychiatrique", "sortie de l'hopital psychiatrique", "reinsertion", "reprendre le travail", "entraide", "gem", "groupe d'entraide", "pair-aidance", "pair aidant", "me reinserer", "sortie d'hospitalisation", "apres mon hospitalisation"]
+  soins_ambulatoires: ["voir un psy", "consulter", "un psychiatre", "un psychologue", "rendez-vous", "rdv", "suivi psy", "therapie", "cmp", "traitement", "renouveller", "renouveler", "renouvellement", "prescription", "ordonnance"]
+  adulte_general: ["angoisse", "angoisses", "crises d'angoisse", "anxiete", "stress", "burn-out", "burn out", "burnout", "epuisement", "je craque", "je pete un cable", "je pete les plombs", "j'en peux plus", "a bout", "panique", "attaques de panique", "phobie"]
+  urgence: ["urgence", "urgent", "tout de suite", "maintenant"]
+
+statuts:
+  agriculteur: ["agriculteur", "agricultrice", "ferme", "exploitation", "eleveur", "eleveuse", "paysan", "paysanne", "mes vaches", "la traite", "agricole"]
+  entrepreneur: ["chef d'entreprise", "mon entreprise", "ma boite", "artisan", "artisane", "commercant", "commercante", "auto-entrepreneur", "auto entrepreneur", "independant", "independante", "mon commerce", "mon restaurant", "mes salaries"]
+  professionnel_sante: ["je suis infirmiere", "je suis infirmier", "je suis aide-soignante", "je suis aide soignante", "je suis medecin", "je suis soignant", "je suis soignante", "en tant que soignant", "en tant que soignante", "comme aide-soignante", "comme aide soignante", "comme infirmiere", "comme infirmier"]
+  etudiant: ["etudiant", "etudiante", "bapu", "service de sante etudiante", "sante etudiante", "crous", "la fac", "a la fac", "bts", "iut", "partiels", "universite", "master", "licence", "prepa"]
+  eleve: ["eleve", "college", "lycee", "en 6e", "en 5e", "en 4e", "en 3e", "en seconde", "en terminale", "en premiere", "a l'ecole", "collegien", "collegienne", "lyceen", "lyceenne"]
+  parent: ["mon fils", "ma fille", "mes enfants", "mon enfant", "mon ado", "mon gamin", "ma gamine", "mon bebe", "en tant que mere", "en tant que pere", "maman de", "papa de"]
+  femme_enceinte: ["enceinte", "grossesse", "j'attends un bebe", "j'attends un enfant"]
+  sans_domicile: ["a la rue", "je dors dehors", "sdf", "sans domicile", "sans logement", "dors dans ma voiture"]
+  migrant: ["papiers", "titre de sejour", "demandeur d'asile", "demandeuse d'asile", "refugie", "refugiee", "sans papiers", "migrant", "migrante", "exile", "exilee", "cada"]
+  victime_violences: ["il me frappe", "il me tape", "me frappe", "me tape", "me bat", "violences", "agressee", "violee", "harcelee", "emprise", "il me menace", "battue"]
+  aidant: ["je m'occupe de ma mere", "je m'occupe de mon pere", "je m'occupe de mon mari", "je m'occupe de ma femme", "aidant", "aidante", "je m'en occupe seul", "je m'en occupe seule"]
+  retraite: ["retraite", "retraitee", "a la retraite"]
+  sans_emploi: ["chomage", "sans emploi", "pas de travail", "perdu mon travail", "perdu mon boulot", "licencie", "licenciee", "licenciement", "pole emploi", "france travail", "au rsa"]
+
+type_demande:
+  urgence: ["urgence", "urgent", "tout de suite", "immediatement"]
+  parler: ["besoin de parler", "parler a quelqu'un", "quelqu'un a qui parler", "juste parler", "vider mon sac", "ecoute", "me confier"]
+  information: ["renseignement", "renseignements", "information", "informations", "a qui m'adresser", "a qui m'adresse", "qui contacter", "ou aller", "comment faire pour", "quelles structures", "je cherche une structure", "connaitre les"]
+  soin: ["voir un psy", "consulter", "un psychiatre", "un psychologue", "rendez-vous", "rdv", "me soigner", "le soigner", "la soigner", "traitement", "un suivi", "therapie", "un medecin"]
+  hebergement: ["hebergement", "logement", "dormir ce soir", "un toit", "foyer", "115"]
+  aide_sociale: ["aide sociale", "assistante sociale", "argent", "dettes", "papiers", "droits", "caf", "rsa", "dossier"]
+
+deja_suivi:
+  oui: ["je vois deja un psy", "je vois un psy", "j'ai un psy", "mon psy", "ma psy", "mon psychiatre", "ma psychiatre", "mon psychologue", "ma psychologue", "il est suivi", "elle est suivie", "je suis suivi", "je suis suivie", "deja suivi", "deja suivie", "suivi au cmp", "suivie au cmp", "suivi par", "suivie par", "j'ai un traitement", "sous traitement", "traitement", "suivi", "suivie", "renouveller", "renouveler", "renouvellement", "prescription"]
+  non: ["pas de suivi", "aucun suivi", "jamais vu de psy", "jamais consulte", "pas de psy", "personne ne me suit", "pas suivi", "pas suivie"]

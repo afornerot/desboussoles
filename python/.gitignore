@@ -1,0 +1,39 @@
+# ============================================================
+#  POC hh2026 (version Python / FastAPI) — fichiers à ne pas versionner
+# ============================================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# --- Journaux ---
+*.log
+
+# --- Secrets et configuration locale (variables d'environnement, clés éventuelles) ---
+.env
+.env.*
+!.env.example
+
+# --- Éditeurs / systèmes ---
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*
+
+# --- Données personnelles : jamais de situation réelle dans le dépôt ---
+# (exemples/ et jsontest/ sont fictifs ; tout export de vraies sessions doit rester local)
+exports/

@@ -1,0 +1,97 @@
+{
+  "$defs": {
+    "Option": {
+      "properties": {
+        "valeur": {
+          "title": "Valeur",
+          "type": "string"
+        },
+        "libelle": {
+          "title": "Libelle",
+          "type": "string"
+        }
+      },
+      "required": [
+        "valeur",
+        "libelle"
+      ],
+      "title": "Option",
+      "type": "object"
+    }
+  },
+  "description": "Question à afficher. `bloc_crise` n'apparaît que si un risque est détecté (texte fixe, à afficher en premier).",
+  "properties": {
+    "id_question": {
+      "title": "Id Question",
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "choice",
+        "texte",
+        "commune",
+        "textarea"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "champ": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Champ"
+    },
+    "texte": {
+      "title": "Texte",
+      "type": "string"
+    },
+    "mandatory": {
+      "title": "Mandatory",
+      "type": "boolean"
+    },
+    "options": {
+      "items": {
+        "$ref": "#/$defs/Option"
+      },
+      "title": "Options",
+      "type": "array"
+    },
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "bloc_crise": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Bloc Crise"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id_question",
+    "type",
+    "texte",
+    "mandatory",
+    "session_id"
+  ],
+  "title": "Question envoyée au front",
+  "type": "object"
+}

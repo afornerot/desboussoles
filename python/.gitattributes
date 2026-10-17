@@ -1,0 +1,6 @@
+# Fins de ligne homogènes entre Windows, macOS et Linux
+* text=auto eol=lf
+
+# Scripts Windows : CRLF obligatoire
+*.bat text eol=crlf
+*.ps1 text eol=crlf

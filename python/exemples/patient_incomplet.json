@@ -1,0 +1,12 @@
+{
+  "$schema": "../config/personne.schema.json",
+  "session_id": "exemple-1",
+  "demandeur": {"value": "proche", "confidence": 1, "source": "utilisateur"},
+  "personne": {
+    "age_ans": {"value": 14, "confidence": 1, "source": "utilisateur"},
+    "commune_nom": {"value": "Besançon", "confidence": 1, "source": "utilisateur"}
+  },
+  "besoin": {
+    "parcours_principal": {"value": "enfant_adolescent", "confidence": 0.8, "source": "utilisateur"}
+  }
+}

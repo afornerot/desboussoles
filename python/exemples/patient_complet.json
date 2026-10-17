@@ -1,0 +1,15 @@
+{
+  "$schema": "../config/personne.schema.json",
+  "session_id": "exemple-2",
+  "demandeur": {"value": "soi", "confidence": 1, "source": "utilisateur"},
+  "personne": {
+    "age_ans": {"value": 52, "confidence": 1, "source": "utilisateur"},
+    "commune_nom": {"value": "Pontarlier", "confidence": 1, "source": "utilisateur"},
+    "statuts": [{"value": "agriculteur", "confidence": 0.6, "source": "lexique"}]
+  },
+  "besoin": {
+    "parcours_principal": {"value": "humeur_depression", "confidence": 0.7, "source": "lexique"},
+    "type_demande": {"value": "parler", "confidence": 0.6, "source": "lexique"}
+  },
+  "risque": {"niveau": 1, "indices": ["je dors plus"], "sources": ["lexique"]}
+}

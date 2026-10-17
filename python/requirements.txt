@@ -1,0 +1,8 @@
+# Dépendances d'exécution de l'API (Python >= 3.10)
+# Installation : python -m pip install -r requirements.txt
+fastapi==0.115.6
+starlette==0.41.3
+uvicorn[standard]==0.32.1
+pydantic==2.10.4
+pydantic-core==2.27.2
+pyyaml==6.0.2
