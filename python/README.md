@@ -62,7 +62,6 @@ Crée une session et renvoie la première question :
   "texte": "Quel âge a la personne concernée ? (en années)",
   "mandatory": true,
   "options": [],
-  "go_chat": false,
   "json_patient": { "...": "JSON patient temporaire (même schéma que le JSON final, §4)" }
 }
 ```
@@ -85,29 +84,17 @@ Deux réponses possibles :
 | 1 | `q_age` | **texte** libre (« 12 », « 12 ans », « il a 12 ans », « douze ans »), enregistré en **entier** | `personne.age_ans` (+ `tranche_age` déduite) | si manquant | oui |
 | 2 | `q_adresse` | **adresse** | `personne.commune_*`, secteurs | si manquant | oui |
 | – | `q_quartier` | choice | `personne.quartier_besancon` | seulement pour un mineur à Besançon | oui |
-| 3 | `q_switch` | choice oui/non | `go_chat` | toujours | oui |
-| 4 | `q_pour_qui` | choice : moi / un tiers | `demandeur` | si manquant | oui |
-| 5 | `q_duree` | choice | `besoin.duree` | toujours | non |
-| 6 | `q_impact` | choice | `besoin.impact_domaine` | toujours | non |
-| 7 | `q_impact_niveau` | choice | `besoin.impact_niveau` | toujours | non |
-| 8 | `q_besoin` | textarea | analysé → parcours, statuts, risque, mots-clés | toujours | non |
-| 9 | `q_accompagnement` | choice oui/non | `besoin.deja_suivi` | toujours | non |
+| 3 | `q_pour_qui` | choice : moi / un tiers | `demandeur` | si manquant | oui |
+| 4 | `q_duree` | choice | `besoin.duree` | toujours | non |
+| 5 | `q_impact` | choice | `besoin.impact_domaine` | toujours | non |
+| 6 | `q_impact_niveau` | choice | `besoin.impact_niveau` | toujours | non |
+| 7 | `q_besoin` | textarea | analysé : parcours, statuts, risque, **mots-clés** | toujours | non |
+| 8 | `q_accompagnement` | choice oui/non | `besoin.deja_suivi` | toujours | non |
 
 - **Pour qui** : « moi » → `demandeur: soi`. « Un tiers » → `demandeur: proche`, ou `professionnel` si le texte libre l'indique (« je suis infirmière scolaire… »).
 - **Textes adaptés** : quand la personne écrit pour un tiers, l'API envoie la variante à la troisième personne (« La personne bénéficie-t-elle… » au lieu de « Bénéficiez-vous… »). Les questions posées avant `q_pour_qui` (âge, adresse) utilisent la version directe, faute de savoir encore pour qui on écrit.
 - **Adresse** : l'API en extrait la commune, par le code postal ou le nom de la commune ; le dernier cité l'emporte, donc « rue de Morteau, 25000 Besançon » donne Besançon. **L'adresse complète n'est pas conservée**, seule la commune l'est. Hors Doubs, « 21000 Dijon » est acceptée et marquée hors périmètre. Sans commune reconnaissable, ou avec un code postal partagé, la réponse est refusée avec un message pour préciser.
-- **Seule saisie libre** : `q_besoin`. C'est elle qui peut déclencher l'alerte (fin immédiate).
-
-### `go_chat` — passage au chatbot (question `q_switch`)
-
-`go_chat` fait partie du **schéma de question**. Il vaut `false` par défaut.
-
-- La question **`q_switch`** demande : « Voulez-vous continuer le questionnaire ou passer à un chatbot ? » (`oui` = passer au chatbot, `non` = continuer).
-- Si la réponse à `q_switch` est **`oui`**, toutes les questions suivantes arrivent avec `go_chat: true`. Le JSON patient (`json_patient` et JSON final) porte aussi `go_chat: true`.
-- Le questionnaire **ne s'arrête pas** : c'est au front de basculer vers le chat quand il reçoit `go_chat: true`.
-- Le front n'envoie jamais `go_chat` : seule la réponse à `q_switch` compte.
-
-`q_switch` ne remplit aucun champ du schéma patient (`champ: null`). Sa place, son texte et ses libellés se règlent dans `config/questions.json` ; elle doit garder l'option de valeur `oui`.
+- **Seule saisie libre** : `q_besoin`. Elle subit le traitement linguistique complet : normalisation (accents, SMS, nombres en lettres), lexiques (parcours, statuts, suivi), détection de crise et **mots-clés** (`mots_cles`, avec `origine: "q_besoin"`). C'est elle qui peut déclencher l'alerte (fin immédiate).
 
 ### Types de questions
 
@@ -208,9 +195,8 @@ Schéma complet : [`config/personne_finale.schema.json`](config/personne_finale.
   "risque": { "niveau": 0, "indices": [], "negation_detectee": false },
   "mots_cles": [ { "mot": "joints", "origine": "q_besoin", "reperes": ["parcours:addiction"] } ],
   "champs_manquants": [],
-  "suivi_questions": { "q_age": "ok", "q_adresse": "ok", "q_switch": "ok", "q_pour_qui": "ok", "q_duree": "ok",
-                       "q_impact": "ok", "q_impact_niveau": "ok", "q_besoin": "ok", "q_accompagnement": "pass" },
-  "go_chat": false
+  "suivi_questions": { "q_age": "ok", "q_adresse": "ok", "q_pour_qui": "ok", "q_duree": "ok",
+                       "q_impact": "ok", "q_impact_niveau": "ok", "q_besoin": "ok", "q_accompagnement": "pass" }
 }
 ```
 
@@ -232,7 +218,7 @@ Chaque champ suit la même forme `{value, confidence, source, evidence}`. La sou
 ## 5. Comment ça marche
 
 ```
-POST /sessions → q_age → q_adresse → (q_quartier) → q_switch → q_pour_qui → q_duree → q_impact
+POST /sessions → q_age → q_adresse → (q_quartier) → q_pour_qui → q_duree → q_impact
               → q_impact_niveau → q_besoin (texte libre) → q_accompagnement
         │  chaque réponse
         ▼
@@ -278,7 +264,7 @@ Après une modification des modèles Pydantic, régénérer les schémas JSON : 
 ## 7. Tests et outils
 
 ```bash
-python -m pytest                 # 143 tests, sans réseau ni clé
+python -m pytest                 # 137 tests, sans réseau ni clé
 python scenarios_jsontest.py     # rejoue 5 parcours fictifs → jsontest/*.json (échanges + JSON final)
 ```
 
@@ -328,4 +314,4 @@ python/
 5. **Codes HTTP** : `POST /sessions` répond `201` (le fake répondait `200`). Le front teste `res.ok`, donc c'est compatible.
 6. **Langage** : cette API est en Python, alors que le reste de la plateforme est en Go. Elle reste un service séparé derrière `GUIDE_API_URL`.
 7. **Valeurs cliniques à valider** : seuil d'alerte (3), niveaux du lexique de crise, numéros du bloc de crise.
-8. **Ordre « Pour qui ? »** : la question arrive en 4e position. L'âge est donc demandé de façon générique (« la personne concernée ») et l'adresse en version directe (« votre adresse »), même quand la personne écrit pour un tiers. Placer `q_pour_qui` en premier permettrait d'adapter ces textes aussi.
+8. **Ordre « Pour qui ? »** : la question arrive en 3e position (après l'âge et l'adresse). L'âge est donc demandé de façon générique (« la personne concernée ») et l'adresse en version directe (« votre adresse »), même quand la personne écrit pour un tiers. Placer `q_pour_qui` en premier permettrait d'adapter ces textes aussi.

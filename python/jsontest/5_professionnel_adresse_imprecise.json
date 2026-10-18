@@ -9,10 +9,9 @@
         "texte": "Quel âge a la personne concernée ? (en années)",
         "mandatory": true,
         "options": [],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "json_patient": {
-          "session_id": "59bd08bfb518665c",
+          "session_id": "2d3d1c9442810182",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -122,12 +121,11 @@
             "demandeur",
             "parcours"
           ],
-          "suivi_questions": {},
-          "go_chat": false
+          "suivi_questions": {}
         }
       },
       "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "id_question": "q_age",
         "reponse": "14"
       }
@@ -140,10 +138,9 @@
         "texte": "Quelle est votre adresse ?",
         "mandatory": true,
         "options": [],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "json_patient": {
-          "session_id": "59bd08bfb518665c",
+          "session_id": "2d3d1c9442810182",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -253,12 +250,11 @@
           ],
           "suivi_questions": {
             "q_age": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "id_question": "q_adresse",
         "reponse": "12 rue des Lilas"
       },
@@ -272,11 +268,10 @@
         "texte": "Quelle est votre adresse ?",
         "mandatory": true,
         "options": [],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "bloc_crise": null,
         "json_patient": {
-          "session_id": "59bd08bfb518665c",
+          "session_id": "2d3d1c9442810182",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -386,12 +381,11 @@
           ],
           "suivi_questions": {
             "q_age": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "id_question": "q_adresse",
         "reponse": "rue des Lilas, 25300"
       },
@@ -405,11 +399,10 @@
         "texte": "Quelle est votre adresse ?",
         "mandatory": true,
         "options": [],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "bloc_crise": null,
         "json_patient": {
-          "session_id": "59bd08bfb518665c",
+          "session_id": "2d3d1c9442810182",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -519,37 +512,35 @@
           ],
           "suivi_questions": {
             "q_age": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "id_question": "q_adresse",
         "reponse": "rue des Lilas, 25300 Pontarlier"
       }
     },
     {
       "question_envoyee_au_front": {
-        "id_question": "q_switch",
+        "id_question": "q_pour_qui",
         "type": "choice",
-        "champ": null,
-        "texte": "Voulez-vous continuer le questionnaire ou passer à un chatbot ?",
+        "champ": "demandeur",
+        "texte": "Pour qui cherchez-vous de l'aide ?",
         "mandatory": true,
         "options": [
           {
-            "valeur": "oui",
-            "libelle": "Passer au chatbot"
+            "valeur": "soi",
+            "libelle": "Pour moi"
           },
           {
-            "valeur": "non",
-            "libelle": "Continuer le questionnaire"
+            "valeur": "tiers",
+            "libelle": "Pour un tiers"
           }
         ],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "json_patient": {
-          "session_id": "59bd08bfb518665c",
+          "session_id": "2d3d1c9442810182",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -659,153 +650,11 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok"
-          },
-          "go_chat": false
-        }
-      },
-      "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
-        "id_question": "q_switch",
-        "reponse": "non"
-      }
-    },
-    {
-      "question_envoyee_au_front": {
-        "id_question": "q_pour_qui",
-        "type": "choice",
-        "champ": "demandeur",
-        "texte": "Pour qui cherchez-vous de l'aide ?",
-        "mandatory": true,
-        "options": [
-          {
-            "valeur": "soi",
-            "libelle": "Pour moi"
-          },
-          {
-            "valeur": "tiers",
-            "libelle": "Pour un tiers"
           }
-        ],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
-        "json_patient": {
-          "session_id": "59bd08bfb518665c",
-          "demandeur": {
-            "value": null,
-            "confidence": 0.0,
-            "source": null,
-            "evidence": null
-          },
-          "personne": {
-            "age_ans": {
-              "value": 14,
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": null
-            },
-            "tranche_age": {
-              "value": "13-17",
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "commune_insee": {
-              "value": "25462",
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": null
-            },
-            "commune_nom": {
-              "value": "Pontarlier",
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": "pontarlier"
-            },
-            "quartier_besancon": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "secteur_adulte": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "secteur_infanto_juvenile": {
-              "value": "CGI Pontarlier",
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "hors_perimetre_guide": {
-              "value": false,
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "statuts": []
-          },
-          "besoin": {
-            "parcours_principal": {
-              "value": "enfant_adolescent",
-              "confidence": 0.6,
-              "source": "derive",
-              "evidence": null
-            },
-            "parcours_secondaires": [],
-            "type_demande": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "deja_suivi": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "duree": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "impact_domaine": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "impact_niveau": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            }
-          },
-          "risque": {
-            "niveau": 0,
-            "indices": [],
-            "negation_detectee": false,
-            "sources": []
-          },
-          "mots_cles": [],
-          "champs_manquants": [
-            "demandeur"
-          ],
-          "suivi_questions": {
-            "q_age": "ok",
-            "q_adresse": "ok",
-            "q_switch": "ok"
-          },
-          "go_chat": false
         }
       },
       "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "id_question": "q_pour_qui",
         "reponse": "tiers"
       }
@@ -835,10 +684,9 @@
             "libelle": "Plus de 6 mois"
           }
         ],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "json_patient": {
-          "session_id": "59bd08bfb518665c",
+          "session_id": "2d3d1c9442810182",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -946,14 +794,12 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "id_question": "q_duree",
         "reponse": "moins_15_jours"
       }
@@ -987,10 +833,9 @@
             "libelle": "Les relations sociales"
           }
         ],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "json_patient": {
-          "session_id": "59bd08bfb518665c",
+          "session_id": "2d3d1c9442810182",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -1098,15 +943,13 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "id_question": "q_impact",
         "reponse": "etudes"
       }
@@ -1132,10 +975,9 @@
             "libelle": "Beaucoup"
           }
         ],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "json_patient": {
-          "session_id": "59bd08bfb518665c",
+          "session_id": "2d3d1c9442810182",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -1243,16 +1085,14 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok",
             "q_impact": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "id_question": "q_impact_niveau",
         "reponse": "beaucoup"
       }
@@ -1265,10 +1105,9 @@
         "texte": "Quel est le principal besoin de la personne, ou quelle difficulté rencontre-t-elle ?",
         "mandatory": false,
         "options": [],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "json_patient": {
-          "session_id": "59bd08bfb518665c",
+          "session_id": "2d3d1c9442810182",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -1376,17 +1215,15 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok",
             "q_impact": "ok",
             "q_impact_niveau": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "id_question": "q_besoin",
         "reponse": "je suis infirmière scolaire, une élève me dit qu'elle se fait harceler et qu'elle veut disparaître pour toujours"
       }
@@ -1408,8 +1245,7 @@
             "libelle": "Non"
           }
         ],
-        "go_chat": false,
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "bloc_crise": [
           "Si vous ou la personne concernée êtes en danger maintenant : appelez le 15 (SAMU) ou le 112.",
           "Pensées suicidaires, ou inquiet pour un proche : 3114, numéro national de prévention du suicide, gratuit, 24h/24, 7j/7.",
@@ -1417,7 +1253,7 @@
           "Urgences psychiatriques : CHU de Besançon (urgences adultes) ; pour un mineur, urgences pédiatriques du CHU."
         ],
         "json_patient": {
-          "session_id": "59bd08bfb518665c",
+          "session_id": "2d3d1c9442810182",
           "demandeur": {
             "value": "professionnel",
             "confidence": 1.0,
@@ -1568,25 +1404,23 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok",
             "q_impact": "ok",
             "q_impact_niveau": "ok",
             "q_besoin": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "59bd08bfb518665c",
+        "session_id": "2d3d1c9442810182",
         "id_question": "q_accompagnement",
         "reponse": "pass"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "59bd08bfb518665c",
+    "session_id": "2d3d1c9442810182",
     "demandeur": {
       "value": "professionnel",
       "confidence": 1.0,
@@ -1737,7 +1571,6 @@
     "suivi_questions": {
       "q_age": "ok",
       "q_adresse": "ok",
-      "q_switch": "ok",
       "q_pour_qui": "ok",
       "q_duree": "ok",
       "q_impact": "ok",
@@ -1745,7 +1578,6 @@
       "q_besoin": "ok",
       "q_accompagnement": "pass"
     },
-    "go_chat": false,
     "id_question": "fin",
     "bloc_crise": [
       "Si vous ou la personne concernée êtes en danger maintenant : appelez le 15 (SAMU) ou le 112.",

@@ -25,16 +25,6 @@
       "mandatory": true
     },
     {
-      "id_question": "q_switch",
-      "type": "choice",
-      "texte": "Voulez-vous continuer le questionnaire ou passer à un chatbot ?",
-      "mandatory": true,
-      "options": [
-        {"valeur": "oui", "libelle": "Passer au chatbot"},
-        {"valeur": "non", "libelle": "Continuer le questionnaire"}
-      ]
-    },
-    {
       "id_question": "q_pour_qui",
       "type": "choice",
       "champ": "demandeur",

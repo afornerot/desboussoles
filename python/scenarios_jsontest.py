@@ -24,7 +24,6 @@ SCENARIOS = [
         "reponses": {
             "q_age": ["15"],
             "q_adresse": ["4 rue du Bief, 25500 Morteau"],
-            "q_switch": ["non"],
             "q_pour_qui": ["tiers"],
             "q_duree": ["moins_6_mois"],
             "q_impact": ["etudes"],
@@ -34,12 +33,11 @@ SCENARIOS = [
         },
     },
     {
-        "fichier": "2_adulte_choisit_le_chat.json",
-        "description": "Adulte qui écrit pour elle-même ; choisit le chatbot (q_switch = oui → go_chat = true) ; passe plusieurs questions facultatives.",
+        "fichier": "2_adulte_questions_passees.json",
+        "description": "Adulte qui écrit pour elle-même ; adresse réduite au nom de la commune ; passe plusieurs questions facultatives.",
         "reponses": {
             "q_age": ["41"],
             "q_adresse": ["Ornans"],
-            "q_switch": ["oui"],
             "q_pour_qui": ["soi"],
             "q_duree": ["pass"],
             "q_impact": ["travail"],
@@ -55,7 +53,6 @@ SCENARIOS = [
             "q_age": ["13"],
             "q_adresse": ["12 rue de Vesoul, 25000 Besançon"],
             "q_quartier": ["Planoise"],
-            "q_switch": ["non"],
             "q_pour_qui": ["tiers"],
             "q_duree": ["moins_1_mois"],
             "q_impact": ["famille"],
@@ -70,7 +67,6 @@ SCENARIOS = [
         "reponses": {
             "q_age": ["27"],
             "q_adresse": ["9 grande rue, 25300 Pontarlier"],
-            "q_switch": ["non"],
             "q_pour_qui": ["soi"],
             "q_duree": ["plus_6_mois"],
             "q_impact": ["relations_sociales"],
@@ -84,7 +80,6 @@ SCENARIOS = [
         "reponses": {
             "q_age": ["14"],
             "q_adresse": ["12 rue des Lilas", "rue des Lilas, 25300", "rue des Lilas, 25300 Pontarlier"],
-            "q_switch": ["non"],
             "q_pour_qui": ["tiers"],
             "q_duree": ["moins_15_jours"],
             "q_impact": ["etudes"],

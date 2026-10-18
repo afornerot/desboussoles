@@ -1,5 +1,5 @@
 {
-  "description": "Adulte qui écrit pour elle-même ; choisit le chatbot (q_switch = oui → go_chat = true) ; passe plusieurs questions facultatives.",
+  "description": "Adulte qui écrit pour elle-même ; adresse réduite au nom de la commune ; passe plusieurs questions facultatives.",
   "echanges": [
     {
       "question_envoyee_au_front": {
@@ -9,10 +9,9 @@
         "texte": "Quel âge a la personne concernée ? (en années)",
         "mandatory": true,
         "options": [],
-        "go_chat": false,
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "json_patient": {
-          "session_id": "568458c8368a096d",
+          "session_id": "aa53ffa220cea3af",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -122,12 +121,11 @@
             "demandeur",
             "parcours"
           ],
-          "suivi_questions": {},
-          "go_chat": false
+          "suivi_questions": {}
         }
       },
       "reponse_du_front": {
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "id_question": "q_age",
         "reponse": "41"
       }
@@ -140,10 +138,9 @@
         "texte": "Quelle est votre adresse ?",
         "mandatory": true,
         "options": [],
-        "go_chat": false,
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "json_patient": {
-          "session_id": "568458c8368a096d",
+          "session_id": "aa53ffa220cea3af",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -254,37 +251,35 @@
           ],
           "suivi_questions": {
             "q_age": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "id_question": "q_adresse",
         "reponse": "Ornans"
       }
     },
     {
       "question_envoyee_au_front": {
-        "id_question": "q_switch",
+        "id_question": "q_pour_qui",
         "type": "choice",
-        "champ": null,
-        "texte": "Voulez-vous continuer le questionnaire ou passer à un chatbot ?",
+        "champ": "demandeur",
+        "texte": "Pour qui cherchez-vous de l'aide ?",
         "mandatory": true,
         "options": [
           {
-            "valeur": "oui",
-            "libelle": "Passer au chatbot"
+            "valeur": "soi",
+            "libelle": "Pour moi"
           },
           {
-            "valeur": "non",
-            "libelle": "Continuer le questionnaire"
+            "valeur": "tiers",
+            "libelle": "Pour un tiers"
           }
         ],
-        "go_chat": false,
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "json_patient": {
-          "session_id": "568458c8368a096d",
+          "session_id": "aa53ffa220cea3af",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -395,154 +390,11 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok"
-          },
-          "go_chat": false
-        }
-      },
-      "reponse_du_front": {
-        "session_id": "568458c8368a096d",
-        "id_question": "q_switch",
-        "reponse": "oui"
-      }
-    },
-    {
-      "question_envoyee_au_front": {
-        "id_question": "q_pour_qui",
-        "type": "choice",
-        "champ": "demandeur",
-        "texte": "Pour qui cherchez-vous de l'aide ?",
-        "mandatory": true,
-        "options": [
-          {
-            "valeur": "soi",
-            "libelle": "Pour moi"
-          },
-          {
-            "valeur": "tiers",
-            "libelle": "Pour un tiers"
           }
-        ],
-        "go_chat": true,
-        "session_id": "568458c8368a096d",
-        "json_patient": {
-          "session_id": "568458c8368a096d",
-          "demandeur": {
-            "value": null,
-            "confidence": 0.0,
-            "source": null,
-            "evidence": null
-          },
-          "personne": {
-            "age_ans": {
-              "value": 41,
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": null
-            },
-            "tranche_age": {
-              "value": "26-64",
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "commune_insee": {
-              "value": "25434",
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": null
-            },
-            "commune_nom": {
-              "value": "Ornans",
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": "ornans"
-            },
-            "quartier_besancon": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "secteur_adulte": {
-              "value": "CHU",
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "secteur_infanto_juvenile": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "hors_perimetre_guide": {
-              "value": false,
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "statuts": []
-          },
-          "besoin": {
-            "parcours_principal": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "parcours_secondaires": [],
-            "type_demande": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "deja_suivi": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "duree": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "impact_domaine": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "impact_niveau": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            }
-          },
-          "risque": {
-            "niveau": 0,
-            "indices": [],
-            "negation_detectee": false,
-            "sources": []
-          },
-          "mots_cles": [],
-          "champs_manquants": [
-            "demandeur",
-            "parcours"
-          ],
-          "suivi_questions": {
-            "q_age": "ok",
-            "q_adresse": "ok",
-            "q_switch": "ok"
-          },
-          "go_chat": true
         }
       },
       "reponse_du_front": {
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "id_question": "q_pour_qui",
         "reponse": "soi"
       }
@@ -572,10 +424,9 @@
             "libelle": "Plus de 6 mois"
           }
         ],
-        "go_chat": true,
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "json_patient": {
-          "session_id": "568458c8368a096d",
+          "session_id": "aa53ffa220cea3af",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -685,14 +536,12 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok"
-          },
-          "go_chat": true
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "id_question": "q_duree",
         "reponse": "pass"
       }
@@ -726,10 +575,9 @@
             "libelle": "Les relations sociales"
           }
         ],
-        "go_chat": true,
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "json_patient": {
-          "session_id": "568458c8368a096d",
+          "session_id": "aa53ffa220cea3af",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -839,15 +687,13 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "pass"
-          },
-          "go_chat": true
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "id_question": "q_impact",
         "reponse": "travail"
       }
@@ -873,10 +719,9 @@
             "libelle": "Beaucoup"
           }
         ],
-        "go_chat": true,
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "json_patient": {
-          "session_id": "568458c8368a096d",
+          "session_id": "aa53ffa220cea3af",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -986,16 +831,14 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "pass",
             "q_impact": "ok"
-          },
-          "go_chat": true
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "id_question": "q_impact_niveau",
         "reponse": "pass"
       }
@@ -1008,10 +851,9 @@
         "texte": "Quel est votre principal besoin, ou quelle difficulté rencontrez-vous ?",
         "mandatory": false,
         "options": [],
-        "go_chat": true,
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "json_patient": {
-          "session_id": "568458c8368a096d",
+          "session_id": "aa53ffa220cea3af",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -1121,17 +963,15 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "pass",
             "q_impact": "ok",
             "q_impact_niveau": "pass"
-          },
-          "go_chat": true
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "id_question": "q_besoin",
         "reponse": "slt ca va pas du tout, chui crevé, j'ai perdu mon boulot et j'ai des dettes"
       }
@@ -1153,10 +993,9 @@
             "libelle": "Non"
           }
         ],
-        "go_chat": true,
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "json_patient": {
-          "session_id": "568458c8368a096d",
+          "session_id": "aa53ffa220cea3af",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -1305,25 +1144,23 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "pass",
             "q_impact": "ok",
             "q_impact_niveau": "pass",
             "q_besoin": "ok"
-          },
-          "go_chat": true
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "568458c8368a096d",
+        "session_id": "aa53ffa220cea3af",
         "id_question": "q_accompagnement",
         "reponse": "pass"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "568458c8368a096d",
+    "session_id": "aa53ffa220cea3af",
     "demandeur": {
       "value": "soi",
       "confidence": 1.0,
@@ -1472,7 +1309,6 @@
     "suivi_questions": {
       "q_age": "ok",
       "q_adresse": "ok",
-      "q_switch": "ok",
       "q_pour_qui": "ok",
       "q_duree": "pass",
       "q_impact": "ok",
@@ -1480,7 +1316,6 @@
       "q_besoin": "ok",
       "q_accompagnement": "pass"
     },
-    "go_chat": true,
     "id_question": "fin"
   }
 }

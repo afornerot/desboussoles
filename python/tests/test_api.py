@@ -8,15 +8,16 @@ def test_post_sessions_vide_renvoie_la_premiere_question():
     r = client.post("/sessions")
     assert r.status_code == 201
     q = r.json()
-    assert set(q) >= {"session_id", "id_question", "type", "texte", "mandatory", "options", "champ", "go_chat", "json_patient"}
-    assert (q["id_question"], q["champ"], q["mandatory"], q["go_chat"]) == ("q_age", "age", True, False)
+    assert set(q) >= {"session_id", "id_question", "type", "texte", "mandatory", "options", "champ", "json_patient"}
+    assert (q["id_question"], q["champ"], q["mandatory"]) == ("q_age", "age", True)
+    assert "go_chat" not in q
     assert "texte_tiers" not in q and "toujours" not in q  # configuration interne non envoyée
     assert q["json_patient"]["champs_manquants"] == ["age", "commune", "demandeur", "parcours"]
 
 
 def test_ordre_complet_des_questions():
     vues, fin, _ = parcourir()
-    assert ids(vues) == ["q_age", "q_adresse", "q_switch", "q_pour_qui", "q_duree", "q_impact", "q_impact_niveau",
+    assert ids(vues) == ["q_age", "q_adresse", "q_pour_qui", "q_duree", "q_impact", "q_impact_niveau",
                          "q_besoin", "q_accompagnement"]
     assert fin["id_question"] == "fin"
     b = fin["besoin"]
@@ -97,7 +98,7 @@ def test_alerte_dans_le_texte_libre_fin_immediate():
 
 def test_risque_2_bloc_crise_et_questionnaire_continue():
     sid = client.post("/sessions").json()["session_id"]
-    for iq, rep in [("q_age", "34"), ("q_adresse", "25290 Ornans"), ("q_switch", "non"), ("q_pour_qui", "soi"),
+    for iq, rep in [("q_age", "34"), ("q_adresse", "25290 Ornans"), ("q_pour_qui", "soi"),
                     ("q_duree", "pass"), ("q_impact", "pass"), ("q_impact_niveau", "pass")]:
         envoyer(sid, iq, rep)
     q = envoyer(sid, "q_besoin", "je veux en finir").json()

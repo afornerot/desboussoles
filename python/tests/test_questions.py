@@ -23,7 +23,7 @@ def ids(qs):
 
 def test_fichier_livre_valide():
     qs = charger()
-    assert ids(qs) == ["q_age", "q_adresse", "q_quartier", "q_switch", "q_pour_qui", "q_duree", "q_impact",
+    assert ids(qs) == ["q_age", "q_adresse", "q_quartier", "q_pour_qui", "q_duree", "q_impact",
                        "q_impact_niveau", "q_besoin", "q_accompagnement"]
     toujours = {q.id_question for q in qs if q.toujours}
     assert toujours == {"q_duree", "q_impact", "q_impact_niveau", "q_accompagnement"}
@@ -68,14 +68,13 @@ def test_resoudre_adresse(adresse, commune, hors):
     (lambda qs: qs.pop(1), "il manque une question"),
     (lambda qs: qs.append(dict(qs[1], id_question="q_autre")), "en double"),
     (lambda qs: qs.append(dict(qs[0])), "id_question en double"),
-    (lambda qs: qs[4]["options"].append({"valeur": "voisin", "libelle": "x"}), "invalide"),
-    (lambda qs: qs[5]["options"].append({"valeur": "un_an", "libelle": "x"}), "invalide"),
+    (lambda qs: qs[3]["options"].append({"valeur": "voisin", "libelle": "x"}), "invalide"),
+    (lambda qs: qs[4]["options"].append({"valeur": "un_an", "libelle": "x"}), "invalide"),
     (lambda qs: qs[1].pop("mandatory"), "mandatory"),
     (lambda qs: qs[1].update(type="liste"), "type"),
     (lambda qs: qs[1].update(type="texte"), "commune"),
-    (lambda qs: qs[8].update(champ="age"), "textarea"),
+    (lambda qs: qs[7].update(champ="age"), "textarea"),
     (lambda qs: qs[3].pop("options"), "options"),
-    (lambda qs: qs[3].update(options=[{"valeur": "non", "libelle": "Non"}]), "oui"),
     (lambda qs: qs[1].update(id_question="Q âge"), "id_question"),
 ])
 def test_erreurs_claires(tmp_path, modif, message):

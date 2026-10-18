@@ -9,10 +9,9 @@
         "texte": "Quel âge a la personne concernée ? (en années)",
         "mandatory": true,
         "options": [],
-        "go_chat": false,
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "json_patient": {
-          "session_id": "7fddbab15e68f6c4",
+          "session_id": "93103e2d69768fd3",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -122,12 +121,11 @@
             "demandeur",
             "parcours"
           ],
-          "suivi_questions": {},
-          "go_chat": false
+          "suivi_questions": {}
         }
       },
       "reponse_du_front": {
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "id_question": "q_age",
         "reponse": "15"
       }
@@ -140,10 +138,9 @@
         "texte": "Quelle est votre adresse ?",
         "mandatory": true,
         "options": [],
-        "go_chat": false,
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "json_patient": {
-          "session_id": "7fddbab15e68f6c4",
+          "session_id": "93103e2d69768fd3",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -253,37 +250,35 @@
           ],
           "suivi_questions": {
             "q_age": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "id_question": "q_adresse",
         "reponse": "4 rue du Bief, 25500 Morteau"
       }
     },
     {
       "question_envoyee_au_front": {
-        "id_question": "q_switch",
+        "id_question": "q_pour_qui",
         "type": "choice",
-        "champ": null,
-        "texte": "Voulez-vous continuer le questionnaire ou passer à un chatbot ?",
+        "champ": "demandeur",
+        "texte": "Pour qui cherchez-vous de l'aide ?",
         "mandatory": true,
         "options": [
           {
-            "valeur": "oui",
-            "libelle": "Passer au chatbot"
+            "valeur": "soi",
+            "libelle": "Pour moi"
           },
           {
-            "valeur": "non",
-            "libelle": "Continuer le questionnaire"
+            "valeur": "tiers",
+            "libelle": "Pour un tiers"
           }
         ],
-        "go_chat": false,
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "json_patient": {
-          "session_id": "7fddbab15e68f6c4",
+          "session_id": "93103e2d69768fd3",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -393,153 +388,11 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok"
-          },
-          "go_chat": false
-        }
-      },
-      "reponse_du_front": {
-        "session_id": "7fddbab15e68f6c4",
-        "id_question": "q_switch",
-        "reponse": "non"
-      }
-    },
-    {
-      "question_envoyee_au_front": {
-        "id_question": "q_pour_qui",
-        "type": "choice",
-        "champ": "demandeur",
-        "texte": "Pour qui cherchez-vous de l'aide ?",
-        "mandatory": true,
-        "options": [
-          {
-            "valeur": "soi",
-            "libelle": "Pour moi"
-          },
-          {
-            "valeur": "tiers",
-            "libelle": "Pour un tiers"
           }
-        ],
-        "go_chat": false,
-        "session_id": "7fddbab15e68f6c4",
-        "json_patient": {
-          "session_id": "7fddbab15e68f6c4",
-          "demandeur": {
-            "value": null,
-            "confidence": 0.0,
-            "source": null,
-            "evidence": null
-          },
-          "personne": {
-            "age_ans": {
-              "value": 15,
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": null
-            },
-            "tranche_age": {
-              "value": "13-17",
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "commune_insee": {
-              "value": "25411",
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": null
-            },
-            "commune_nom": {
-              "value": "Morteau",
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": "morteau"
-            },
-            "quartier_besancon": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "secteur_adulte": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "secteur_infanto_juvenile": {
-              "value": "CGI Morteau",
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "hors_perimetre_guide": {
-              "value": false,
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "statuts": []
-          },
-          "besoin": {
-            "parcours_principal": {
-              "value": "enfant_adolescent",
-              "confidence": 0.6,
-              "source": "derive",
-              "evidence": null
-            },
-            "parcours_secondaires": [],
-            "type_demande": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "deja_suivi": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "duree": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "impact_domaine": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "impact_niveau": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            }
-          },
-          "risque": {
-            "niveau": 0,
-            "indices": [],
-            "negation_detectee": false,
-            "sources": []
-          },
-          "mots_cles": [],
-          "champs_manquants": [
-            "demandeur"
-          ],
-          "suivi_questions": {
-            "q_age": "ok",
-            "q_adresse": "ok",
-            "q_switch": "ok"
-          },
-          "go_chat": false
         }
       },
       "reponse_du_front": {
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "id_question": "q_pour_qui",
         "reponse": "tiers"
       }
@@ -569,10 +422,9 @@
             "libelle": "Plus de 6 mois"
           }
         ],
-        "go_chat": false,
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "json_patient": {
-          "session_id": "7fddbab15e68f6c4",
+          "session_id": "93103e2d69768fd3",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -680,14 +532,12 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "id_question": "q_duree",
         "reponse": "moins_6_mois"
       }
@@ -721,10 +571,9 @@
             "libelle": "Les relations sociales"
           }
         ],
-        "go_chat": false,
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "json_patient": {
-          "session_id": "7fddbab15e68f6c4",
+          "session_id": "93103e2d69768fd3",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -832,15 +681,13 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "id_question": "q_impact",
         "reponse": "etudes"
       }
@@ -866,10 +713,9 @@
             "libelle": "Beaucoup"
           }
         ],
-        "go_chat": false,
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "json_patient": {
-          "session_id": "7fddbab15e68f6c4",
+          "session_id": "93103e2d69768fd3",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -977,16 +823,14 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok",
             "q_impact": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "id_question": "q_impact_niveau",
         "reponse": "beaucoup"
       }
@@ -999,10 +843,9 @@
         "texte": "Quel est le principal besoin de la personne, ou quelle difficulté rencontre-t-elle ?",
         "mandatory": false,
         "options": [],
-        "go_chat": false,
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "json_patient": {
-          "session_id": "7fddbab15e68f6c4",
+          "session_id": "93103e2d69768fd3",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -1110,17 +953,15 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok",
             "q_impact": "ok",
             "q_impact_niveau": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "id_question": "q_besoin",
         "reponse": "mon fils sort plus de sa chambre et il fume des joints tous les jours, je sais plus quoi faire"
       }
@@ -1142,10 +983,9 @@
             "libelle": "Non"
           }
         ],
-        "go_chat": false,
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "json_patient": {
-          "session_id": "7fddbab15e68f6c4",
+          "session_id": "93103e2d69768fd3",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -1285,25 +1125,23 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_switch": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok",
             "q_impact": "ok",
             "q_impact_niveau": "ok",
             "q_besoin": "ok"
-          },
-          "go_chat": false
+          }
         }
       },
       "reponse_du_front": {
-        "session_id": "7fddbab15e68f6c4",
+        "session_id": "93103e2d69768fd3",
         "id_question": "q_accompagnement",
         "reponse": "non"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "7fddbab15e68f6c4",
+    "session_id": "93103e2d69768fd3",
     "demandeur": {
       "value": "proche",
       "confidence": 1.0,
@@ -1443,7 +1281,6 @@
     "suivi_questions": {
       "q_age": "ok",
       "q_adresse": "ok",
-      "q_switch": "ok",
       "q_pour_qui": "ok",
       "q_duree": "ok",
       "q_impact": "ok",
@@ -1451,7 +1288,6 @@
       "q_besoin": "ok",
       "q_accompagnement": "ok"
     },
-    "go_chat": false,
     "id_question": "fin"
   }
 }

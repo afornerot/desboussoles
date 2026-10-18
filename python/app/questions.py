@@ -7,7 +7,7 @@ la commune en est extraite, l'adresse n'est pas conservée), textarea (texte lib
 
 Quand une question est-elle posée ?
 - question de champ « requis » (âge, commune, demandeur, quartier…) : seulement si le champ manque ;
-- question marquée "toujours": true, textarea, ou question sans champ (q_switch) : jusqu'à ce qu'elle reçoive
+- question marquée "toujours": true, textarea, ou question sans champ : jusqu'à ce qu'elle reçoive
   une réponse (ou soit passée, si elle est facultative).
 Texte : "texte" (on s'adresse à la personne) ou "texte_tiers" (elle écrit pour quelqu'un d'autre), selon le demandeur.
 """
@@ -53,7 +53,7 @@ class QuestionConfig(BaseModel):
         description="choice : boutons · texte : saisie courte · commune : commune ou code postal · "
                     "adresse : adresse complète (la commune en est extraite) · textarea : texte libre analysé")
     champ: Optional[Champ] = Field(
-        default=None, description="champ du schéma patient rempli par la réponse (absent pour textarea et q_switch)")
+        default=None, description="champ du schéma patient rempli par la réponse (absent pour textarea)")
     texte: str = Field(min_length=1, description="question posée en s'adressant à la personne (vouvoiement)")
     texte_tiers: Optional[str] = Field(
         default=None, min_length=1,
@@ -70,13 +70,11 @@ class QuestionConfig(BaseModel):
             if self.champ or self.options:
                 raise ValueError(f"{q} : une question textarea n'a ni champ ni options")
             return self
-        if self.champ is None:  # question sans champ du schéma patient (ex. q_switch) : choice ou texte
+        if self.champ is None:  # question sans champ du schéma patient : choice ou texte
             if self.type in ("commune", "adresse"):
                 raise ValueError(f"{q} : une question {self.type} remplit le champ commune")
             if self.type == "choice" and not self.options:
                 raise ValueError(f"{q} : une question choice a besoin d'options")
-            if self.id_question == "q_switch" and "oui" not in {o.valeur.lower() for o in self.options}:
-                raise ValueError(f"{q} : q_switch doit proposer l'option « oui » (elle fait passer go_chat à true)")
             return self
         if (self.type in ("commune", "adresse")) != (self.champ == "commune"):
             raise ValueError(f"{q} : le champ commune utilise le type « commune » ou « adresse » (et eux seuls)")

@@ -131,8 +131,6 @@ class Personne(BaseModel):
     champs_manquants: list[str] = Field(default_factory=list, description="calculé : champs requis manquants, dans l'ordre des questions")
     suivi_questions: dict[str, str] = Field(default_factory=dict,
                                             description="id_question → « ok » (répondue) ou « pass » (facultative laissée vide)")
-    go_chat: bool = Field(default=False, description="true dès que le front a envoyé go_chat = « oui » (la personne veut passer au chat)")
-
     # --- aides ---
     def est_mineur(self) -> bool:
         p = self.personne
@@ -188,11 +186,10 @@ class Question(BaseModel):
     # choice : boutons · texte : saisie courte · commune : commune ou code postal · adresse : adresse complète
     # (la commune en est extraite) · textarea : texte libre analysé
     type: TypeQuestion
-    champ: Optional[str] = None  # champ du schéma patient rempli ; aucun pour textarea et q_switch
+    champ: Optional[str] = None  # champ du schéma patient rempli ; aucun pour textarea
     texte: str  # texte affiché (version « tiers » si la personne écrit pour quelqu'un d'autre)
     mandatory: bool  # obligatoire : une réponse vide est refusée ; sinon la question peut être passée
     options: list[Option] = Field(default_factory=list)
-    go_chat: bool = False  # passe à true dans les questions suivantes si la réponse à « q_switch » est « oui »
     # configuration interne (non envoyée au front)
     texte_tiers: Optional[str] = Field(default=None, exclude=True)
     toujours: bool = Field(default=False, exclude=True)

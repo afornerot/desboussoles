@@ -285,12 +285,6 @@
           "description": "id_question → « ok » (répondue) ou « pass » (facultative laissée vide)",
           "title": "Suivi Questions",
           "type": "object"
-        },
-        "go_chat": {
-          "default": false,
-          "description": "true dès que le front a envoyé go_chat = « oui » (la personne veut passer au chat)",
-          "title": "Go Chat",
-          "type": "boolean"
         }
       },
       "title": "Personne",
@@ -431,11 +425,6 @@
       },
       "title": "Options",
       "type": "array"
-    },
-    "go_chat": {
-      "default": false,
-      "title": "Go Chat",
-      "type": "boolean"
     },
     "texte_tiers": {
       "anyOf": [

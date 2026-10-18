@@ -64,7 +64,7 @@
             }
           ],
           "default": null,
-          "description": "champ du schéma patient rempli par la réponse (absent pour textarea et q_switch)",
+          "description": "champ du schéma patient rempli par la réponse (absent pour textarea)",
           "title": "Champ"
         },
         "texte": {

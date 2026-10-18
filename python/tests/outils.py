@@ -7,7 +7,7 @@ client = TestClient(app)
 
 # Réponses par défaut (situation fictive), surchargées au besoin par chaque test
 DEFAUT = {
-    "q_age": "34", "q_adresse": "12 rue des Granges, 25290 Ornans", "q_quartier": "Battant", "q_switch": "non",
+    "q_age": "34", "q_adresse": "12 rue des Granges, 25290 Ornans", "q_quartier": "Battant",
     "q_pour_qui": "soi", "q_duree": "moins_6_mois", "q_impact": "travail", "q_impact_niveau": "moderement",
     "q_besoin": "je me sens seule et j'ai besoin de parler", "q_accompagnement": "non",
 }
