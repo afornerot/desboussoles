@@ -101,13 +101,14 @@ func main() {
 
 			toolSet := ai.NewTools(st, guide)
 			svc := ai.New(client, toolSet.All(), ai.Config{
-				MaxIterations: 10,
-				CallTimeout:   120 * time.Second,
+				MaxIterations: 4,
+				CallTimeout:   90 * time.Second,
 			}, log)
 			chatDeps = web.ChatDeps{
-				Service:  svc,
-				Sessions: ai.NewSessionStore(time.Hour),
-				Ready:    true,
+				Service:        svc,
+				Sessions:       ai.NewSessionStore(time.Hour),
+				PublicSessions: ai.NewSessionStore(time.Hour),
+				Ready:          true,
 			}
 			log.Info("chat IA activé",
 				"model", os.Getenv("AI_MODEL"),

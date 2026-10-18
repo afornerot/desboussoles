@@ -1,6 +1,7 @@
 {{define "title"}}ChatPro{{end}}
 
 {{define "content"}}
+{{template "md-render"}}
 <div class="chat-wrap">
   {{if not .Ready}}
   <div class="chat-notready card">
@@ -61,11 +62,12 @@
     border-radius:10px;
   }
   /* Outil IA : jaune signature */
+  .chat-msg.tool { transition:opacity .4s ease; overflow:hidden; }
   .chat-msg.tool .chat-bubble {
-    background:var(--sc-jaune-signature); color:var(--ink);
-    font-size:.8rem; font-style:italic; max-width:60%;
-    border-radius:999px;
+    background:none; border:0; color:var(--sc-gris-texte);
+    font-size:.72rem; font-style:italic; padding:.1rem 0; border-radius:0;
   }
+  .chat-msg.tool.tool-done { opacity:0; }
   .chat-form { display:flex; gap:.5rem; padding:1rem 1.25rem; border-top:2px solid var(--sc-fond-gris-clair); }
   .chat-form input {
     flex:1; padding:.65rem .9rem; border:2px solid var(--border); border-radius:12px;
@@ -92,8 +94,13 @@
   const input = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
   const messagesEl = document.getElementById('chat-messages');
-  const resetBtn = document.getElementById('chat-reset');
-  let busy = false;
+const resetBtn = document.getElementById('chat-reset');
+let busy = false;
+
+// Rendu Markdown des bulles assistant déjà présentes (historique)
+document.querySelectorAll('.chat-msg.assistant .chat-bubble').forEach(function (b) {
+  b.innerHTML = window.mdToHtml(b.textContent);
+});
 
   function addMsg(role, text) {
     const div = document.createElement('div');
@@ -107,19 +114,28 @@
     return bubble;
   }
 
-  function addToolChip(name) {
-    const div = document.createElement('div');
-    div.className = 'chat-msg tool';
-    const bubble = document.createElement('div');
-    bubble.className = 'chat-bubble';
-    bubble.textContent = '⚙ ' + name;
-    div.appendChild(bubble);
-    messagesEl.appendChild(div);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
+function addToolChip(name) {
+  const div = document.createElement('div');
+  div.className = 'chat-msg tool';
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+  bubble.textContent = '⚙ ' + name;
+  div.appendChild(bubble);
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  return div;
+}
+
+// Les puces d'outils s'estompent une fois la réponse terminée
+function fadeChips(chips) {
+  chips.forEach((c) => {
+    c.classList.add('tool-done');
+    setTimeout(() => { if (c.parentNode) c.parentNode.removeChild(c); }, 450);
+  });
+}
 
   resetBtn?.addEventListener('click', async () => {
-    await fetch('/api/chat/reset', { method: 'POST' });
+    await fetch('/api/chatpro/reset', { method: 'POST' });
     messagesEl.innerHTML = '';
     addMsg('assistant', 'Nouvelle conversation. Comment puis-je vous aider ?');
   });
@@ -134,13 +150,20 @@
     sendBtn.disabled = true;
     input.value = '';
     addMsg('user', msg);
+    await ask(msg, false);
+    busy = false;
+    sendBtn.disabled = false;
+    input.focus();
+  });
 
-    const bubble = addMsg('assistant', '');
-    bubble.classList.add('typing');
-    let fullText = '';
+async function ask(msg, isRetry) {
+  const bubble = addMsg('assistant', '');
+  bubble.classList.add('typing');
+  let fullText = '';
+  let chips = [];
 
     try {
-      const res = await fetch('/api/chat', {
+      const res = await fetch('/api/chatpro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: msg })
@@ -179,27 +202,41 @@
 
           if (eventType === 'token' && parsed.t) {
             fullText += parsed.t;
-            bubble.textContent = fullText;
+            bubble.innerHTML = window.mdToHtml(fullText);
             messagesEl.scrollTop = messagesEl.scrollHeight;
           } else if (eventType === 'tool' && parsed.name) {
-            addToolChip(parsed.name);
+            chips.push(addToolChip(parsed.name));
           } else if (eventType === 'error' && parsed.error) {
             bubble.classList.remove('typing');
-            bubble.textContent = 'Erreur : ' + parsed.error;
+            bubble.innerHTML = (fullText ? window.mdToHtml(fullText) : '') +
+              '<p class="md-p md-note">⚠ ' + window.mdEsc(parsed.error) + '</p>';
+            return;
           }
         }
       }
       bubble.classList.remove('typing');
+      fadeChips(chips);
       if (!fullText) bubble.textContent = '(réponse vide)';
     } catch (err) {
       bubble.classList.remove('typing');
-      bubble.textContent = 'Erreur réseau : ' + err.message;
-    } finally {
-      busy = false;
-      sendBtn.disabled = false;
-      input.focus();
+      fadeChips(chips);
+      if (fullText) {
+        // Le flux a cassé en cours de route : on garde ce qui est arrivé.
+        bubble.innerHTML = window.mdToHtml(fullText) +
+          '<p class="md-p md-note">⚠ Connexion interrompue — réponse partielle conservée.</p>';
+      } else if (!isRetry) {
+        // Rien reçu : on tente une relance unique avant d'abandonner.
+        bubble.parentNode.removeChild(bubble);
+        const info = addMsg('assistant', 'Connexion perdue, nouvelle tentative…');
+        setTimeout(async () => {
+          info.parentNode.removeChild(info);
+          await ask(msg, true);
+        }, 1500);
+      } else {
+        bubble.textContent = '⚠ Erreur réseau : ' + (err.message || 'connexion interrompue') + '. Réessaie dans un instant.';
+      }
     }
-  });
+  }
 })();
 </script>
 {{end}}

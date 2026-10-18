@@ -1,0 +1,503 @@
+{{define "guide-widget"}}
+<style>
+  .guide-panel { padding:1.75rem 2rem; overflow-y:auto; }
+  .guide-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin:-.5rem 0 1.25rem;
+  }
+  .guide-header h2 {
+    margin:0; font-size:1.05rem; font-weight:var(--sc-font-weight-extrabold);
+    color:var(--sc-texte-titre);
+  }
+  .guide-refresh {
+    background:var(--sc-blanc); border:2px solid var(--border); border-radius:999px;
+    padding:.3rem .65rem; cursor:pointer; font-size:.95rem; font-family:inherit; color:var(--ink);
+  }
+  .guide-refresh:hover { background:var(--sc-vert-menthe); }
+  .q-count {
+    font-size:.75rem; font-weight:var(--sc-font-weight-extrabold); text-transform:uppercase;
+    letter-spacing:.05em; color:var(--sc-gris-texte); margin-bottom:.5rem;
+  }
+  .q-text {
+    font-size:1.3rem; font-weight:var(--sc-font-weight-extrabold); letter-spacing:-0.01em;
+    color:var(--sc-texte-titre); margin:0 0 1.25rem; line-height:1.35;
+  }
+  .q-mandatory { color:var(--sc-orange-desaccord); font-size:.75rem; margin-left:.35rem; }
+  .q-refus {
+    background:var(--sc-fond-jaune-pale); border:2px solid var(--sc-orange-desaccord);
+    border-radius:10px; padding:.6rem .9rem; margin:0 0 1rem;
+    font-size:.9rem; font-weight:var(--sc-font-weight-bold); color:var(--sc-texte-titre);
+  }
+
+  .q-choices { display:flex; flex-direction:column; gap:.55rem; margin-bottom:1.4rem; }
+  .q-choice {
+    display:flex; align-items:center; gap:.7rem; padding:.7rem 1rem; cursor:pointer;
+    border:2px solid var(--border); border-radius:12px; background:var(--sc-blanc);
+    font-size:.98rem; font-weight:var(--sc-font-weight-bold); color:var(--sc-texte-titre);
+  }
+  .q-choice:hover { background:var(--sc-vert-menthe); }
+  .q-choice input { accent-color:var(--sc-vert-accord); width:1.1rem; height:1.1rem; }
+  .q-choice.selected { background:var(--sc-jaune-signature); }
+
+  .q-field { position:relative; margin-bottom:1.4rem; }
+  .q-field input[type=text], .q-field textarea {
+    width:100%; box-sizing:border-box; padding:.7rem .9rem; font:inherit; font-size:1rem;
+    border:2px solid var(--border); border-radius:12px; background:var(--bg); color:var(--ink);
+  }
+  .q-field textarea { min-height:130px; resize:vertical; }
+  .q-field input:focus, .q-field textarea:focus { outline:3px solid var(--sc-vert-accord); outline-offset:1px; }
+
+  .commune-list {
+    position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:20;
+    background:var(--sc-blanc); border:2px solid var(--border); border-radius:12px;
+    overflow:hidden;
+  }
+  .commune-list button {
+    display:block; width:100%; text-align:left; padding:.55rem .9rem; border:0;
+    background:none; font:inherit; font-size:.92rem; cursor:pointer; color:var(--ink);
+    border-bottom:1px solid var(--sc-fond-gris-clair);
+  }
+  .commune-list button:last-child { border-bottom:0; }
+  .commune-list button:hover { background:var(--sc-jaune-signature); }
+  .commune-list .cp { color:var(--sc-gris-texte); font-size:.8rem; margin-left:.4rem; }
+
+  .q-actions { display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; }
+  .q-skip {
+    background:none; border:0; padding:.5rem .2rem; font:inherit; font-size:.9rem;
+    font-weight:var(--sc-font-weight-bold); color:var(--sc-gris-texte); cursor:pointer;
+    text-decoration:underline;
+  }
+  .q-skip:hover { color:var(--sc-texte-titre); }
+  .q-submit {
+    padding:.65rem 1.4rem; background:var(--sc-vert-accord); color:#000;
+    border:2px solid var(--border); border-radius:12px; font:inherit; font-size:1rem;
+    font-weight:var(--sc-font-weight-extrabold); cursor:pointer; margin-left:auto;
+  }
+  .q-submit:hover:not(:disabled) { background:var(--sc-jaune-vif); }
+  .q-submit:disabled { opacity:.4; cursor:not-allowed; }
+
+  .q-end, .q-error, .q-loading { text-align:center; padding:1.5rem .5rem; }
+  .q-end h2, .q-error h2 {
+    font-size:1.35rem; font-weight:var(--sc-font-weight-extrabold); letter-spacing:-0.01em;
+    color:var(--sc-texte-titre); margin:0 0 .6rem;
+  }
+  .q-end p, .q-error p { color:var(--sc-gris-texte); margin:0 0 1.25rem; }
+  .q-recap { list-style:none; padding:0; margin:0 0 1.25rem; text-align:left;
+    display:inline-block; background:var(--sc-fond-jaune-pale); border:2px solid var(--border);
+    border-radius:12px; padding:.7rem 1.1rem; font-size:.92rem; }
+  .q-recap li { margin:.25rem 0; }
+  .q-restart, .q-retry {
+    display:inline-block; padding:.6rem 1.3rem; background:var(--sc-vert-accord); color:#000;
+    border:2px solid var(--border); border-radius:12px; font:inherit; font-size:.95rem;
+    font-weight:var(--sc-font-weight-extrabold); cursor:pointer; text-decoration:none;
+  }
+  .q-restart:hover, .q-retry:hover { background:var(--sc-jaune-vif); }
+  .q-loading .dots::after { content:'…'; animation:blink 1.2s infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+</style>
+
+<div class="card guide-panel">
+  <div class="guide-header">
+    <h2>Guide d'orientation</h2>
+    <button type="button" class="guide-refresh" id="guide-refresh" title="Recommencer le guide depuis le début">↺</button>
+  </div>
+  <div id="guide-step" data-mode="{{.}}"></div>
+</div>
+
+<script>
+(function () {
+  var step = document.getElementById('guide-step');
+  if (!step) return;
+
+  // « page » : page Guide autonome — « embed » : colonne droite de la page Chat
+  var mode = step.dataset.mode || 'page';
+  var SKEY = 'guide-state';     // {session_id, question, n} — survit à la navigation
+  var CKEY = 'guide-context';   // réponses + dernière réponse API → contexte du chat
+
+  var sessionId = null;
+  var current = null;
+  var n = 0;
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  /* ---------- persistance (pont Guide → Chat) ---------- */
+  function saveState() {
+    sessionStorage.setItem(SKEY, JSON.stringify({ session_id: sessionId, question: current, n: n }));
+  }
+  function loadState() {
+    try { return JSON.parse(sessionStorage.getItem(SKEY) || 'null'); } catch (_) { return null; }
+  }
+  function clearState() { sessionStorage.removeItem(SKEY); }
+
+  function ctx() {
+    try {
+      return JSON.parse(sessionStorage.getItem(CKEY) || 'null') || { reponses: [], derniere_reponse: null };
+    } catch (_) { return { reponses: [], derniere_reponse: null }; }
+  }
+  function saveCtx(c) { sessionStorage.setItem(CKEY, JSON.stringify(c)); }
+  function resetCtx() { sessionStorage.removeItem(CKEY); }
+
+  function recordAnswer(q, reponse) {
+    var c = ctx();
+    c.reponses.push({ id_question: q.id_question, texte: q.texte, reponse: reponse });
+    saveCtx(c);
+  }
+  function recordResponse(q) {
+    var c = ctx();
+    c.derniere_reponse = q;
+    // JSON patient : temporaire à chaque question, complet sur la réponse « fin ».
+    if (q.json_patient) c.json_patient = q.json_patient;
+    else if (q.id_question === 'fin') c.json_patient = q;
+    if (q.session_id) c.session_id = q.session_id;
+    if (q.go_chat === true) c.go_chat = true;
+    saveCtx(c);
+  }
+
+  /* ---------- panneaux ---------- */
+  function showLoading() {
+    step.innerHTML = '<div class="q-loading"><p class="dots">Chargement</p></div>';
+  }
+
+  function showStart() {
+    current = null;
+    step.innerHTML =
+      '<div class="q-end">' +
+      '<p>Quelques questions pour t\'orienter, en parallèle de la conversation.</p>' +
+      '<button type="button" class="q-restart" id="q-start">Commencer le guide</button>' +
+      '</div>';
+    document.getElementById('q-start').addEventListener('click', start);
+  }
+
+  function showEnd() {
+    current = null;
+    step.innerHTML =
+      '<div class="q-end">' +
+      '<h2>Merci&nbsp;!</h2>' +
+      '<p>Le guide est terminé.</p>' +
+      '<button type="button" class="q-restart" id="q-restart">Recommencer</button>' +
+      '</div>';
+    document.getElementById('q-restart').addEventListener('click', start);
+  }
+
+  // Questionnaire terminé, côté colonne du chat
+  function showTerminated(q) {
+    current = null;
+    var lignes = '';
+    try {
+      var p = q.personne || {};
+      if (p.age_ans && p.age_ans.value) lignes += '<li>Âge : ' + esc(p.age_ans.value) + ' ans</li>';
+      if (p.commune_nom && p.commune_nom.value) lignes += '<li>Commune : ' + esc(p.commune_nom.value) + '</li>';
+      if (q.demandeur && q.demandeur.value) lignes += '<li>Demandeur : ' + esc(q.demandeur.value) + '</li>';
+      if (q.besoin && q.besoin.parcours_principal && q.besoin.parcours_principal.value) {
+        lignes += '<li>Parcours : ' + esc(q.besoin.parcours_principal.value) + '</li>';
+      }
+    } catch (_) {}
+    step.innerHTML =
+      '<div class="q-end">' +
+      '<h2>Questionnaire terminé</h2>' +
+      '<p>Tout est prêt, poursuis la conversation avec l\'assistant.</p>' +
+      (lignes ? '<ul class="q-recap">' + lignes + '</ul><br>' : '') +
+      '<button type="button" class="q-restart" id="q-restart">Refaire le guide</button>' +
+      '</div>';
+    document.getElementById('q-restart').addEventListener('click', start);
+  }
+
+  function showError(err) {
+    current = null;
+    step.innerHTML =
+      '<div class="q-error">' +
+      '<h2>Oups, un problème</h2>' +
+      '<p>' + esc(err && err.message ? err.message : 'Erreur inattendue') + '</p>' +
+      '<button type="button" class="q-retry" id="q-retry">Réessayer</button>' +
+      '</div>';
+    document.getElementById('q-retry').addEventListener('click', start);
+  }
+
+  /* ---------- rendu d'une question ---------- */
+  function inputHTML(q) {
+    if (q.type === 'choice') {
+      var opts = (q.options || []).map(function (o) {
+        return '<label class="q-choice" data-valeur="' + esc(o.valeur) + '">' +
+          '<input type="radio" name="q-choice" value="' + esc(o.valeur) + '">' +
+          '<span>' + esc(o.libelle) + '</span></label>';
+      }).join('');
+      return '<div class="q-choices" id="q-choices">' + opts + '</div>';
+    }
+    if (q.type === 'textarea') {
+      return '<div class="q-field"><textarea id="q-textarea" placeholder="Ta réponse…"></textarea></div>';
+    }
+    if (q.type === 'commune') {
+      return '<div class="q-field">' +
+        '<input type="text" id="q-commune" placeholder="Commune…" autocomplete="off">' +
+        '<div class="commune-list" id="commune-list" hidden></div>' +
+        '</div>';
+    }
+    if (q.type === 'adresse') {
+      return '<div class="q-field">' +
+        '<input type="text" id="q-adresse" placeholder="Adresse complète (n°, rue, code postal, commune)…" autocomplete="off">' +
+        '<div class="commune-list" id="adresse-list" hidden></div>' +
+        '</div>';
+    }
+    return '<div class="q-field"><input type="text" id="q-texte" placeholder="Ta réponse…"></div>';
+  }
+
+  function render(q, errMsg) {
+    current = q;
+    var skipBtn = q.mandatory
+      ? ''
+      : '<button type="button" class="q-skip" id="q-skip">Passer →</button>';
+    var errHTML = errMsg
+      ? '<div class="q-refus">' + esc(errMsg) + '</div>'
+      : '';
+    step.innerHTML =
+      '<div class="q-count">Question ' + n + '</div>' +
+      '<h2 class="q-text">' + esc(q.texte) +
+      (q.mandatory ? '' : ' <span class="q-mandatory">optionnel</span>') + '</h2>' +
+      errHTML +
+      inputHTML(q) +
+      '<div class="q-actions">' + skipBtn +
+      '<button type="button" class="q-submit" id="q-submit" disabled>Valider</button>' +
+      '</div>';
+
+    var submit = document.getElementById('q-submit');
+    var skip = document.getElementById('q-skip');
+    if (skip) skip.addEventListener('click', function () { send('passe'); });
+
+    if (q.type === 'choice') {
+      var box = document.getElementById('q-choices');
+      box.addEventListener('click', function (e) {
+        var lab = e.target.closest('.q-choice');
+        if (!lab) return;
+        box.querySelectorAll('.q-choice').forEach(function (l) { l.classList.remove('selected'); });
+        lab.classList.add('selected');
+        lab.querySelector('input').checked = true;
+        submit.disabled = false;
+      });
+      submit.disabled = true;
+    } else if (q.type === 'commune') {
+      setupCommune(submit);
+    } else if (q.type === 'adresse') {
+      setupAdresse(submit);
+    } else {
+      var field = document.getElementById(q.type === 'textarea' ? 'q-textarea' : 'q-texte');
+      field.addEventListener('input', function () {
+        submit.disabled = q.mandatory && !field.value.trim();
+      });
+      submit.disabled = true;
+      field.focus();
+    }
+
+    submit.addEventListener('click', function () {
+      if (q.type === 'choice') {
+        var sel = step.querySelector('.q-choice.selected');
+        if (!sel) return;
+        send(sel.dataset.valeur);
+      } else if (q.type === 'commune') {
+        var input = document.getElementById('q-commune');
+        if (q.mandatory && !input.value.trim()) return;
+        send(input.value.trim());
+      } else if (q.type === 'adresse') {
+        var inputAdr = document.getElementById('q-adresse');
+        if (q.mandatory && !inputAdr.value.trim()) return;
+        send(inputAdr.value.trim());
+      } else {
+        var f = document.getElementById(q.type === 'textarea' ? 'q-textarea' : 'q-texte');
+        if (q.mandatory && !f.value.trim()) return;
+        send(f.value);
+      }
+    });
+  }
+
+  // Autocomplete communes — geo.api.gouv.fr (API publique, CORS ouvert)
+  function setupCommune(submit) {
+    var input = document.getElementById('q-commune');
+    var list = document.getElementById('commune-list');
+    var timer = null;
+
+    input.addEventListener('input', function () {
+      submit.disabled = true;
+      clearTimeout(timer);
+      var v = input.value.trim();
+      if (v.length < 2) { list.hidden = true; return; }
+      timer = setTimeout(function () { search(v); }, 300);
+    });
+
+    async function search(v) {
+      try {
+        var res = await fetch('https://geo.api.gouv.fr/communes?nom=' + encodeURIComponent(v) +
+          '&fields=nom,code,codesPostaux&limit=8');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        var arr = await res.json();
+        if (!arr.length) { list.hidden = true; return; }
+        list.innerHTML = arr.map(function (c) {
+          var cp = (c.codesPostaux && c.codesPostaux[0]) ? '<span class="cp">' + esc(c.codesPostaux[0]) + '</span>' : '';
+          return '<button type="button" data-nom="' + esc(c.nom) + '">' + esc(c.nom) + cp + '</button>';
+        }).join('');
+        list.hidden = false;
+      } catch (_) { list.hidden = true; }
+    }
+
+    list.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-nom]');
+      if (!b) return;
+      input.value = b.dataset.nom; // nom canonique data.gouv
+      list.hidden = true;
+      submit.disabled = false;
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.q-field')) list.hidden = true;
+    });
+  }
+
+  // Autocomplete adresses — API BAN (Base Adresse Nationale, api-adresse.data.gouv.fr)
+  function setupAdresse(submit) {
+    var input = document.getElementById('q-adresse');
+    var list = document.getElementById('adresse-list');
+    var timer = null;
+
+    input.addEventListener('input', function () {
+      submit.disabled = true;
+      clearTimeout(timer);
+      var v = input.value.trim();
+      if (v.length < 4) { list.hidden = true; return; }
+      timer = setTimeout(function () { search(v); }, 300);
+    });
+
+    async function search(v) {
+      try {
+        var res = await fetch('https://api-adresse.data.gouv.fr/search?q=' + encodeURIComponent(v) + '&limit=6');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        var data = await res.json();
+        var feats = data.features || [];
+        if (!feats.length) { list.hidden = true; return; }
+        list.innerHTML = feats.map(function (f, i) {
+          var p = f.properties || {};
+          var label = p.label || p.name || '';
+          return '<button type="button" data-label="' + esc(label) + '">' + esc(label) + '</button>';
+        }).join('');
+        list.hidden = false;
+      } catch (_) { list.hidden = true; }
+    }
+
+    list.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-label]');
+      if (!b) return;
+      input.value = b.dataset.label; // label canonique BAN (n°, rue, CP, commune)
+      list.hidden = true;
+      submit.disabled = false;
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.q-field')) list.hidden = true;
+    });
+  }
+
+  /* ---------- flux : go_chat → bascule vers le chat ---------- */
+  function handleResponse(q) {
+    if (q.session_id) sessionId = q.session_id;
+    recordResponse(q);
+
+    var fin = q.id_question === 'fin';
+
+    // Sortie vers le chat dès que l'API l'indique — sans rien demander.
+    if (q.go_chat === true && mode === 'page') {
+      current = fin ? null : q;
+      if (current) { n += 1; }
+      saveState();
+      window.location.href = '/chat';
+      return;
+    }
+
+    if (fin) {
+      current = { id_question: 'fin' };
+      saveState();
+      if (mode === 'embed') { showTerminated(q); } else { showEnd(); }
+      return;
+    }
+
+    n += 1;
+    current = q;
+    saveState();
+    render(q);
+  }
+
+  async function start() {
+    clearState();
+    resetCtx();
+    sessionId = null;
+    n = 0;
+    // Reset aussi du contexte guide stocké côté serveur (prompt du chat).
+    try { await fetch('/api/guide/reset', { method: 'POST' }); } catch (_) {}
+    showLoading();
+    try {
+      var res = await fetch('/api/guide/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}'
+      });
+      if (!res.ok) {
+        var err = await res.json().catch(function () { return {}; });
+        throw new Error(err.error || 'HTTP ' + res.status);
+      }
+      handleResponse(await res.json());
+    } catch (err) { showError(err); }
+  }
+
+  async function send(reponse) {
+    if (!current) return;
+    var asked = current;
+    var payload = { session_id: sessionId, id_question: asked.id_question, reponse: reponse };
+    showLoading();
+    try {
+      var res = await fetch('/api/guide/reponse', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.status === 422) {
+        // Réponse refusée par l'API : {erreur, question} — on repose la même
+        // question avec le message, sans perdre l'avancement.
+        var body = await res.json().catch(function () { return {}; });
+        var msg = body.erreur || body.error || 'Réponse refusée';
+        if (body.question) {
+          render(body.question, msg);
+        } else {
+          render(asked, msg);
+        }
+        return;
+      }
+      if (!res.ok) {
+        var err = await res.json().catch(function () { return {}; });
+        throw new Error(err.error || err.erreur || 'HTTP ' + res.status);
+      }
+      recordAnswer(asked, reponse);
+      handleResponse(await res.json());
+    } catch (err) { showError(err); }
+  }
+
+  /* ---------- démarrage : reprise d'état ou neuf ---------- */
+  var st = loadState();
+  if (st && st.question && st.question.id_question) {
+    sessionId = st.session_id;
+    n = st.n || 1;
+    if (st.question.id_question === 'fin') {
+      current = null;
+      if (mode === 'embed') { showTerminated(st.question); } else { showEnd(); }
+    } else {
+      render(st.question);
+    }
+  } else {
+    if (mode === 'embed') { showStart(); } else { start(); }
+  }
+
+  /* ---------- bouton ↺ : recommencer à tout moment ---------- */
+  var refreshBtn = document.getElementById('guide-refresh');
+  if (refreshBtn) refreshBtn.addEventListener('click', start);
+})();
+</script>
+{{end}}

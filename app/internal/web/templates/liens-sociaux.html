@@ -1,0 +1,71 @@
+{{define "title"}}Liens Sociaux{{end}}
+
+{{define "content"}}
+<style>
+  .res-head { display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; flex-wrap:wrap; margin-bottom:1.25rem; }
+  .res-head p { margin:.3rem 0 0; color:var(--sc-gris-texte); font-size:.95rem; max-width:52ch; }
+
+  .res-list { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:.9rem; }
+  .res-item {
+    background:var(--sc-blanc); border:3px solid var(--border); border-radius:16px;
+    padding:.9rem 1rem; display:flex; flex-direction:column; gap:.3rem;
+  }
+  .res-item a.res-title {
+    font-weight:var(--sc-font-weight-extrabold); font-size:.98rem; color:var(--sc-vert-lien);
+    text-decoration:none; letter-spacing:-0.01em;
+  }
+  .res-item a.res-title:hover { text-decoration:underline; }
+  .res-item p { margin:0; font-size:.85rem; color:var(--sc-gris-texte); line-height:1.45; flex:1; }
+  .res-meta { display:flex; align-items:center; gap:.4rem; margin-top:.4rem; flex-wrap:wrap; }
+  .res-pro {
+    font-size:.7rem; font-weight:var(--sc-font-weight-extrabold); background:var(--sc-vert-accord);
+    color:#000; padding:.12rem .55rem; border-radius:999px; border:1px solid var(--border);
+  }
+  .res-nolink { font-size:.8rem; color:var(--sc-gris-texte); font-style:italic; }
+
+  /* Bascule profil (composant partagé avec la home) */
+  .profile-label { display:block; font-size:.75rem; font-weight:var(--sc-font-weight-extrabold); color:var(--sc-gris-texte); margin-bottom:.35rem; text-transform:uppercase; letter-spacing:.04em; }
+  .profile-toggle { display:inline-flex; border:2px solid var(--border); border-radius:999px; overflow:hidden; background:var(--sc-blanc); }
+  .profile-toggle button {
+    border:0; background:none; padding:.35rem 1rem; font:inherit; font-size:.85rem;
+    font-weight:var(--sc-font-weight-extrabold); cursor:pointer; color:var(--sc-gris-texte);
+  }
+  .profile-toggle button.active { background:var(--sc-vert-accord); color:#000; }
+  .profile-toggle button:not(.active):hover { background:var(--sc-vert-menthe); }
+</style>
+
+<div class="res-head">
+  <div>
+    <h1>Liens Sociaux</h1>
+    <p>Groupes d'entraide, associations et communautés pour rompre l'isolement et créer du lien.</p>
+  </div>
+  <div>
+    <span class="profile-label">Affichage</span>
+    <div class="profile-toggle" role="group" aria-label="Profil de navigation">
+      <button type="button" data-profile-set="public">Grand public</button>
+      <button type="button" data-profile-set="pro">Professionnel</button>
+    </div>
+  </div>
+</div>
+
+<div class="res-list">
+  {{range .}}
+  <div class="res-item" data-profile="{{.Profile}}">
+    {{if .URL}}
+      <a class="res-title" href="{{.URL}}" target="_blank" rel="noopener">{{.Title}}</a>
+    {{else}}
+      <span class="res-title">{{.Title}}</span>
+    {{end}}
+    <p>{{.Description}}</p>
+    <div class="res-meta">
+      {{if eq .Profile "pro"}}<span class="res-pro">Pro</span>{{end}}
+      {{if not .URL}}<span class="res-nolink">Contact sur place ou par téléphone</span>{{end}}
+    </div>
+  </div>
+  {{else}}
+  <p class="res-nolink">Aucun lien social pour le moment.</p>
+  {{end}}
+</div>
+{{end}}
+
+{{template "base" .}}

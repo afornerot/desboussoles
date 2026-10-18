@@ -127,13 +127,13 @@ INSERT INTO etab_subcat_mapping (categorie_recherche, subcategories) VALUES
     ('Vie quotidienne & loisirs', '{accompagnement}')
 ON CONFLICT (categorie_recherche) DO UPDATE SET subcategories = EXCLUDED.subcategories;
 
--- Ressources : liens, documents, numéros, réseaux sociaux (profil public/pro)
+-- Ressources : liens, documents, numéros, réseaux sociaux, liens sociaux (profil public/pro)
 CREATE TABLE IF NOT EXISTS ressource (
     id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT NOT NULL DEFAULT '',
     url TEXT,
-    category TEXT NOT NULL CHECK (category IN ('numero','site','document','reseau_social','lien')),
+    category TEXT NOT NULL CHECK (category IN ('numero','site','document','reseau_social','lien','lien_social')),
     profile TEXT NOT NULL DEFAULT 'both' CHECK (profile IN ('public','pro','both')),
     sort_order INT NOT NULL DEFAULT 0,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -151,5 +151,17 @@ INSERT INTO ressource (title, description, url, category, profile, sort_order) V
     ('Vocabulaire de la santé mentale — OQLF', 'Nomenclature rigoureuse des troubles (Québec).', 'https://www.oqlf.gouv.qc.ca/ressources/bibliotheque/dictionnaires/vocabulaire-sante-mentale.aspx', 'site', 'pro', 40),
     ('Thésaurus SantéPsy', 'Thésaurus SKOS orienté CIM-10/11 pour les professionnels.', 'https://loterre.istex.fr/2CX/fr/index', 'site', 'pro', 50),
     ('Campagne « Salut, comment vas-tu ? »', 'Visuels, présentations et charte graphique de la campagne de prévention.', NULL, 'document', 'both', 10),
-    ('Guide des partenaires santé mentale du Doubs', 'Établissements, structures et contacts — aussi accessible via la carte et ChatPro.', NULL, 'document', 'pro', 20)
+    ('Guide des partenaires santé mentale du Doubs', 'Établissements, structures et contacts — aussi accessible via la carte et ChatPro.', NULL, 'document', 'pro', 20),
+    ('GEM Les Amis de Ma Rue Là', 'Groupe d''entraide mutuelle (CCAS de Besançon) — accueil inconditionnel des personnes en situation d''isolement et/ou de souffrance psychique. 26 rue d''Arènes, 25000 Besançon — 06 73 40 78 89.', 'https://facebook.com/lesamisdemaruela25', 'lien_social', 'both', 5),
+    ('GEM La Fontaine', 'Groupe d''entraide mutuelle (Fondation Pluriel) — lieu d''accueil et de convivialité pour lutter contre l''isolement. 10 rue de la Cassotte, 25000 Besançon — 07 85 35 13 61.', 'https://www.lesinvitesaufestin.fr', 'lien_social', 'both', 10),
+    ('GEM La Grange de LéO', 'Groupe d''entraide mutuelle — projets culturels et de loisirs pour rompre l''isolement. 1 rue Anthony Fanart, 25000 Besançon — 06 33 40 09 90.', NULL, 'lien_social', 'both', 15),
+    ('GEM Ô Jardin de Floréal', 'Groupe d''entraide mutuelle — briser l''isolement des personnes fragilisées par la maladie psychique. 48B rue de Belfort, 25000 Besançon — 03 81 47 12 96.', 'https://assofloreal.fr', 'lien_social', 'both', 20),
+    ('GEM IRIS autisme', 'Groupe d''entraide mutuelle multisites (Besançon, Morteau, Maiche, Pontarlier) pour adultes autistes — 07 86 63 95 90.', NULL, 'lien_social', 'both', 25),
+    ('REV Besançon — Réseau sur l''entente de voix', 'Groupe d''entraide entre entendeurs de voix : espaces d''expression sans jugement, dans une approche du rétablissement. Facilitateur : 06 45 24 54 49.', 'https://www.revfrance.org', 'lien_social', 'both', 30),
+    ('TRANSCENDE', 'Association de soutien aux personnes transgenres et à leurs proches — groupe de parole, orientation vers des professionnels « safe ». Maison de soin plurielle, 12A rue du Pr. Paul Milleret, 25000 Besançon.', NULL, 'lien_social', 'both', 35),
+    ('UNAFAM Délégation du Doubs', 'Proches, familles, amis et voisins de personnes atteintes de troubles psychiques — écoute, soutien et groupes de parole. 9 chemin de Palente, 25000 Besançon — 06 88 28 81 24.', 'https://www.unafam.org/doubs', 'lien_social', 'both', 40),
+    ('Groupe de soutien pour personnes endeuillées par suicide', 'Lieu d''écoute, d''échange et de partage sur le deuil — sessions de 6 rencontres animées par des professionnels de santé, à visée régionale Bourgogne-Franche-Comté.', NULL, 'lien_social', 'both', 45),
+    ('ALONE — familles et amis de personnes alcooliques', 'Groupe de soutien pour les proches de personnes souffrant d''alcoolisme.', NULL, 'lien_social', 'both', 50),
+    ('ADEPAPE', 'Association d''entraide des pupilles et anciens pupilles de l''État — accompagnement vers l''autonomie et l''insertion. 21 rue du Périgord, 25000 Besançon — 06 95 00 42 34.', NULL, 'lien_social', 'both', 55),
+    ('Réseau Sport-Santé Bourgogne-Franche-Comté', 'Parcours d''accompagnement sportif pour la santé (PASS) — activité physique adaptée sur prescription, pour rompre l''isolement et renforcer la confiance en soi. — 03 81 48 36 52.', NULL, 'lien_social', 'both', 60)
 ON CONFLICT (title) DO NOTHING;

@@ -1,0 +1,679 @@
+{{define "title"}}Chat{{end}}
+
+{{define "content"}}
+{{template "md-render"}}
+<style>
+  /* Plein écran : body en flex column, main occupe tout l'espace restant */
+  html, body { height:100%; overflow:hidden; }
+  body { display:flex; flex-direction:column; }
+  body > header { flex-shrink:0; }
+  main { flex:1; max-width:none; margin:0; padding:0; overflow:hidden; }
+
+  /* Écran scindé : chat à gauche, guide au centre, établissements à droite */
+  .chat-split {
+    display:grid; grid-template-columns:1fr .8fr .9fr; gap:1rem;
+    align-items:stretch; height:100%; padding:1rem; box-sizing:border-box;
+  }
+  .chat-col, .guide-col, .estab-col { min-width:0; min-height:0; display:flex; flex-direction:column; }
+  .guide-col .guide-panel { flex:1; min-height:0; overflow-y:auto; box-sizing:border-box; }
+  @media (max-width:1200px) { .chat-split { grid-template-columns:1fr 1fr; } .estab-col { grid-column:1/-1; } }
+  @media (max-width:980px) { .chat-split { grid-template-columns:1fr; height:auto; overflow-y:auto; } }
+
+  /* Colonne établissements */
+  .estab-panel { padding:1.25rem 1.5rem; flex:1; overflow-y:auto; }
+  .estab-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+  .estab-header h2 { margin:0; font-size:1.05rem; font-weight:var(--sc-font-weight-extrabold); color:var(--sc-texte-titre); }
+  .estab-clear {
+    background:var(--sc-blanc); border:2px solid var(--border); border-radius:999px;
+    padding:.3rem .65rem; cursor:pointer; font-size:.95rem; font-family:inherit; color:var(--ink);
+  }
+  .estab-clear:hover { background:var(--sc-vert-menthe); }
+  .estab-empty { color:var(--sc-gris-texte); font-size:.9rem; text-align:center; padding:2rem .5rem; }
+  .estab-item {
+    border:2px solid var(--border); border-radius:12px; padding:.7rem .9rem;
+    margin-bottom:.6rem; background:var(--sc-blanc);
+  }
+  .estab-item .estab-name { font-weight:var(--sc-font-weight-extrabold); font-size:.95rem; color:var(--sc-texte-titre); margin-bottom:.2rem; }
+  .estab-item .estab-title { font-size:.85rem; color:var(--sc-gris-texte); margin-bottom:.3rem; }
+  .estab-item .estab-meta { font-size:.82rem; color:var(--ink); line-height:1.45; }
+  .estab-item .estab-meta a { color:var(--sc-vert-accord); font-weight:var(--sc-font-weight-bold); text-decoration:none; }
+  .estab-item .estab-meta a:hover { text-decoration:underline; }
+  .estab-distance {
+    display:inline-block; font-size:.72rem; font-weight:var(--sc-font-weight-extrabold);
+    background:var(--sc-vert-menthe); border:1px solid var(--border); border-radius:999px;
+    padding:.1rem .45rem; margin-bottom:.3rem;
+  }
+  .estab-subcats { display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.35rem; }
+  .estab-subcat {
+    font-size:.7rem; background:var(--sc-fond-jaune-pale); border:1px solid var(--border);
+    border-radius:999px; padding:.1rem .4rem; color:var(--sc-gris-texte);
+  }
+  .estab-actions { margin-top:.55rem; display:flex; justify-content:flex-end; }
+  .estab-map-btn {
+    background:var(--sc-blanc); border:2px solid var(--border); border-radius:999px;
+    padding:.3rem .75rem; cursor:pointer; font-size:.78rem; font-family:inherit;
+    font-weight:var(--sc-font-weight-bold); color:var(--ink);
+  }
+  .estab-map-btn:hover { background:var(--sc-vert-menthe); }
+
+  /* Overlay carte — par-dessus les colonnes guide + établissements */
+  .map-overlay {
+    position:fixed; inset:0; z-index:300;
+    display:flex; flex-direction:column; min-height:0;
+    background:var(--sc-blanc); border:3px solid var(--border);
+  }
+  .map-overlay[hidden] { display:none; }
+  @media (min-width:1201px) {
+    .chat-col { grid-column:1; grid-row:1; }
+    .guide-col { grid-column:2; grid-row:1; }
+    .estab-col { grid-column:3; grid-row:1; }
+    .map-overlay {
+      position:relative; inset:auto;
+      grid-column:2 / 4; grid-row:1; z-index:10;
+      border-radius:16px; overflow:hidden;
+    }
+  }
+  .map-overlay-header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:.75rem 1.25rem; border-bottom:2px solid var(--sc-fond-gris-clair);
+    background:var(--sc-jaune-signature); flex-shrink:0;
+  }
+  .map-overlay-header h2 { margin:0; font-size:1.15rem; }
+  .map-overlay-close {
+    background:var(--sc-blanc); border:2px solid var(--border); border-radius:999px;
+    padding:.35rem .75rem; cursor:pointer; font-size:1.15rem; line-height:1;
+    font-family:inherit; color:var(--ink);
+  }
+  .map-overlay-close:hover { background:var(--sc-vert-menthe); }
+  #estab-map { flex:1; min-height:200px; }
+
+  /* Fiche établissement — façon /map */
+  .fiche-modal { position:fixed; inset:0; z-index:1000; display:flex; align-items:flex-end; justify-content:center; }
+  .fiche-modal[hidden] { display:none; }
+  .fiche-backdrop { position:absolute; inset:0; background:rgba(24,24,24,.5); }
+  .fiche-panel {
+    position:relative; background:var(--sc-blanc); width:100%; max-width:640px;
+    max-height:85dvh; border-radius:24px 24px 0 0; border:3px solid var(--border); border-bottom:none;
+    display:flex; flex-direction:column; animation:fiche-up .2s ease;
+  }
+  @keyframes fiche-up { from { transform:translateY(30px); opacity:0; } to { transform:none; opacity:1; } }
+  .fiche-close {
+    position:absolute; top:8px; right:12px; z-index:2; border:2px solid var(--border);
+    background:var(--sc-jaune-signature); font-size:1.6rem; line-height:1; cursor:pointer;
+    border-radius:50%; width:36px; height:36px; color:var(--ink); font-family:inherit;
+  }
+  .fiche-close:hover { background:var(--sc-orange-desaccord); }
+  .fiche-body { overflow-y:auto; -webkit-overflow-scrolling:touch; flex:1; }
+  .fiche-img { width:100%; height:200px; object-fit:cover; display:block; border-radius:22px 22px 0 0; }
+  .fiche-content { padding:1rem 1.25rem 1.5rem; }
+  .fiche-content h2 { margin:.2rem 0 .6rem; font-size:1.25rem; font-weight:var(--sc-font-weight-extrabold); letter-spacing:-0.01em; }
+  .fiche-tags { display:flex; flex-wrap:wrap; gap:.35rem; margin-bottom:.6rem; }
+  .fiche-tag {
+    background:var(--sc-lilas); color:var(--ink); font-size:.72rem; padding:.15rem .55rem;
+    border-radius:999px; font-weight:var(--sc-font-weight-bold); border:1px solid var(--border);
+  }
+  .fiche-meta { color:var(--muted); font-size:.85rem; margin:0 0 .8rem; }
+  .fiche-meta a { color:var(--accent); }
+  .fiche-md { font-size:.95rem; line-height:1.6; }
+  .fiche-md h2, .fiche-md h3 { font-size:1rem; margin:1rem 0 .4rem; font-weight:var(--sc-font-weight-bold); }
+  .fiche-md p { margin:.4rem 0; }
+  .fiche-md ul { margin:.4rem 0; padding-left:1.2rem; }
+  .fiche-md blockquote {
+    margin:.6rem 0; padding:.5rem .8rem; background:var(--sc-jaune-signature);
+    border-left:4px solid var(--sc-orange-desaccord); border-radius:0 8px 8px 0; font-size:.9rem;
+  }
+  .fiche-loading { padding:2rem; text-align:center; color:var(--muted); }
+  @media (min-width:640px) {
+    .fiche-modal { align-items:center; }
+    .fiche-panel { border-radius:24px; border-bottom:3px solid var(--border); max-height:80dvh; }
+    .fiche-img { border-radius:22px 22px 0 0; }
+  }
+
+  .chat-wrap { width:100%; flex:1; min-height:0; display:flex; flex-direction:column; }
+  .chat-panel { display:flex; flex-direction:column; flex:1; min-height:0; padding:0; overflow:hidden; }
+  .chat-header { display:flex; justify-content:space-between; align-items:center; padding:1rem 1.25rem; border-bottom:2px solid var(--sc-fond-gris-clair); background:var(--sc-jaune-signature); }
+  .chat-header h1 { margin:0; font-size:1.15rem; }
+  .chat-header button {
+    background:var(--sc-blanc); border:2px solid var(--border); border-radius:999px;
+    padding:.35rem .7rem; cursor:pointer; font-size:1rem; font-family:inherit; color:var(--ink);
+  }
+  .chat-header button:hover { background:var(--sc-vert-menthe); }
+  .chat-messages { flex:1; overflow-y:auto; padding:1rem 1.25rem; display:flex; flex-direction:column; gap:.75rem; }
+  .chat-msg { display:flex; }
+  .chat-msg.user { justify-content:flex-end; }
+  .chat-bubble {
+    max-width:80%; padding:.7rem 1rem; font-size:.95rem; line-height:1.5;
+    white-space:pre-wrap; word-break:break-word; border:2px solid var(--border);
+    border-radius:10px;
+  }
+  .chat-msg.user .chat-bubble { background:var(--sc-vert-accord); color:#000; font-weight:var(--sc-font-weight-bold); }
+  .chat-msg.assistant .chat-bubble { background:var(--sc-creme); color:var(--ink); }
+  .chat-msg.tool {
+    transition:opacity .4s ease; overflow:hidden;
+    background:none;
+  }
+  .chat-msg.tool .chat-bubble {
+    background:none; border:0; color:var(--sc-gris-texte);
+    font-size:.72rem; font-style:italic; padding:.1rem 0; border-radius:0;
+  }
+  .chat-msg.tool.tool-done { opacity:0; }
+  .chat-form { display:flex; gap:.5rem; padding:1rem 1.25rem; border-top:2px solid var(--sc-fond-gris-clair); }
+  .chat-form input {
+    flex:1; padding:.65rem .9rem; border:2px solid var(--border); border-radius:12px;
+    font-size:1rem; font-family:inherit; background:var(--bg); color:var(--ink);
+  }
+  .chat-form button {
+    padding:.65rem 1.2rem; background:var(--sc-vert-accord); color:#000;
+    border:2px solid var(--border); border-radius:12px; font-size:1rem;
+    font-family:inherit; font-weight:var(--sc-font-weight-extrabold); cursor:pointer;
+  }
+  .chat-form button:hover { background:var(--sc-jaune-vif); }
+  .chat-form button:disabled { opacity:.5; cursor:wait; }
+  .chat-notready { text-align:center; padding:2rem; }
+  .chat-notready code { background:var(--sc-jaune-signature); padding:.15rem .4rem; border-radius:4px; font-size:.85rem; }
+  .typing { display:inline-block; }
+  .typing::after { content:'▍'; animation:blink 1s infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+</style>
+
+<div class="chat-split">
+  <div class="chat-col">
+    <div class="chat-wrap">
+      {{if not .Ready}}
+      <div class="chat-notready card">
+        <h2>Chat non configuré</h2>
+        <p>Les variables d'environnement <code>AI_PROVIDER</code>, <code>AI_MODEL</code>, <code>AI_API_KEY</code> et <code>AI_BASE_URL</code> doivent être renseignées dans le docker-compose pour activer le chat.</p>
+      </div>
+      {{else}}
+      <div class="chat-panel card">
+        <div class="chat-header">
+          <h1>Assistant — DesBoussoles</h1>
+          <button id="chat-reset" type="button" title="Nouvelle conversation">↺</button>
+        </div>
+        <div id="chat-messages" class="chat-messages">
+          <div class="chat-msg assistant">
+            <div class="chat-bubble">Bonjour ! Je suis l'assistant de DesBoussoles. Posez-moi une question sur la santé mentale, le lexique, ou les établissements du Doubs.</div>
+          </div>
+          {{range .History}}
+          <div class="chat-msg {{.Role}}">
+            <div class="chat-bubble">{{.Content}}</div>
+          </div>
+          {{end}}
+        </div>
+        <form id="chat-form" class="chat-form">
+          <input id="chat-input" type="text" placeholder="Votre question…" autocomplete="off" required>
+          <button id="chat-send" type="submit">Envoyer</button>
+        </form>
+      </div>
+      {{end}}
+    </div>
+  </div>
+
+  <div class="guide-col">
+    {{template "guide-widget" "embed"}}
+  </div>
+
+  <div class="estab-col">
+    <div class="card estab-panel">
+      <div class="estab-header">
+        <h2>Établissements</h2>
+        <button type="button" class="estab-clear" id="estab-clear" title="Vider la liste">↺</button>
+      </div>
+      <div id="estab-list">
+        <p class="estab-empty">Les établissements trouvés par l'apparaîtront ici.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-overlay" id="map-overlay" hidden>
+    <div class="map-overlay-header">
+      <h2>Carte — <span id="map-overlay-title">Établissements</span></h2>
+      <button type="button" class="map-overlay-close" id="map-overlay-close" title="Fermer la carte">×</button>
+    </div>
+    <div id="estab-map"></div>
+  </div>
+</div>
+
+<div id="fiche-modal" class="fiche-modal" hidden>
+  <div class="fiche-backdrop" data-close></div>
+  <div class="fiche-panel" role="dialog" aria-modal="true">
+    <button class="fiche-close" data-close aria-label="Fermer">×</button>
+    <div id="fiche-body" class="fiche-body">Chargement…</div>
+  </div>
+</div>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.js"></script>
+<script>window.ESTABS_INIT = {{.Establishments}} || [];</script>
+<script>
+(function () {
+  var form = document.getElementById('chat-form');
+  var input = document.getElementById('chat-input');
+  var sendBtn = document.getElementById('chat-send');
+  var messagesEl = document.getElementById('chat-messages');
+  var resetBtn = document.getElementById('chat-reset');
+  var estabList = document.getElementById('estab-list');
+  var estabClear = document.getElementById('estab-clear');
+  var busy = false;
+
+  // Rendu Markdown des bulles assistant déjà présentes (historique)
+  document.querySelectorAll('.chat-msg.assistant .chat-bubble').forEach(function (b) {
+    b.innerHTML = window.mdToHtml(b.textContent);
+  });
+
+  // Contexte du questionnaire Guide (réponses + dernière réponse API)
+  function guideContext() {
+    try { return JSON.parse(sessionStorage.getItem('guide-context') || 'null'); } catch (_) { return null; }
+  }
+
+  function addMsg(role, text) {
+    if (!messagesEl) return null;
+    var div = document.createElement('div');
+    div.className = 'chat-msg ' + role;
+    var bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = text;
+    div.appendChild(bubble);
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bubble;
+  }
+
+  function addToolChip(name) {
+    var div = document.createElement('div');
+    div.className = 'chat-msg tool';
+    var bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = '⚙ ' + name;
+    div.appendChild(bubble);
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  // Les puces d'outils s'estompent une fois la réponse terminée
+  function fadeChips(chips) {
+    chips.forEach(function (c) {
+      c.classList.add('tool-done');
+      setTimeout(function () { if (c.parentNode) c.parentNode.removeChild(c); }, 450);
+    });
+  }
+
+  /* ---------- colonne établissements ---------- */
+  function escHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // Établissements affichés (avec coordonnées pour la carte)
+  var estabs = [];
+
+  function estabKey(e) {
+    return e.id ? 'id:' + e.id : 'n:' + (e.name || '') + '|' + (e.address || '');
+  }
+
+  function renderEstablishments(ests) {
+    if (!estabList || !ests || !ests.length) return;
+    // Premier lot : vider le placeholder
+    if (estabList.querySelector('.estab-empty')) estabList.innerHTML = '';
+    var seen = {};
+    estabs.forEach(function (e) { seen[estabKey(e)] = true; });
+    var added = false;
+    ests.forEach(function (e) {
+      var k = estabKey(e);
+      if (seen[k]) return;
+      seen[k] = true;
+      e.idx = estabs.length;
+      estabs.push(e);
+      added = true;
+
+      var div = document.createElement('div');
+      div.className = 'estab-item';
+      var html = '';
+      if (e.distance_km) html += '<span class="estab-distance">' + escHtml(e.distance_km) + ' km</span><br>';
+      html += '<div class="estab-name">' + escHtml(e.name) + '</div>';
+      if (e.title && e.title !== e.name) html += '<div class="estab-title">' + escHtml(e.title) + '</div>';
+      html += '<div class="estab-meta">';
+      if (e.address) html += '📍 ' + escHtml(e.address) + '<br>';
+      if (e.phone) html += '☎️ <a href="tel:' + escHtml(e.phone.replace(/\s/g, '')) + '">' + escHtml(e.phone) + '</a>';
+      html += '</div>';
+      if (e.subcategories && e.subcategories.length) {
+        html += '<div class="estab-subcats">' + e.subcategories.map(function (s) {
+          return '<span class="estab-subcat">' + escHtml(s) + '</span>';
+        }).join('') + '</div>';
+      }
+      if (e.lat != null && e.lng != null) {
+        html += '<div class="estab-actions"><button type="button" class="estab-map-btn" data-idx="' + e.idx + '">📍 Voir sur la carte</button></div>';
+      }
+      div.innerHTML = html;
+      estabList.appendChild(div);
+    });
+    if (added) refreshMapData();
+  }
+
+  function clearEstablishments() {
+    estabs = [];
+    if (estabList) {
+      estabList.innerHTML = '<p class="estab-empty">Les établissements trouvés par l\'assistant apparaîtront ici.</p>';
+    }
+    closeMap();
+    refreshMapData();
+    fetch('/api/chat/estabs/clear', { method: 'POST' }).catch(function () {});
+  }
+
+  if (estabClear) estabClear.addEventListener('click', clearEstablishments);
+
+  // Clic sur « Voir sur la carte » (délégation)
+  if (estabList) {
+    estabList.addEventListener('click', function (ev) {
+      var btn = ev.target.closest ? ev.target.closest('.estab-map-btn') : null;
+      if (!btn) return;
+      var idx = parseInt(btn.getAttribute('data-idx'), 10);
+      if (!isNaN(idx)) openMap(idx);
+    });
+  }
+
+  /* ---------- carte (overlay) ---------- */
+  var mapOverlay = document.getElementById('map-overlay');
+  var mapOverlayClose = document.getElementById('map-overlay-close');
+  var mapOverlayTitle = document.getElementById('map-overlay-title');
+  var mapCtl = null;
+  var mapLoaded = false;
+  var selectedIdx = -1;
+
+  function estabsGeoJSON() {
+    return {
+      type: 'FeatureCollection',
+      features: estabs.filter(function (e) { return e.lat != null && e.lng != null; }).map(function (e) {
+        return {
+          type: 'Feature',
+          id: e.idx,
+          geometry: { type: 'Point', coordinates: [e.lng, e.lat] },
+          properties: {
+            idx: e.idx,
+            fid: e.id || 0,
+            name: e.name || '',
+            address: e.address || ''
+          }
+        };
+      })
+    };
+  }
+
+  function ensureMap() {
+    if (mapCtl) return;
+    mapboxgl.accessToken = '{{.MapboxToken}}';
+    mapCtl = new mapboxgl.Map({
+      container: 'estab-map',
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: [6.02, 47.23],
+      zoom: 8.5
+    });
+    mapCtl.addControl(new mapboxgl.NavigationControl());
+    mapCtl.on('load', function () {
+      mapCtl.addSource('estabs', { type: 'geojson', data: estabsGeoJSON(), promoteId: 'idx' });
+      mapCtl.addLayer({
+        id: 'estab-hit',
+        type: 'circle',
+        source: 'estabs',
+        paint: { 'circle-radius': 18, 'circle-color': '#000', 'circle-opacity': 0 }
+      });
+      mapCtl.addLayer({
+        id: 'estab-pt',
+        type: 'circle',
+        source: 'estabs',
+        paint: {
+          'circle-radius': [
+            'case', ['boolean', ['feature-state', 'selected'], false], 13,
+            ['boolean', ['feature-state', 'hover'], false], 12, 9
+          ],
+          'circle-color': '#7c3aed',
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-width': 2
+        }
+      });
+      mapCtl.on('mouseenter', 'estab-hit', function (e) {
+        mapCtl.getCanvas().style.cursor = 'pointer';
+        var f = e.features && e.features[0];
+        if (f) mapCtl.setFeatureState({ source: 'estabs', id: f.id }, { hover: true });
+      });
+      mapCtl.on('mouseleave', 'estab-hit', function (e) {
+        mapCtl.getCanvas().style.cursor = '';
+        var f = e.features && e.features[0];
+        if (f) mapCtl.setFeatureState({ source: 'estabs', id: f.id }, { hover: false });
+      });
+      mapCtl.on('click', 'estab-hit', function (e) {
+        var f = e.features && e.features[0];
+        if (!f) return;
+        var p = f.properties || {};
+        if (p.fid) {
+          mapCtl.flyTo({ center: f.geometry.coordinates, zoom: 14, essential: true });
+          openFiche(p.fid);
+        }
+      });
+      mapLoaded = true;
+      refreshMapData();
+      if (selectedIdx >= 0) applySelection();
+    });
+  }
+
+  function refreshMapData() {
+    if (!mapCtl || !mapLoaded) return;
+    var src = mapCtl.getSource('estabs');
+    if (src) src.setData(estabsGeoJSON());
+  }
+
+  // Surligne l'établissement sélectionné et recentre la carte dessus
+  function applySelection() {
+    if (!mapCtl || !mapLoaded) return;
+    var sel = null;
+    estabs.forEach(function (e) {
+      var on = e.idx === selectedIdx;
+      if (on) sel = e;
+      mapCtl.setFeatureState({ source: 'estabs', id: e.idx }, { selected: on });
+    });
+    if (sel && sel.lat != null && sel.lng != null) {
+      mapCtl.flyTo({ center: [sel.lng, sel.lat], zoom: 14, essential: true });
+    }
+  }
+
+  function openMap(idx) {
+    if (!mapOverlay) return;
+    selectedIdx = idx;
+    mapOverlay.hidden = false;
+    var sel = estabs[idx];
+    if (mapOverlayTitle) mapOverlayTitle.textContent = sel && sel.name ? sel.name : 'Établissements';
+    ensureMap();
+    if (mapLoaded) {
+      refreshMapData();
+      applySelection();
+    }
+    // Mapbox a besoin d'un resize une fois le conteneur visible
+    if (mapCtl) setTimeout(function () {
+      mapCtl.resize();
+      if (mapLoaded) applySelection();
+    }, 50);
+  }
+
+  function closeMap() {
+    if (mapOverlay) mapOverlay.hidden = true;
+    if (mapCtl && mapLoaded) {
+      selectedIdx = -1;
+      applySelection();
+    }
+    selectedIdx = -1;
+  }
+
+  if (mapOverlayClose) mapOverlayClose.addEventListener('click', closeMap);
+
+  /* ---------- fiche établissement (façon /map) ---------- */
+  var ficheModal = document.getElementById('fiche-modal');
+  var ficheBody = document.getElementById('fiche-body');
+
+  function openFiche(fid) {
+    if (!ficheModal || !ficheBody) return;
+    ficheModal.hidden = false;
+    ficheBody.innerHTML = '<div class="fiche-loading">Chargement…</div>';
+    fetch('/api/map/feature/' + encodeURIComponent(fid))
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (d) {
+        var subcats = (d.subcategories || []).map(function (s) {
+          return '<span class="fiche-tag">' + escHtml(s) + '</span>';
+        }).join('');
+        var tel = d.phone ? '<a href="tel:' + escHtml(String(d.phone).replace(/\s/g, '')) + '">' + escHtml(d.phone) + '</a>' : '';
+        var web = d.website ? ' · <a href="' + escHtml(d.website) + '" target="_blank" rel="noopener">Site web</a>' : '';
+        ficheBody.innerHTML =
+          (d.image ? '<img class="fiche-img" src="' + escHtml(d.image) + '" alt="" loading="lazy">' : '') +
+          '<div class="fiche-content">' +
+            '<h2>' + escHtml(d.title || d.name) + '</h2>' +
+            (subcats ? '<div class="fiche-tags">' + subcats + '</div>' : '') +
+            (d.address ? '<p class="fiche-meta">📍 ' + escHtml(d.address) + (tel ? ' · 📞 ' + tel : '') + web + '</p>' : '') +
+            '<div class="fiche-md">' + (d.content_html || '') + '</div>' +
+          '</div>';
+      })
+      .catch(function () {
+        ficheBody.innerHTML = '<div class="fiche-loading">Erreur de chargement de la fiche.</div>';
+      });
+  }
+
+  function closeFiche() {
+    if (ficheModal) ficheModal.hidden = true;
+  }
+
+  if (ficheModal) {
+    ficheModal.addEventListener('click', function (e) {
+      if (e.target.hasAttribute && e.target.hasAttribute('data-close')) closeFiche();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !ficheModal.hidden) closeFiche();
+    });
+  }
+
+  /* ---------- chat ---------- */
+  if (resetBtn) resetBtn.addEventListener('click', async () => {
+    await fetch('/api/chat/reset', { method: 'POST' });
+    if (messagesEl) {
+      messagesEl.innerHTML = '';
+      addMsg('assistant', 'Nouvelle conversation. Comment puis-je vous aider ?');
+    }
+    clearEstablishments();
+  });
+
+  if (form) form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (busy) return;
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    busy = true;
+    sendBtn.disabled = true;
+    input.value = '';
+    addMsg('user', msg);
+    await ask(msg, false);
+    busy = false;
+    sendBtn.disabled = false;
+    input.focus();
+  });
+
+  async function ask(msg, isRetry) {
+    const bubble = addMsg('assistant', '');
+    if (!bubble) return;
+    bubble.classList.add('typing');
+    let fullText = '';
+    let chips = [];
+
+    const payload = { message: msg };
+    const ctx = guideContext();
+    if (ctx) payload.guide_context = ctx;
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        bubble.classList.remove('typing');
+        bubble.textContent = 'Erreur : ' + (err.error || res.statusText);
+        return;
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        const parts = buffer.split('\n\n');
+        buffer = parts.pop();
+
+        for (const part of parts) {
+          const lines = part.split('\n');
+          let eventType = 'message';
+          let data = '';
+          for (const line of lines) {
+            if (line.startsWith('event: ')) eventType = line.slice(7).trim();
+            else if (line.startsWith('data: ')) data = line.slice(6);
+          }
+          if (!data) continue;
+          let parsed;
+          try { parsed = JSON.parse(data); } catch(_) { continue; }
+
+          if (eventType === 'token' && parsed.t) {
+            fullText += parsed.t;
+            bubble.innerHTML = window.mdToHtml(fullText);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+          } else if (eventType === 'tool' && parsed.name) {
+            chips.push(addToolChip(parsed.name));
+          } else if (eventType === 'establishments' && parsed.establishments) {
+            renderEstablishments(parsed.establishments);
+          } else if (eventType === 'error' && parsed.error) {
+            bubble.classList.remove('typing');
+            bubble.innerHTML = (fullText ? window.mdToHtml(fullText) : '') +
+              '<p class="md-p md-note">⚠ ' + window.mdEsc(parsed.error) + '</p>';
+            return;
+          }
+        }
+      }
+      bubble.classList.remove('typing');
+      fadeChips(chips);
+      if (!fullText) bubble.textContent = '(réponse vide)';
+    } catch (err) {
+      bubble.classList.remove('typing');
+      fadeChips(chips);
+      if (fullText) {
+        bubble.innerHTML = window.mdToHtml(fullText) +
+          '<p class="md-p md-note">⚠ Connexion interrompue — réponse partielle conservée.</p>';
+      } else if (!isRetry) {
+        bubble.parentNode.removeChild(bubble);
+        const info = addMsg('assistant', 'Connexion perdue, nouvelle tentative…');
+        setTimeout(async () => {
+          if (info.parentNode) info.parentNode.removeChild(info);
+          await ask(msg, true);
+        }, 1500);
+      } else {
+        bubble.textContent = '⚠ Erreur réseau : ' + (err.message || 'connexion interrompue') + '. Réessaie dans un instant.';
+      }
+    }
+  }
+
+  /* ---------- restauration après navigation ---------- */
+  try {
+    if (window.ESTABS_INIT && window.ESTABS_INIT.length) {
+      renderEstablishments(window.ESTABS_INIT);
+    }
+  } catch (_) {}
+})();
+</script>
+{{end}}
+
+{{template "base" .}}

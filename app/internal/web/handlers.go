@@ -2,6 +2,7 @@ package web
 
 import (
 	"bytes"
+	"context"
 	"embed"
 	"encoding/json"
 	"fmt"
@@ -12,6 +13,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -26,28 +28,38 @@ import (
 var templatesFS embed.FS
 
 type Server struct {
-	store     *store.Store
-	homeTmpl  *template.Template
-	listTmpl  *template.Template
-	detTmpl   *template.Template
-	mapTmpl   *template.Template
-	chatTmpl  *template.Template
-	resTmpl   *template.Template
-	guideTmpl *template.Template
-	mapboxTok string
-	guideURL  string
-	md        goldmark.Markdown
-	chatSvc   *ai.Service
-	sessions  *ai.SessionStore
-	chatReady bool
-	log       *slog.Logger
+	store       *store.Store
+	homeTmpl    *template.Template
+	listTmpl    *template.Template
+	detTmpl     *template.Template
+	mapTmpl     *template.Template
+	chatTmpl    *template.Template
+	chatPubTmpl *template.Template
+	resTmpl     *template.Template
+	liensTmpl   *template.Template
+	guideTmpl   *template.Template
+	mapboxTok   string
+	guideURL    string
+	md          goldmark.Markdown
+	chatSvc     *ai.Service
+	sessions    *ai.SessionStore
+	pubSessions *ai.SessionStore
+	chatReady   bool
+	log         *slog.Logger
+
+	// guideCtx stocke, par session chat (cookie boussole_sid), la dernière
+	// réponse brute de l'API Guide (contenant json_patient) — mis à jour à
+	// chaque passage dans le proxy, injecté dans le prompt du chat public.
+	guideCtx   map[string]json.RawMessage
+	guideCtxMu sync.Mutex
 }
 
 // ChatDeps regroupe les dépendances optionnelles du chat IA.
 type ChatDeps struct {
-	Service  *ai.Service
-	Sessions *ai.SessionStore
-	Ready    bool
+	Service        *ai.Service
+	Sessions       *ai.SessionStore
+	PublicSessions *ai.SessionStore
+	Ready          bool
 }
 
 func New(st *store.Store, mapboxToken, guideURL string, chat ChatDeps, log *slog.Logger) (*Server, error) {
@@ -67,7 +79,11 @@ func New(st *store.Store, mapboxToken, guideURL string, chat ChatDeps, log *slog
 	if err != nil {
 		return nil, err
 	}
-	chatTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/chat.html")
+	chatTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/md.html", "templates/chat.html")
+	if err != nil {
+		return nil, err
+	}
+	chatPubTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/guide-widget.html", "templates/md.html", "templates/chat-public.html")
 	if err != nil {
 		return nil, err
 	}
@@ -75,15 +91,20 @@ func New(st *store.Store, mapboxToken, guideURL string, chat ChatDeps, log *slog
 	if err != nil {
 		return nil, err
 	}
-	guideTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/guide.html")
+	liensTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/liens-sociaux.html")
+	if err != nil {
+		return nil, err
+	}
+	guideTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/guide-widget.html", "templates/guide.html")
 	if err != nil {
 		return nil, err
 	}
 	return &Server{
-		store: st, homeTmpl: homeTmpl, listTmpl: listTmpl, detTmpl: detTmpl, mapTmpl: mapTmpl, chatTmpl: chatTmpl, resTmpl: resTmpl, guideTmpl: guideTmpl,
+		store: st, homeTmpl: homeTmpl, listTmpl: listTmpl, detTmpl: detTmpl, mapTmpl: mapTmpl, chatTmpl: chatTmpl, chatPubTmpl: chatPubTmpl, resTmpl: resTmpl, liensTmpl: liensTmpl, guideTmpl: guideTmpl,
 		mapboxTok: mapboxToken, guideURL: strings.TrimSuffix(guideURL, "/"), log: log,
-		chatSvc: chat.Service, sessions: chat.Sessions, chatReady: chat.Ready,
-		md: goldmark.New(goldmark.WithRendererOptions(html.WithUnsafe())),
+		chatSvc: chat.Service, sessions: chat.Sessions, pubSessions: chat.PublicSessions, chatReady: chat.Ready,
+		md:       goldmark.New(goldmark.WithRendererOptions(html.WithUnsafe())),
+		guideCtx: make(map[string]json.RawMessage),
 	}, nil
 }
 
@@ -102,15 +123,21 @@ func (s *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /lexique/{id}", s.handleDetail)
 	mux.HandleFunc("GET /map", s.handleMap)
 	mux.HandleFunc("GET /ressources", s.handleRessources)
+	mux.HandleFunc("GET /liens-sociaux", s.handleLiensSociaux)
 	mux.HandleFunc("GET /guide", s.handleGuidePage)
 	mux.HandleFunc("POST /api/guide/session", s.handleGuideSession)
 	mux.HandleFunc("POST /api/guide/reponse", s.handleGuideReponse)
+	mux.HandleFunc("POST /api/guide/reset", s.handleGuideReset)
 	mux.HandleFunc("GET /api/map/categories", s.handleMapCategories)
 	mux.HandleFunc("GET /api/map/features", s.handleMapFeatures)
 	mux.HandleFunc("GET /api/map/feature/{id}", s.handleMapFeatureDetail)
-	mux.HandleFunc("GET /chat", s.handleChatPage)
-	mux.HandleFunc("POST /api/chat", s.handleChatStream)
-	mux.HandleFunc("POST /api/chat/reset", s.handleChatReset)
+	mux.HandleFunc("GET /chat", s.handleChatPublicPage)
+	mux.HandleFunc("POST /api/chat", s.handleChatPublicStream)
+	mux.HandleFunc("POST /api/chat/reset", s.handleChatPublicReset)
+	mux.HandleFunc("POST /api/chat/estabs/clear", s.handleChatPublicEstabsClear)
+	mux.HandleFunc("GET /chatpro", s.handleChatPage)
+	mux.HandleFunc("POST /api/chatpro", s.handleChatStream)
+	mux.HandleFunc("POST /api/chatpro/reset", s.handleChatReset)
 	return mux
 }
 
@@ -256,6 +283,10 @@ func (s *Server) handleRessources(w http.ResponseWriter, r *http.Request) {
 	}
 	byCat := make(map[string][]store.Ressource)
 	for _, it := range items {
+		// Les liens sociaux ont leur page dédiée.
+		if it.Category == "lien_social" {
+			continue
+		}
 		byCat[it.Category] = append(byCat[it.Category], it)
 	}
 	groups := make([]ressourceGroup, 0, len(ressourceCatOrder))
@@ -268,6 +299,20 @@ func (s *Server) handleRessources(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := s.resTmpl.ExecuteTemplate(w, "ressources.html", groups); err != nil {
 		s.log.Error("template", "name", "ressources.html", "err", err)
+	}
+}
+
+// --- Liens sociaux (groupes d'entraide, associations, communautés) ---
+
+func (s *Server) handleLiensSociaux(w http.ResponseWriter, r *http.Request) {
+	items, err := s.store.ListRessourcesByCategory(r.Context(), "lien_social")
+	if err != nil {
+		s.renderError(w, err)
+		return
+	}
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := s.liensTmpl.ExecuteTemplate(w, "liens-sociaux.html", items); err != nil {
+		s.log.Error("template", "name", "liens-sociaux.html", "err", err)
 	}
 }
 
@@ -289,7 +334,21 @@ func (s *Server) handleGuideReponse(w http.ResponseWriter, r *http.Request) {
 	s.guideProxy(w, r, "/reponse")
 }
 
+// handleGuideReset efface le contexte guide stocké côté serveur pour la
+// session chat courante (appelé par le bouton ↺ du widget guide).
+func (s *Server) handleGuideReset(w http.ResponseWriter, r *http.Request) {
+	sid := s.sessionID(w, r)
+	s.guideCtxMu.Lock()
+	delete(s.guideCtx, sid)
+	s.guideCtxMu.Unlock()
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = w.Write([]byte(`{"ok":true}`))
+}
+
 // guideProxy forward le JSON vers l'API Guide (GUIDE_API_URL + suffixe).
+// Chaque réponse réussie est capturée dans le contexte guide de la session
+// chat (cookie boussole_sid), pour que le chat public dispose toujours des
+// données à jour du questionnaire sans dépendre du client.
 func (s *Server) guideProxy(w http.ResponseWriter, r *http.Request, suffix string) {
 	if s.guideURL == "" {
 		http.Error(w, `{"error":"guide non configuré (GUIDE_API_URL manquante)"}`, http.StatusServiceUnavailable)
@@ -320,11 +379,116 @@ func (s *Server) guideProxy(w http.ResponseWriter, r *http.Request, suffix strin
 	}
 	defer resp.Body.Close()
 
+	respBody, err := io.ReadAll(io.LimitReader(resp.Body, 1<<20))
+	if err != nil {
+		s.log.Error("guide proxy read", "err", err)
+		http.Error(w, `{"error":"lecture de la réponse guide"}`, http.StatusBadGateway)
+		return
+	}
+
+	// Capturer le contexte guide pour le chat public (sid via cookie —
+	// sessionID pose le cookie s'il n'existe pas encore, ex. page /guide
+	// autonome utilisée avant d'ouvrir /chat).
+	if resp.StatusCode >= 200 && resp.StatusCode < 300 {
+		sid := s.sessionID(w, r)
+		s.captureGuideCtx(sid, body, respBody)
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(resp.StatusCode)
-	if _, err := io.Copy(w, resp.Body); err != nil {
-		s.log.Error("guide proxy copy", "err", err)
+	_, _ = w.Write(respBody)
+}
+
+// guideCtxEntry est le contexte guide stocké côté serveur pour une session chat.
+type guideCtxEntry struct {
+	Reponses    []guideAnswer   `json:"reponses"`
+	Derniere    json.RawMessage `json:"derniere_reponse,omitempty"`
+	JSONPatient json.RawMessage `json:"json_patient,omitempty"`
+	SessionID   string          `json:"session_id,omitempty"`
+	GoChat      bool            `json:"go_chat,omitempty"`
+	BlocCrise   json.RawMessage `json:"bloc_crise,omitempty"`
+	Updated     time.Time       `json:"-"`
+}
+
+type guideAnswer struct {
+	IDQuestion string `json:"id_question"`
+	Reponse    string `json:"reponse"`
+}
+
+// captureGuideCtx met à jour le contexte guide de la session chat à partir
+// d'une requête (body) et de la réponse brute de l'API Guide.
+func (s *Server) captureGuideCtx(sid string, reqBody, respBody []byte) {
+	// Analyser la réponse : question suivante (avec json_patient) ou fin.
+	var resp struct {
+		IDQuestion  string          `json:"id_question"`
+		SessionID   string          `json:"session_id"`
+		GoChat      bool            `json:"go_chat"`
+		JSONPatient json.RawMessage `json:"json_patient"`
+		BlocCrise   json.RawMessage `json:"bloc_crise"`
 	}
+	if err := json.Unmarshal(respBody, &resp); err != nil {
+		return // réponse non structurée : on n'enregistre rien
+	}
+
+	// Analyser la requête pour récupérer la réponse donnée (s'il y en a une).
+	var reqq struct {
+		IDQuestion string `json:"id_question"`
+		Reponse    string `json:"reponse"`
+	}
+	_ = json.Unmarshal(reqBody, &reqq)
+
+	s.guideCtxMu.Lock()
+	defer s.guideCtxMu.Unlock()
+
+	e, ok := s.guideCtx[sid]
+	var entry guideCtxEntry
+	if ok {
+		_ = json.Unmarshal(e, &entry)
+	}
+
+	// Ajouter la réponse à l'historique (seulement si c'est une réponse, pas la création de session).
+	if reqq.IDQuestion != "" && reqq.Reponse != "" {
+		// Éviter les doublons si le proxy est rappelé pour la même question.
+		dedup := entry.Reponses[:0]
+		for _, a := range entry.Reponses {
+			if a.IDQuestion != reqq.IDQuestion {
+				dedup = append(dedup, a)
+			}
+		}
+		entry.Reponses = append(dedup, guideAnswer{IDQuestion: reqq.IDQuestion, Reponse: reqq.Reponse})
+	}
+
+	entry.Derniere = json.RawMessage(respBody)
+	entry.SessionID = resp.SessionID
+	entry.GoChat = resp.GoChat
+	if len(resp.JSONPatient) > 0 {
+		entry.JSONPatient = resp.JSONPatient
+	}
+	if len(resp.BlocCrise) > 0 {
+		entry.BlocCrise = resp.BlocCrise
+	}
+	entry.Updated = time.Now()
+
+	// Persister (re-sérialiser sans Updated).
+	out, err := json.Marshal(struct {
+		Reponses    []guideAnswer   `json:"reponses"`
+		Derniere    json.RawMessage `json:"derniere_reponse,omitempty"`
+		JSONPatient json.RawMessage `json:"json_patient,omitempty"`
+		SessionID   string          `json:"session_id,omitempty"`
+		GoChat      bool            `json:"go_chat,omitempty"`
+		BlocCrise   json.RawMessage `json:"bloc_crise,omitempty"`
+	}{entry.Reponses, entry.Derniere, entry.JSONPatient, entry.SessionID, entry.GoChat, entry.BlocCrise})
+	if err != nil {
+		return
+	}
+	s.guideCtx[sid] = out
+}
+
+// getGuideCtx retourne le contexte guide stocké pour la session chat.
+func (s *Server) getGuideCtx(sid string) json.RawMessage {
+	s.guideCtxMu.Lock()
+	defer s.guideCtxMu.Unlock()
+	return s.guideCtx[sid]
 }
 
 func (s *Server) handleMapCategories(w http.ResponseWriter, r *http.Request) {
@@ -457,7 +621,85 @@ func (s *Server) handleChatReset(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write([]byte(`{"ok":true}`))
 }
 
+// --- Chat public (grand public, prompt distinct du ChatPro) ---
+
+func (s *Server) handleChatPublicPage(w http.ResponseWriter, r *http.Request) {
+	sid := s.sessionID(w, r)
+	history := []ai.HistoryMessage{}
+	ests := []ai.Establishment{}
+	if s.pubSessions != nil {
+		history = s.pubSessions.History(sid)
+		ests = s.pubSessions.Establishments(sid)
+	}
+	estsJSON, err := json.Marshal(ests)
+	if err != nil {
+		estsJSON = []byte("[]")
+	}
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	data := struct {
+		Ready          bool
+		History        []ai.HistoryMessage
+		MapboxToken    string
+		Establishments template.JS
+	}{
+		Ready:          s.chatReady,
+		History:        history,
+		MapboxToken:    s.mapboxTok,
+		Establishments: template.JS(estsJSON),
+	}
+	if err := s.chatPubTmpl.ExecuteTemplate(w, "chat-public.html", data); err != nil {
+		s.log.Error("template", "name", "chat-public.html", "err", err)
+	}
+}
+
+// handleChatPublicEstabsClear vide la liste d'établissements de la session
+// (sans toucher à l'historique du chat).
+func (s *Server) handleChatPublicEstabsClear(w http.ResponseWriter, r *http.Request) {
+	sid := s.sessionID(w, r)
+	if s.pubSessions != nil {
+		s.pubSessions.ClearEstablishments(sid)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = w.Write([]byte(`{"ok":true}`))
+}
+
+func (s *Server) handleChatPublicReset(w http.ResponseWriter, r *http.Request) {
+	sid := s.sessionID(w, r)
+	if s.pubSessions != nil {
+		s.pubSessions.Reset(sid)
+	}
+	// Le reset du chat efface aussi le contexte guide stocké.
+	s.guideCtxMu.Lock()
+	delete(s.guideCtx, sid)
+	s.guideCtxMu.Unlock()
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = w.Write([]byte(`{"ok":true}`))
+}
+
+func (s *Server) handleChatPublicStream(w http.ResponseWriter, r *http.Request) {
+	// Le contexte guide est résolu côté serveur (mis à jour à chaque réponse
+	// du widget guide via le proxy) — pas besoin que le client l'envoie.
+	// Le prompt de passe 1 (guide) est utilisé ; la passe 2 (carte) utilise
+	// son propre prompt interne dans Chat().
+	s.streamChat(w, r, ai.SystemPromptPublicGuide, s.pubSessions, true)
+}
+
 func (s *Server) handleChatStream(w http.ResponseWriter, r *http.Request) {
+	s.streamChat(w, r, ai.SystemPromptPro, s.sessions, false)
+}
+
+// systemWithContext ajoute le contexte du questionnaire « Guide » au prompt
+// système fourni (élément de contexte pour le chat public).
+func systemWithContext(system string, guideContext json.RawMessage) string {
+	if len(guideContext) == 0 {
+		return system
+	}
+	return system + "\n\n--- Contexte du questionnaire « Guide » (réponses de la personne, JSON) ---\n" + string(guideContext)
+}
+
+// streamChat exécute le chat en streaming SSE pour un prompt et un store donnés.
+// useGuideCtx : injecte le contexte guide stocké côté serveur (chat public).
+func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system string, store *ai.SessionStore, useGuideCtx bool) {
 	if !s.chatReady || s.chatSvc == nil {
 		http.Error(w, `{"error":"chat non configuré (AI_* manquantes)"}`, http.StatusServiceUnavailable)
 		return
@@ -470,7 +712,20 @@ func (s *Server) handleChatStream(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sid := s.sessionID(w, r)
-	history := s.sessions.History(sid)
+	var history []ai.HistoryMessage
+	if store != nil {
+		history = store.History(sid)
+	}
+
+	// Contexte guide : stocké serveur (à jour à chaque réponse du widget)
+	// en priorité ; le guide_context client sert de repli (ex. page /guide
+	// autonome utilisée avant d'ouvrir /chat, même cookie).
+	guideCtx := req.GuideContext
+	if useGuideCtx {
+		if stored := s.getGuideCtx(sid); len(stored) > 0 {
+			guideCtx = stored
+		}
+	}
 
 	flusher, ok := w.(http.Flusher)
 	if !ok {
@@ -478,12 +733,55 @@ func (s *Server) handleChatStream(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Si le client déconnecte (refresh, onglet fermé), on annule l'appel LLM
+	// amont plutôt que de laisser tourner les retries dans le vide.
+	ctx, cancel := context.WithCancel(r.Context())
+	defer cancel()
+
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
 	w.Header().Set("X-Accel-Buffering", "no")
 
-	events := s.chatSvc.Chat(r.Context(), history, req.Message)
+	// Mutex protégeant toutes les écritures sur w : le keepalive et la boucle
+	// d'événements écrivent depuis des goroutines différentes — sans protection,
+	// les écritures s'entrelacent et corrompent le flux SSE (« Error in input
+	// stream » côté navigateur).
+	var wmu sync.Mutex
+	writeSSE := func(format string, args ...any) error {
+		wmu.Lock()
+		defer wmu.Unlock()
+		_, err := fmt.Fprintf(w, format, args...)
+		if err == nil {
+			flusher.Flush()
+		}
+		return err
+	}
+
+	// Keepalive SSE : pendant les appels LLM longs (16-40s), aucun octet n'est
+	// envoyé — le navigateur/proxy coupe la connexion inactif. On envoie un
+	// commentaire SSE `: ping` toutes les 10s (ignoré par le client, mais
+	// maintient la connexion vivante).
+	done := make(chan struct{})
+	defer close(done)
+	go func() {
+		ticker := time.NewTicker(10 * time.Second)
+		defer ticker.Stop()
+		for {
+			select {
+			case <-done:
+				return
+			case <-ctx.Done():
+				return
+			case <-ticker.C:
+				if err := writeSSE(": ping\n\n"); err != nil {
+					return
+				}
+			}
+		}
+	}()
+
+	events := s.chatSvc.Chat(ctx, history, req.Message, systemWithContext(system, guideCtx))
 
 	var fullAnswer strings.Builder
 	for ev := range events {
@@ -493,14 +791,25 @@ func (s *Server) handleChatStream(w http.ResponseWriter, r *http.Request) {
 			fullAnswer.WriteString(ev.Token)
 		case "tool":
 			// already in event
+		case "establishments":
+			// Cumulés côté serveur pour les retrouver après navigation.
+			if store != nil {
+				store.AddEstablishments(sid, ev.Establishments)
+			}
 		case "done":
-			if s.sessions != nil {
-				s.sessions.Add(sid, req.Message, fullAnswer.String())
+			if store != nil {
+				store.Add(sid, req.Message, fullAnswer.String())
 			}
 		case "error":
 			s.log.Error("chat error", "err", ev.Error)
 		}
-		fmt.Fprintf(w, "event: %s\ndata: %s\n\n", ev.Type, data)
-		flusher.Flush()
+		if err := writeSSE("event: %s\ndata: %s\n\n", ev.Type, data); err != nil {
+			s.log.Debug("chat client déconnecté", "err", err)
+			cancel()
+			// on vide le canal pour que la goroutine Chat se termine
+			for range events {
+			}
+			return
+		}
 	}
 }

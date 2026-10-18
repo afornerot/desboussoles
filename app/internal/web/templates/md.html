@@ -1,0 +1,105 @@
+{{define "md-render"}}
+<style>
+  .md-p { margin:.35rem 0; }
+  .md-p:first-child { margin-top:0; }
+  .md-p:last-child { margin-bottom:0; }
+  .md-h { display:block; margin:.25rem 0; font-size:1.05em; }
+  .md-code {
+    background:var(--sc-fond-gris-clair); padding:.05rem .35rem; border-radius:4px;
+    font-size:.9em; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  .md-pre {
+    background:var(--sc-fond-gris-clair); padding:.65rem .8rem; border-radius:8px;
+    overflow-x:auto; font-size:.85em; margin:.45rem 0;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  .md-quote {
+    border-left:3px solid var(--sc-orange-desaccord); margin:.45rem 0;
+    padding:.15rem 0 .15rem .7rem; color:var(--sc-gris-texte);
+  }
+  .md-hr { border:0; border-top:2px solid var(--sc-fond-gris-clair); margin:.6rem 0; }
+  .md-ul, .md-ol { margin:.35rem 0; padding-left:1.35rem; }
+  .md-ul li, .md-ol li { margin:.18rem 0; }
+  .md-note { color:var(--sc-orange-desaccord); font-weight:var(--sc-font-weight-bold); font-size:.88em; }
+</style>
+<script>
+// Mini-renderer Markdown — le HTML source est TOUJOURS échappé avant
+// transformation : aucune injection possible depuis la réponse du modèle.
+window.mdEsc = function (s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+};
+
+window.mdToHtml = function (src) {
+  var s = window.mdEsc(src);
+
+  // 1. blocs de code ``` ... ``` protégés en placeholders
+  var blocks = [];
+  s = s.replace(/```([\s\S]*?)```/g, function (_m, code) {
+    blocks.push('<pre class="md-pre">' + code.replace(/^\n+/, '').replace(/\n+$/, '') + '</pre>');
+    return '\u0000B' + (blocks.length - 1) + '\u0000';
+  });
+
+  // 2. transformations inline
+  function inline(t) {
+    return t
+      .replace(/`([^`]+)`/g, '<code class="md-code">$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*\w])\*([^*\n]+)\*/g, '$1<em>$2</em>')
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  }
+
+  // 3. lignes → blocs (paragraphes, listes, citations, titres)
+  var out = [], para = [], listTag = null, listItems = [], quote = [];
+  function flushPara() {
+    if (para.length) { out.push('<p class="md-p">' + para.join('<br>') + '</p>'); para = []; }
+  }
+  function flushList() {
+    if (!listTag) return;
+    out.push('<' + listTag + ' class="md-' + listTag + '">' + listItems.join('') + '</' + listTag + '>');
+    listTag = null; listItems = [];
+  }
+  function flushQuote() {
+    if (!quote.length) return;
+    out.push('<blockquote class="md-quote">' + quote.join('<br>') + '</blockquote>');
+    quote = [];
+  }
+  function flushAll() { flushPara(); flushList(); flushQuote(); }
+
+  s.split('\n').forEach(function (line) {
+    var t = line.trim();
+    if (t === '') { flushAll(); return; }
+    if (/^\u0000B\d+\u0000$/.test(t)) { flushAll(); out.push(t); return; }
+
+    var h = /^(#{1,6})\s+(.*)$/.exec(t);
+    if (h) {
+      flushAll();
+      out.push('<p class="md-p"><strong class="md-h">' + inline(h[2]) + '</strong></p>');
+      return;
+    }
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(t)) { flushAll(); out.push('<hr class="md-hr">'); return; }
+    if (/^&gt;\s?/.test(t)) {
+      flushPara(); flushList();
+      quote.push(inline(t.replace(/^&gt;\s?/, '')));
+      return;
+    }
+    var ul = /^[-*+]\s+(.*)$/.exec(t);
+    var ol = /^\d+[.)]\s+(.*)$/.exec(t);
+    if (ul || ol) {
+      flushPara(); flushQuote();
+      var tag = ul ? 'ul' : 'ol';
+      if (listTag && listTag !== tag) flushList();
+      listTag = tag;
+      listItems.push('<li>' + inline((ul || ol)[1]) + '</li>');
+      return;
+    }
+    flushList(); flushQuote();
+    para.push(inline(t));
+  });
+  flushAll();
+
+  return out.join('').replace(/\u0000B(\d+)\u0000/g, function (_m, i) { return blocks[+i]; });
+};
+</script>
+{{end}}

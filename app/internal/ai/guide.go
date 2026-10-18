@@ -91,7 +91,7 @@ func (g *Guide) Search(ctx context.Context, query string, limit int) (string, er
 	// Parser le JSON et formater les résultats
 	var resp struct {
 		Results []struct {
-			Source   string `json:"source"`
+			Source   string  `json:"source"`
 			Score    float64 `json:"score"`
 			Sections []struct {
 				Content string `json:"content"`

@@ -4,6 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/bornholm/genai/llm"
@@ -73,6 +76,13 @@ func (t *Tools) All() []llm.Tool {
 				Property("limit", "Nombre max de sections (défaut 5)", "integer"),
 			t.guideSearch,
 		),
+		llm.NewFuncTool(
+			"geocode",
+			"Convertit une adresse française (ou une partie d'adresse) en coordonnées GPS (longitude, latitude). Utilise l'adresse présente dans le contexte du guide ou de la conversation pour pouvoir ensuite appeler map_nearby.",
+			llm.NewJSONSchema().
+				RequiredProperty("address", "Adresse à géocoder (ex: \"12 rue des Lilas, Besançon\" ou \"Besançon\")", "string"),
+			t.geocode,
+		),
 	}
 }
 
@@ -135,7 +145,30 @@ func (t *Tools) mapNearby(ctx context.Context, params map[string]any) (llm.ToolR
 	if err != nil {
 		return errorResult(fmt.Sprintf("erreur de recherche proximité: %s", err)), nil
 	}
-	return jsonResult(map[string]any{"count": len(feats), "results": mapFeatureResults(feats, dists)}), nil
+
+	// Aucun résultat dans le rayon demandé : on élargit progressivement.
+	used := radius
+	for i := 0; len(feats) == 0 && i < 3; i++ {
+		used = radius * []float64{3, 6, 12}[i]
+		if used > 80 {
+			used = 80
+		}
+		feats, dists, err = t.store.SearchMapNearby(ctx, lng, lat, used, category, subcats, limit)
+		if err != nil {
+			return errorResult(fmt.Sprintf("erreur de recherche proximité: %s", err)), nil
+		}
+	}
+
+	out := map[string]any{"count": len(feats), "results": mapFeatureResults(feats, dists)}
+	if used != radius {
+		out["rayon_utilise_km"] = used
+		if len(feats) == 0 {
+			out["note"] = fmt.Sprintf("aucun résultat trouvé même dans un rayon de %.0f km", used)
+		} else {
+			out["note"] = fmt.Sprintf("aucun résultat dans %.0f km, recherche élargie à %.0f km — précise que les résultats sont les plus proches", radius, used)
+		}
+	}
+	return jsonResult(out), nil
 }
 
 func (t *Tools) mapWithin(ctx context.Context, params map[string]any) (llm.ToolResult, error) {
@@ -172,12 +205,90 @@ func (t *Tools) guideSearch(ctx context.Context, params map[string]any) (llm.Too
 	return llm.NewToolResult(result), nil
 }
 
+// geocode convertit une adresse en coordonnées GPS via l'API BAN
+// (Base Adresse Nationale, api-adresse.data.gouv.fr — gratuite, sans clé).
+func (t *Tools) geocode(ctx context.Context, params map[string]any) (llm.ToolResult, error) {
+	address, err := paramString(params, "address")
+	if err != nil {
+		return errorResult(err.Error()), nil
+	}
+
+	reqURL := "https://api-adresse.data.gouv.fr/search?q=" + url.QueryEscape(address) + "&limit=1"
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, reqURL, nil)
+	if err != nil {
+		return errorResult(fmt.Sprintf("erreur de requête geocode: %s", err)), nil
+	}
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return errorResult(fmt.Sprintf("API geocode injoignable: %s", err)), nil
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(io.LimitReader(resp.Body, 1<<16))
+	if err != nil {
+		return errorResult(fmt.Sprintf("lecture réponse geocode: %s", err)), nil
+	}
+
+	var geoResp struct {
+		Features []struct {
+			Geometry struct {
+				Coordinates [2]float64 `json:"coordinates"` // [lng, lat]
+			} `json:"geometry"`
+			Properties struct {
+				Label       string  `json:"label"`
+				Name        string  `json:"name"`
+				City        string  `json:"city"`
+				Postcode    string  `json:"postcode"`
+				Citycode    string  `json:"citycode"`
+				Score       float64 `json:"score"`
+				Type        string  `json:"type"`
+				Context     string  `json:"context"`
+				Housenumber string  `json:"housenumber"`
+				Street      string  `json:"street"`
+			} `json:"properties"`
+		} `json:"features"`
+	}
+	if err := json.Unmarshal(body, &geoResp); err != nil {
+		return errorResult(fmt.Sprintf("réponse geocode illisible: %s", err)), nil
+	}
+
+	if len(geoResp.Features) == 0 {
+		return jsonResult(map[string]any{
+			"found":   false,
+			"address": address,
+			"note":    "aucune correspondance trouvée pour cette adresse",
+		}), nil
+	}
+
+	f := geoResp.Features[0]
+	lng := f.Geometry.Coordinates[0]
+	lat := f.Geometry.Coordinates[1]
+
+	return jsonResult(map[string]any{
+		"found":    true,
+		"label":    f.Properties.Label,
+		"lng":      lng,
+		"lat":      lat,
+		"city":     f.Properties.City,
+		"postcode": f.Properties.Postcode,
+		"citycode": f.Properties.Citycode,
+		"context":  f.Properties.Context,
+		"score":    f.Properties.Score,
+	}), nil
+}
+
 func mapFeatureResults(feats []store.MapFeature, dists []float64) []map[string]any {
 	results := make([]map[string]any, 0, len(feats))
 	for i, f := range feats {
 		item := map[string]any{
+			"id":       f.ID,
 			"name":     f.Name,
 			"category": f.CategoryCode,
+			"lng":      f.Lng,
+			"lat":      f.Lat,
 		}
 		if f.Title != "" {
 			item["title"] = f.Title

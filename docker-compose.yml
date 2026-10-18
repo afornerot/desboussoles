@@ -26,7 +26,7 @@ services:
       DATABASE_URL: postgres://boussoule:changeme@postgres:5432/boussole?sslmode=disable
       LISTEN_ADDR: ":8080"
       MAPBOX_TOKEN: ""
-      GUIDE_API_URL: ""
+      GUIDE_API_URL: "http://guide-api:8000"
       AI_PROVIDER: ""
       AI_MODEL: ""
       AI_API_KEY: ""
@@ -36,4 +36,14 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    restart: unless-stopped
+
+  # API Guide (questionnaire d'orientation) — FastAPI, sessions en mémoire
+  guide-api:
+    build: ./python
+    container_name: guide-api
+    ports:
+      - "8002:8000"
+    environment:
+      SEUIL_ALERTE: "3"
     restart: unless-stopped

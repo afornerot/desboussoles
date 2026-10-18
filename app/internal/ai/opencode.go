@@ -46,9 +46,9 @@ func newOpenCodeClient(baseURL, apiKey, sessionID string, log *slog.Logger) *ope
 }
 
 type ocToolCall struct {
-	Index   int    `json:"index"`
-	ID      string `json:"id"`
-	Type    string `json:"type"`
+	Index    int    `json:"index"`
+	ID       string `json:"id"`
+	Type     string `json:"type"`
 	Function struct {
 		Name      string `json:"name"`
 		Arguments string `json:"arguments"`
@@ -56,21 +56,21 @@ type ocToolCall struct {
 }
 
 type ocDelta struct {
-	Role      string      `json:"role"`
-	Content   string      `json:"content"`
+	Role      string       `json:"role"`
+	Content   string       `json:"content"`
 	ToolCalls []ocToolCall `json:"tool_calls"`
 }
 
 type ocChunk struct {
 	Choices []struct {
-		Delta       ocDelta `json:"delta"`
-		FinishReason string `json:"finish_reason"`
+		Delta        ocDelta `json:"delta"`
+		FinishReason string  `json:"finish_reason"`
 	} `json:"choices"`
 }
 
 type ocMessage struct {
-	Role      string      `json:"role"`
-	Content   string      `json:"content,omitempty"`
+	Role      string       `json:"role"`
+	Content   string       `json:"content,omitempty"`
 	ToolCalls []ocToolCall `json:"tool_calls,omitempty"`
 }
 
@@ -81,9 +81,9 @@ type ocToolMessage struct {
 }
 
 type ocFunction struct {
-	Name        string          `json:"name"`
-	Description string          `json:"description"`
-	Parameters  map[string]any  `json:"parameters"`
+	Name        string         `json:"name"`
+	Description string         `json:"description"`
+	Parameters  map[string]any `json:"parameters"`
 }
 
 type ocTool struct {
@@ -210,7 +210,9 @@ func (c *openCodeClient) ChatCompletionStream(ctx context.Context, funcs ...llm.
 			}
 		}
 
-		// Envoyer le chunk terminal avec les tool calls accumulés
+		// Envoyer le chunk terminal avec les tool calls accumulés.
+		// Le contenu n'est PAS renvoyé ici : chaque token a déjà été émis
+	 // individuellement pendant le stream (sinon doublon dans consumeStream).
 		var allToolCallDeltas []llm.ToolCallDelta
 		for i, idx := range toolOrder {
 			acc := toolAcc[idx]
@@ -224,7 +226,7 @@ func (c *openCodeClient) ChatCompletionStream(ctx context.Context, funcs ...llm.
 			allToolCallDeltas = append(allToolCallDeltas, llm.NewToolCallDelta(i, acc.id, acc.name, args))
 		}
 
-		finalDelta := llm.NewStreamDelta(llm.RoleAssistant, contentBuilder.String(), allToolCallDeltas...)
+		finalDelta := llm.NewStreamDelta(llm.RoleAssistant, "", allToolCallDeltas...)
 		llm.SendTerminalChunk(ctx, chunks, llm.NewStreamChunk(finalDelta))
 	}()
 
@@ -283,9 +285,9 @@ func convertMessage(m llm.Message) any {
 	if role == "tool" {
 		if tm, ok := m.(llm.ToolMessage); ok {
 			return map[string]any{
-				"role":        "tool",
+				"role":         "tool",
 				"tool_call_id": tm.ID(),
-				"content":     m.Content(),
+				"content":      m.Content(),
 			}
 		}
 		return map[string]any{"role": "tool", "content": m.Content()}

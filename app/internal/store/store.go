@@ -190,6 +190,8 @@ type MapFeature struct {
 	Address       string   `json:"address,omitempty"`
 	Phone         string   `json:"phone,omitempty"`
 	Subcategories []string `json:"subcategories,omitempty"`
+	Lng           float64  `json:"lng,omitempty"`
+	Lat           float64  `json:"lat,omitempty"`
 }
 
 const mapFeatureCols = `
@@ -198,12 +200,14 @@ const mapFeatureCols = `
 	COALESCE(f.props->>'address', ''),
 	COALESCE(f.props->>'phone', ''),
 	(SELECT COALESCE(array_agg(s #>> '{}'), '{}')
-	 FROM jsonb_array_elements(COALESCE(f.props->'subcategories', '[]'::jsonb)) s)
+	 FROM jsonb_array_elements(COALESCE(f.props->'subcategories', '[]'::jsonb)) s),
+	ST_X(ST_Centroid(f.geom)),
+	ST_Y(ST_Centroid(f.geom))
 `
 
 func scanMapFeature(row pgx.Row) (MapFeature, error) {
 	var f MapFeature
-	err := row.Scan(&f.ID, &f.Name, &f.CategoryCode, &f.Title, &f.Address, &f.Phone, &f.Subcategories)
+	err := row.Scan(&f.ID, &f.Name, &f.CategoryCode, &f.Title, &f.Address, &f.Phone, &f.Subcategories, &f.Lng, &f.Lat)
 	return f, err
 }
 
@@ -264,7 +268,7 @@ func (s *Store) SearchMapNearby(ctx context.Context, lng, lat, radiusKm float64,
 	for rows.Next() {
 		var f MapFeature
 		var dist float64
-		if err := rows.Scan(&f.ID, &f.Name, &f.CategoryCode, &f.Title, &f.Address, &f.Phone, &f.Subcategories, &dist); err != nil {
+		if err := rows.Scan(&f.ID, &f.Name, &f.CategoryCode, &f.Title, &f.Address, &f.Phone, &f.Subcategories, &f.Lng, &f.Lat, &dist); err != nil {
 			return nil, nil, err
 		}
 		out = append(out, f)
@@ -321,9 +325,20 @@ type Ressource struct {
 
 // ListRessources retourne toutes les ressources triées par ordre puis titre.
 func (s *Store) ListRessources(ctx context.Context) ([]Ressource, error) {
+	return s.listRessources(ctx, "")
+}
+
+// ListRessourcesByCategory retourne les ressources d'une catégorie donnée.
+func (s *Store) ListRessourcesByCategory(ctx context.Context, category string) ([]Ressource, error) {
+	return s.listRessources(ctx, category)
+}
+
+func (s *Store) listRessources(ctx context.Context, category string) ([]Ressource, error) {
 	rows, err := s.pool.Query(ctx, `
 		SELECT id, title, description, url, category, profile
-		FROM ressource ORDER BY sort_order, title`)
+		FROM ressource
+		WHERE ($1 = '' OR category = $1)
+		ORDER BY sort_order, title`, category)
 	if err != nil {
 		return nil, err
 	}

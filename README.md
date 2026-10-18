@@ -44,17 +44,15 @@ Le premier démarrage exécute `init.sql` (schéma + seed). Les variables locale
 
 ## API Guide (questionnaire)
 
-Le serveur proxyge deux endpoints vers `GUIDE_API_URL` :
+Le serveur proxyge deux endpoints vers `GUIDE_API_URL` (service `guide-api`, voir `python/README.md`) :
 
 - `POST /api/guide/session` → `{GUIDE_API_URL}/sessions` — démarre une session, retourne la première question
 - `POST /api/guide/reponse` → `{GUIDE_API_URL}/reponse` — `{session_id, id_question, reponse}` → question suivante
 
 Format de question : `{session_id, id_question, champ, texte, type: choice|texte|commune|textarea, options: [{valeur, libelle}], mandatory}`.
-`id_question == "fin"` marque la fin du questionnaire. Bouton « Passer » → `reponse: "passe"`.
+`id_question == "fin"` marque la fin du questionnaire (le JSON patient final est renvoyé alors, avec `bloc_crise` en cas de risque). Bouton « Passer » → `reponse: "passe"`.
 
-### Fake API de dev
-
-Un mock complet (5 questions) est fourni : service `guide-fake` dans `compose.override.yml` (`fake-guide/server.py`), exposé sur le port `8002`. À retirer quand l'API réelle est branchée.
+L'API Guide est implémentée en **Python / FastAPI** dans `python/` : extraction déterministe du texte libre vers un schéma patient, questions pour les seuls champs manquants, détection de crise par lexique. **Une seule instance** (sessions en mémoire, TTL 30 min) — voir `python/README.md`.
 
 ## Charte graphique
 
@@ -70,6 +68,6 @@ app/
     store/             accès Postgres/PostGIS
     web/               handlers, templates, static (charte)
 charte-graphique/      charte graphique complète
-fake-guide/            mock API questionnaire (dev)
+python/                API Guide (FastAPI) — questionnaire d'orientation
 init.sql               schéma + seed
 ```
