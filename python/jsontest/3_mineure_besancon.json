@@ -1,5 +1,5 @@
 {
-  "description": "Mineure à Besançon : le quartier est demandé pour trouver le CGI de secteur ; déjà suivie.",
+  "description": "Mineure à Besançon (tiers) : ressources enfant et proches dans info_global ; quartier cité dans le texte libre → CGI de secteur ; déjà suivie.",
   "echanges": [
     {
       "question_envoyee_au_front": {
@@ -9,9 +9,22 @@
         "texte": "Quel âge a la personne concernée ? (en années)",
         "mandatory": true,
         "options": [],
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "dbb7c4551694554d",
+          "session_id": "363430f229aa08ef",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -125,7 +138,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
         "id_question": "q_age",
         "reponse": "13"
       }
@@ -138,9 +151,32 @@
         "texte": "Quelle est votre adresse ?",
         "mandatory": true,
         "options": [],
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "dbb7c4551694554d",
+          "session_id": "363430f229aa08ef",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -254,192 +290,9 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
         "id_question": "q_adresse",
         "reponse": "12 rue de Vesoul, 25000 Besançon"
-      }
-    },
-    {
-      "question_envoyee_au_front": {
-        "id_question": "q_quartier",
-        "type": "choice",
-        "champ": "quartier",
-        "texte": "Dans quel quartier de Besançon habitez-vous ?",
-        "mandatory": true,
-        "options": [
-          {
-            "valeur": "Chaprais /Cras",
-            "libelle": "Chaprais /Cras"
-          },
-          {
-            "valeur": "Battant",
-            "libelle": "Battant"
-          },
-          {
-            "valeur": "Bregille",
-            "libelle": "Bregille"
-          },
-          {
-            "valeur": "Centre/Chapelle des buis",
-            "libelle": "Centre/Chapelle des buis"
-          },
-          {
-            "valeur": "Montrapon/Montboucon",
-            "libelle": "Montrapon/Montboucon"
-          },
-          {
-            "valeur": "Palente/Orchamps",
-            "libelle": "Palente/Orchamps"
-          },
-          {
-            "valeur": "Planoise Chateaufarine",
-            "libelle": "Planoise Chateaufarine"
-          },
-          {
-            "valeur": "St Claude/Torcols",
-            "libelle": "St Claude/Torcols"
-          },
-          {
-            "valeur": "St Ferjeux/Rosemeont",
-            "libelle": "St Ferjeux/Rosemeont"
-          },
-          {
-            "valeur": "Tilleroyes",
-            "libelle": "Tilleroyes"
-          },
-          {
-            "valeur": "Vaite/Clairs soleils",
-            "libelle": "Vaite/Clairs soleils"
-          },
-          {
-            "valeur": "Velotte",
-            "libelle": "Velotte"
-          },
-          {
-            "valeur": "Butte/Grette",
-            "libelle": "Butte/Grette"
-          }
-        ],
-        "session_id": "dbb7c4551694554d",
-        "json_patient": {
-          "session_id": "dbb7c4551694554d",
-          "demandeur": {
-            "value": null,
-            "confidence": 0.0,
-            "source": null,
-            "evidence": null
-          },
-          "personne": {
-            "age_ans": {
-              "value": 13,
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": null
-            },
-            "tranche_age": {
-              "value": "13-17",
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "commune_insee": {
-              "value": "25056",
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": null
-            },
-            "commune_nom": {
-              "value": "Besançon",
-              "confidence": 1.0,
-              "source": "utilisateur",
-              "evidence": "besancon"
-            },
-            "quartier_besancon": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "secteur_adulte": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "secteur_infanto_juvenile": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "hors_perimetre_guide": {
-              "value": false,
-              "confidence": 1.0,
-              "source": "derive",
-              "evidence": null
-            },
-            "statuts": []
-          },
-          "besoin": {
-            "parcours_principal": {
-              "value": "enfant_adolescent",
-              "confidence": 0.6,
-              "source": "derive",
-              "evidence": null
-            },
-            "parcours_secondaires": [],
-            "type_demande": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "deja_suivi": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "duree": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "impact_domaine": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            },
-            "impact_niveau": {
-              "value": null,
-              "confidence": 0.0,
-              "source": null,
-              "evidence": null
-            }
-          },
-          "risque": {
-            "niveau": 0,
-            "indices": [],
-            "negation_detectee": false,
-            "sources": []
-          },
-          "mots_cles": [],
-          "champs_manquants": [
-            "quartier",
-            "demandeur"
-          ],
-          "suivi_questions": {
-            "q_age": "ok",
-            "q_adresse": "ok"
-          }
-        }
-      },
-      "reponse_du_front": {
-        "session_id": "dbb7c4551694554d",
-        "id_question": "q_quartier",
-        "reponse": "Planoise"
       }
     },
     {
@@ -448,7 +301,7 @@
         "type": "choice",
         "champ": "demandeur",
         "texte": "Pour qui cherchez-vous de l'aide ?",
-        "mandatory": true,
+        "mandatory": false,
         "options": [
           {
             "valeur": "soi",
@@ -459,9 +312,32 @@
             "libelle": "Pour un tiers"
           }
         ],
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "dbb7c4551694554d",
+          "session_id": "363430f229aa08ef",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -494,9 +370,9 @@
               "evidence": "besancon"
             },
             "quartier_besancon": {
-              "value": "Planoise Chateaufarine",
-              "confidence": 1.0,
-              "source": "utilisateur",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "secteur_adulte": {
@@ -506,9 +382,9 @@
               "evidence": null
             },
             "secteur_infanto_juvenile": {
-              "value": "CGI Planoise Besançon",
-              "confidence": 1.0,
-              "source": "derive",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "hors_perimetre_guide": {
@@ -566,17 +442,17 @@
           },
           "mots_cles": [],
           "champs_manquants": [
-            "demandeur"
+            "demandeur",
+            "quartier"
           ],
           "suivi_questions": {
             "q_age": "ok",
-            "q_adresse": "ok",
-            "q_quartier": "ok"
+            "q_adresse": "ok"
           }
         }
       },
       "reponse_du_front": {
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
         "id_question": "q_pour_qui",
         "reponse": "tiers"
       }
@@ -606,9 +482,45 @@
             "libelle": "Plus de 6 mois"
           }
         ],
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          },
+          {
+            "id": "proche",
+            "titre": "Pour accompagner un proche",
+            "elements": [
+              "UNAFAM",
+              "GEM",
+              "DAC",
+              "CMP",
+              "Équipes mobiles",
+              "Plateformes de répit",
+              "Services sociaux"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "dbb7c4551694554d",
+          "session_id": "363430f229aa08ef",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -641,9 +553,9 @@
               "evidence": "besancon"
             },
             "quartier_besancon": {
-              "value": "Planoise Chateaufarine",
-              "confidence": 1.0,
-              "source": "utilisateur",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "secteur_adulte": {
@@ -653,9 +565,9 @@
               "evidence": null
             },
             "secteur_infanto_juvenile": {
-              "value": "CGI Planoise Besançon",
-              "confidence": 1.0,
-              "source": "derive",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "hors_perimetre_guide": {
@@ -712,17 +624,18 @@
             "sources": []
           },
           "mots_cles": [],
-          "champs_manquants": [],
+          "champs_manquants": [
+            "quartier"
+          ],
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_quartier": "ok",
             "q_pour_qui": "ok"
           }
         }
       },
       "reponse_du_front": {
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
         "id_question": "q_duree",
         "reponse": "moins_1_mois"
       }
@@ -756,9 +669,45 @@
             "libelle": "Les relations sociales"
           }
         ],
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          },
+          {
+            "id": "proche",
+            "titre": "Pour accompagner un proche",
+            "elements": [
+              "UNAFAM",
+              "GEM",
+              "DAC",
+              "CMP",
+              "Équipes mobiles",
+              "Plateformes de répit",
+              "Services sociaux"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "dbb7c4551694554d",
+          "session_id": "363430f229aa08ef",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -791,9 +740,9 @@
               "evidence": "besancon"
             },
             "quartier_besancon": {
-              "value": "Planoise Chateaufarine",
-              "confidence": 1.0,
-              "source": "utilisateur",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "secteur_adulte": {
@@ -803,9 +752,9 @@
               "evidence": null
             },
             "secteur_infanto_juvenile": {
-              "value": "CGI Planoise Besançon",
-              "confidence": 1.0,
-              "source": "derive",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "hors_perimetre_guide": {
@@ -862,18 +811,19 @@
             "sources": []
           },
           "mots_cles": [],
-          "champs_manquants": [],
+          "champs_manquants": [
+            "quartier"
+          ],
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_quartier": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok"
           }
         }
       },
       "reponse_du_front": {
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
         "id_question": "q_impact",
         "reponse": "famille"
       }
@@ -899,9 +849,45 @@
             "libelle": "Beaucoup"
           }
         ],
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          },
+          {
+            "id": "proche",
+            "titre": "Pour accompagner un proche",
+            "elements": [
+              "UNAFAM",
+              "GEM",
+              "DAC",
+              "CMP",
+              "Équipes mobiles",
+              "Plateformes de répit",
+              "Services sociaux"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "dbb7c4551694554d",
+          "session_id": "363430f229aa08ef",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -934,9 +920,9 @@
               "evidence": "besancon"
             },
             "quartier_besancon": {
-              "value": "Planoise Chateaufarine",
-              "confidence": 1.0,
-              "source": "utilisateur",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "secteur_adulte": {
@@ -946,9 +932,9 @@
               "evidence": null
             },
             "secteur_infanto_juvenile": {
-              "value": "CGI Planoise Besançon",
-              "confidence": 1.0,
-              "source": "derive",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "hors_perimetre_guide": {
@@ -1005,11 +991,12 @@
             "sources": []
           },
           "mots_cles": [],
-          "champs_manquants": [],
+          "champs_manquants": [
+            "quartier"
+          ],
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_quartier": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok",
             "q_impact": "ok"
@@ -1017,7 +1004,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
         "id_question": "q_impact_niveau",
         "reponse": "moderement"
       }
@@ -1030,9 +1017,45 @@
         "texte": "Quel est le principal besoin de la personne, ou quelle difficulté rencontre-t-elle ?",
         "mandatory": false,
         "options": [],
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          },
+          {
+            "id": "proche",
+            "titre": "Pour accompagner un proche",
+            "elements": [
+              "UNAFAM",
+              "GEM",
+              "DAC",
+              "CMP",
+              "Équipes mobiles",
+              "Plateformes de répit",
+              "Services sociaux"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "dbb7c4551694554d",
+          "session_id": "363430f229aa08ef",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -1065,9 +1088,9 @@
               "evidence": "besancon"
             },
             "quartier_besancon": {
-              "value": "Planoise Chateaufarine",
-              "confidence": 1.0,
-              "source": "utilisateur",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "secteur_adulte": {
@@ -1077,9 +1100,9 @@
               "evidence": null
             },
             "secteur_infanto_juvenile": {
-              "value": "CGI Planoise Besançon",
-              "confidence": 1.0,
-              "source": "derive",
+              "value": null,
+              "confidence": 0.0,
+              "source": null,
               "evidence": null
             },
             "hors_perimetre_guide": {
@@ -1136,11 +1159,12 @@
             "sources": []
           },
           "mots_cles": [],
-          "champs_manquants": [],
+          "champs_manquants": [
+            "quartier"
+          ],
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_quartier": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok",
             "q_impact": "ok",
@@ -1149,9 +1173,9 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
         "id_question": "q_besoin",
-        "reponse": "ma fille ne mange presque plus et pleure tous les soirs"
+        "reponse": "on habite à Planoise, ma fille ne mange presque plus et pleure tous les soirs"
       }
     },
     {
@@ -1171,9 +1195,45 @@
             "libelle": "Non"
           }
         ],
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          },
+          {
+            "id": "proche",
+            "titre": "Pour accompagner un proche",
+            "elements": [
+              "UNAFAM",
+              "GEM",
+              "DAC",
+              "CMP",
+              "Équipes mobiles",
+              "Plateformes de répit",
+              "Services sociaux"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "dbb7c4551694554d",
+          "session_id": "363430f229aa08ef",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -1209,7 +1269,7 @@
               "value": "Planoise Chateaufarine",
               "confidence": 1.0,
               "source": "utilisateur",
-              "evidence": null
+              "evidence": "besancon"
             },
             "secteur_adulte": {
               "value": null,
@@ -1278,6 +1338,13 @@
           },
           "mots_cles": [
             {
+              "mot": "planoise",
+              "origine": "q_besoin",
+              "reperes": [
+                "commune"
+              ]
+            },
+            {
               "mot": "fille",
               "origine": "q_besoin",
               "reperes": [
@@ -1309,7 +1376,6 @@
           "suivi_questions": {
             "q_age": "ok",
             "q_adresse": "ok",
-            "q_quartier": "ok",
             "q_pour_qui": "ok",
             "q_duree": "ok",
             "q_impact": "ok",
@@ -1319,14 +1385,14 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "dbb7c4551694554d",
+        "session_id": "363430f229aa08ef",
         "id_question": "q_accompagnement",
         "reponse": "oui"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "dbb7c4551694554d",
+    "session_id": "363430f229aa08ef",
     "demandeur": {
       "value": "proche",
       "confidence": 1.0,
@@ -1362,7 +1428,7 @@
         "value": "Planoise Chateaufarine",
         "confidence": 1.0,
         "source": "utilisateur",
-        "evidence": null
+        "evidence": "besancon"
       },
       "secteur_adulte": {
         "value": null,
@@ -1431,6 +1497,13 @@
     },
     "mots_cles": [
       {
+        "mot": "planoise",
+        "origine": "q_besoin",
+        "reperes": [
+          "commune"
+        ]
+      },
+      {
         "mot": "fille",
         "origine": "q_besoin",
         "reperes": [
@@ -1462,7 +1535,6 @@
     "suivi_questions": {
       "q_age": "ok",
       "q_adresse": "ok",
-      "q_quartier": "ok",
       "q_pour_qui": "ok",
       "q_duree": "ok",
       "q_impact": "ok",
@@ -1470,6 +1542,42 @@
       "q_besoin": "ok",
       "q_accompagnement": "ok"
     },
-    "id_question": "fin"
+    "id_question": "fin",
+    "info_global": [
+      {
+        "id": "urgences",
+        "titre": "Urgences",
+        "elements": [
+          "15 (SAMU)",
+          "17 (Police/Gendarmerie)",
+          "112",
+          "3114 (prévention du suicide)",
+          "Service des urgences psychiatriques"
+        ]
+      },
+      {
+        "id": "enfant",
+        "titre": "Pour un enfant ou un adolescent",
+        "elements": [
+          "CMPP",
+          "PCO",
+          "CMP Enfants",
+          "CGI"
+        ]
+      },
+      {
+        "id": "proche",
+        "titre": "Pour accompagner un proche",
+        "elements": [
+          "UNAFAM",
+          "GEM",
+          "DAC",
+          "CMP",
+          "Équipes mobiles",
+          "Plateformes de répit",
+          "Services sociaux"
+        ]
+      }
+    ]
   }
 }

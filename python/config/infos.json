@@ -1,0 +1,42 @@
+{
+  "$schema": "./infos.schema.json",
+  "sections": [
+    {
+      "id": "urgences",
+      "titre": "Urgences",
+      "condition": "toujours",
+      "elements": [
+        "15 (SAMU)",
+        "17 (Police/Gendarmerie)",
+        "112",
+        "3114 (prévention du suicide)",
+        "Service des urgences psychiatriques"
+      ]
+    },
+    {
+      "id": "enfant",
+      "titre": "Pour un enfant ou un adolescent",
+      "condition": "mineur",
+      "elements": [
+        "CMPP",
+        "PCO",
+        "CMP Enfants",
+        "CGI"
+      ]
+    },
+    {
+      "id": "proche",
+      "titre": "Pour accompagner un proche",
+      "condition": "tiers",
+      "elements": [
+        "UNAFAM",
+        "GEM",
+        "DAC",
+        "CMP",
+        "Équipes mobiles",
+        "Plateformes de répit",
+        "Services sociaux"
+      ]
+    }
+  ]
+}

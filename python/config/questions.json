@@ -17,19 +17,11 @@
       "mandatory": true
     },
     {
-      "id_question": "q_quartier",
-      "type": "choice",
-      "champ": "quartier",
-      "texte": "Dans quel quartier de Besançon habitez-vous ?",
-      "texte_tiers": "Dans quel quartier de Besançon habite la personne concernée ?",
-      "mandatory": true
-    },
-    {
       "id_question": "q_pour_qui",
       "type": "choice",
       "champ": "demandeur",
       "texte": "Pour qui cherchez-vous de l'aide ?",
-      "mandatory": true,
+      "mandatory": false,
       "options": [
         {"valeur": "soi", "libelle": "Pour moi"},
         {"valeur": "tiers", "libelle": "Pour un tiers"}

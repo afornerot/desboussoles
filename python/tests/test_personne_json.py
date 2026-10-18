@@ -15,8 +15,10 @@ def fiche(nom):
 
 
 def test_fiche_incomplete_mineur_besancon():
-    q = client.post("/personne/evaluer", json=fiche("patient_incomplet.json")).json()
-    assert q["id_question"] == "q_quartier" and q["options"]  # mineur à Besançon : quartier demandé
+    fin = client.post("/personne/evaluer", json=fiche("patient_incomplet.json")).json()
+    # plus de question sur le quartier : le JSON est renvoyé, le quartier reste dans les champs manquants
+    assert fin["id_question"] == "fin" and fin["champs_manquants"] == ["quartier"]
+    assert [s["id"] for s in fin["info_global"]] == ["urgences", "enfant", "proche"]
 
 
 def test_fiche_complete():

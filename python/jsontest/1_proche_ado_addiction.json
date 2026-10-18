@@ -9,9 +9,22 @@
         "texte": "Quel âge a la personne concernée ? (en années)",
         "mandatory": true,
         "options": [],
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "93103e2d69768fd3",
+          "session_id": "9acb95dce57afc20",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -125,7 +138,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
         "id_question": "q_age",
         "reponse": "15"
       }
@@ -138,9 +151,32 @@
         "texte": "Quelle est votre adresse ?",
         "mandatory": true,
         "options": [],
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "93103e2d69768fd3",
+          "session_id": "9acb95dce57afc20",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -254,7 +290,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
         "id_question": "q_adresse",
         "reponse": "4 rue du Bief, 25500 Morteau"
       }
@@ -265,7 +301,7 @@
         "type": "choice",
         "champ": "demandeur",
         "texte": "Pour qui cherchez-vous de l'aide ?",
-        "mandatory": true,
+        "mandatory": false,
         "options": [
           {
             "valeur": "soi",
@@ -276,9 +312,32 @@
             "libelle": "Pour un tiers"
           }
         ],
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "93103e2d69768fd3",
+          "session_id": "9acb95dce57afc20",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -392,7 +451,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
         "id_question": "q_pour_qui",
         "reponse": "tiers"
       }
@@ -422,9 +481,45 @@
             "libelle": "Plus de 6 mois"
           }
         ],
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          },
+          {
+            "id": "proche",
+            "titre": "Pour accompagner un proche",
+            "elements": [
+              "UNAFAM",
+              "GEM",
+              "DAC",
+              "CMP",
+              "Équipes mobiles",
+              "Plateformes de répit",
+              "Services sociaux"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "93103e2d69768fd3",
+          "session_id": "9acb95dce57afc20",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -537,7 +632,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
         "id_question": "q_duree",
         "reponse": "moins_6_mois"
       }
@@ -571,9 +666,45 @@
             "libelle": "Les relations sociales"
           }
         ],
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          },
+          {
+            "id": "proche",
+            "titre": "Pour accompagner un proche",
+            "elements": [
+              "UNAFAM",
+              "GEM",
+              "DAC",
+              "CMP",
+              "Équipes mobiles",
+              "Plateformes de répit",
+              "Services sociaux"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "93103e2d69768fd3",
+          "session_id": "9acb95dce57afc20",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -687,7 +818,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
         "id_question": "q_impact",
         "reponse": "etudes"
       }
@@ -713,9 +844,45 @@
             "libelle": "Beaucoup"
           }
         ],
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          },
+          {
+            "id": "proche",
+            "titre": "Pour accompagner un proche",
+            "elements": [
+              "UNAFAM",
+              "GEM",
+              "DAC",
+              "CMP",
+              "Équipes mobiles",
+              "Plateformes de répit",
+              "Services sociaux"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "93103e2d69768fd3",
+          "session_id": "9acb95dce57afc20",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -830,7 +997,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
         "id_question": "q_impact_niveau",
         "reponse": "beaucoup"
       }
@@ -843,9 +1010,45 @@
         "texte": "Quel est le principal besoin de la personne, ou quelle difficulté rencontre-t-elle ?",
         "mandatory": false,
         "options": [],
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          },
+          {
+            "id": "proche",
+            "titre": "Pour accompagner un proche",
+            "elements": [
+              "UNAFAM",
+              "GEM",
+              "DAC",
+              "CMP",
+              "Équipes mobiles",
+              "Plateformes de répit",
+              "Services sociaux"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "93103e2d69768fd3",
+          "session_id": "9acb95dce57afc20",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -961,7 +1164,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
         "id_question": "q_besoin",
         "reponse": "mon fils sort plus de sa chambre et il fume des joints tous les jours, je sais plus quoi faire"
       }
@@ -983,9 +1186,45 @@
             "libelle": "Non"
           }
         ],
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          },
+          {
+            "id": "enfant",
+            "titre": "Pour un enfant ou un adolescent",
+            "elements": [
+              "CMPP",
+              "PCO",
+              "CMP Enfants",
+              "CGI"
+            ]
+          },
+          {
+            "id": "proche",
+            "titre": "Pour accompagner un proche",
+            "elements": [
+              "UNAFAM",
+              "GEM",
+              "DAC",
+              "CMP",
+              "Équipes mobiles",
+              "Plateformes de répit",
+              "Services sociaux"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "93103e2d69768fd3",
+          "session_id": "9acb95dce57afc20",
           "demandeur": {
             "value": "proche",
             "confidence": 1.0,
@@ -1134,14 +1373,14 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "93103e2d69768fd3",
+        "session_id": "9acb95dce57afc20",
         "id_question": "q_accompagnement",
         "reponse": "non"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "93103e2d69768fd3",
+    "session_id": "9acb95dce57afc20",
     "demandeur": {
       "value": "proche",
       "confidence": 1.0,
@@ -1288,6 +1527,42 @@
       "q_besoin": "ok",
       "q_accompagnement": "ok"
     },
-    "id_question": "fin"
+    "id_question": "fin",
+    "info_global": [
+      {
+        "id": "urgences",
+        "titre": "Urgences",
+        "elements": [
+          "15 (SAMU)",
+          "17 (Police/Gendarmerie)",
+          "112",
+          "3114 (prévention du suicide)",
+          "Service des urgences psychiatriques"
+        ]
+      },
+      {
+        "id": "enfant",
+        "titre": "Pour un enfant ou un adolescent",
+        "elements": [
+          "CMPP",
+          "PCO",
+          "CMP Enfants",
+          "CGI"
+        ]
+      },
+      {
+        "id": "proche",
+        "titre": "Pour accompagner un proche",
+        "elements": [
+          "UNAFAM",
+          "GEM",
+          "DAC",
+          "CMP",
+          "Équipes mobiles",
+          "Plateformes de répit",
+          "Services sociaux"
+        ]
+      }
+    ]
   }
 }

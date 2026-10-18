@@ -9,9 +9,22 @@
         "texte": "Quel âge a la personne concernée ? (en années)",
         "mandatory": true,
         "options": [],
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "7e5c598fde38dab5",
+          "session_id": "4c1e1d156c165ea4",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -125,7 +138,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
         "id_question": "q_age",
         "reponse": "27"
       }
@@ -138,9 +151,22 @@
         "texte": "Quelle est votre adresse ?",
         "mandatory": true,
         "options": [],
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "7e5c598fde38dab5",
+          "session_id": "4c1e1d156c165ea4",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -255,7 +281,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
         "id_question": "q_adresse",
         "reponse": "9 grande rue, 25300 Pontarlier"
       }
@@ -266,7 +292,7 @@
         "type": "choice",
         "champ": "demandeur",
         "texte": "Pour qui cherchez-vous de l'aide ?",
-        "mandatory": true,
+        "mandatory": false,
         "options": [
           {
             "valeur": "soi",
@@ -277,9 +303,22 @@
             "libelle": "Pour un tiers"
           }
         ],
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "7e5c598fde38dab5",
+          "session_id": "4c1e1d156c165ea4",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -394,7 +433,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
         "id_question": "q_pour_qui",
         "reponse": "soi"
       }
@@ -424,9 +463,22 @@
             "libelle": "Plus de 6 mois"
           }
         ],
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "7e5c598fde38dab5",
+          "session_id": "4c1e1d156c165ea4",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -541,7 +593,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
         "id_question": "q_duree",
         "reponse": "plus_6_mois"
       }
@@ -575,9 +627,22 @@
             "libelle": "Les relations sociales"
           }
         ],
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "7e5c598fde38dab5",
+          "session_id": "4c1e1d156c165ea4",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -693,7 +758,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
         "id_question": "q_impact",
         "reponse": "relations_sociales"
       }
@@ -719,9 +784,22 @@
             "libelle": "Beaucoup"
           }
         ],
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "7e5c598fde38dab5",
+          "session_id": "4c1e1d156c165ea4",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -838,7 +916,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
         "id_question": "q_impact_niveau",
         "reponse": "beaucoup"
       }
@@ -851,9 +929,22 @@
         "texte": "Quel est votre principal besoin, ou quelle difficulté rencontrez-vous ?",
         "mandatory": false,
         "options": [],
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "7e5c598fde38dab5",
+          "session_id": "4c1e1d156c165ea4",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -971,14 +1062,14 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "7e5c598fde38dab5",
+        "session_id": "4c1e1d156c165ea4",
         "id_question": "q_besoin",
         "reponse": "j'en peux plus, ce soir je le fais, j'ai préparé ma lettre"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "7e5c598fde38dab5",
+    "session_id": "4c1e1d156c165ea4",
     "demandeur": {
       "value": "soi",
       "confidence": 1.0,
@@ -1126,6 +1217,19 @@
       "Pensées suicidaires, ou inquiet pour un proche : 3114, numéro national de prévention du suicide, gratuit, 24h/24, 7j/7.",
       "Violences : 17 (police) — 3919 (violences conjugales, gratuit, 24h/24) — 119 (enfance en danger).",
       "Urgences psychiatriques : CHU de Besançon (urgences adultes) ; pour un mineur, urgences pédiatriques du CHU."
+    ],
+    "info_global": [
+      {
+        "id": "urgences",
+        "titre": "Urgences",
+        "elements": [
+          "15 (SAMU)",
+          "17 (Police/Gendarmerie)",
+          "112",
+          "3114 (prévention du suicide)",
+          "Service des urgences psychiatriques"
+        ]
+      }
     ]
   }
 }

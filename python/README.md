@@ -62,6 +62,10 @@ Crée une session et renvoie la première question :
   "texte": "Quel âge a la personne concernée ? (en années)",
   "mandatory": true,
   "options": [],
+  "info_global": [
+    { "id": "urgences", "titre": "Urgences",
+      "elements": ["15 (SAMU)", "17 (Police/Gendarmerie)", "112", "3114 (prévention du suicide)", "Service des urgences psychiatriques"] }
+  ],
   "json_patient": { "...": "JSON patient temporaire (même schéma que le JSON final, §4)" }
 }
 ```
@@ -83,7 +87,6 @@ Deux réponses possibles :
 |---|---|---|---|---|---|
 | 1 | `q_age` | **texte** libre (« 12 », « 12 ans », « il a 12 ans », « douze ans »), enregistré en **entier** | `personne.age_ans` (+ `tranche_age` déduite) | si manquant | oui |
 | 2 | `q_adresse` | **adresse** | `personne.commune_*`, secteurs | si manquant | oui |
-| – | `q_quartier` | choice | `personne.quartier_besancon` | seulement pour un mineur à Besançon | oui |
 | 3 | `q_pour_qui` | choice : moi / un tiers | `demandeur` | si manquant | oui |
 | 4 | `q_duree` | choice | `besoin.duree` | toujours | non |
 | 5 | `q_impact` | choice | `besoin.impact_domaine` | toujours | non |
@@ -95,6 +98,20 @@ Deux réponses possibles :
 - **Textes adaptés** : quand la personne écrit pour un tiers, l'API envoie la variante à la troisième personne (« La personne bénéficie-t-elle… » au lieu de « Bénéficiez-vous… »). Les questions posées avant `q_pour_qui` (âge, adresse) utilisent la version directe, faute de savoir encore pour qui on écrit.
 - **Adresse** : l'API en extrait la commune, par le code postal ou le nom de la commune ; le dernier cité l'emporte, donc « rue de Morteau, 25000 Besançon » donne Besançon. **L'adresse complète n'est pas conservée**, seule la commune l'est. Hors Doubs, « 21000 Dijon » est acceptée et marquée hors périmètre. Sans commune reconnaissable, ou avec un code postal partagé, la réponse est refusée avec un message pour préciser.
 - **Seule saisie libre** : `q_besoin`. Elle subit le traitement linguistique complet : normalisation (accents, SMS, nombres en lettres), lexiques (parcours, statuts, suivi), détection de crise et **mots-clés** (`mots_cles`, avec `origine: "q_besoin"`). C'est elle qui peut déclencher l'alerte (fin immédiate).
+
+### `info_global` — informations à afficher
+
+Chaque question, ainsi que le JSON final, porte une liste `info_global` de sections `{id, titre, elements}`. Elles s'ajoutent au fil des réponses :
+
+| Section | Apparaît | Contenu par défaut |
+|---|---|---|
+| `urgences` | toujours, dès la première question | 15 (SAMU), 17 (Police/Gendarmerie), 112, 3114 (prévention du suicide), Service des urgences psychiatriques |
+| `enfant` | dès que l'âge indique un **mineur** (réponse à `q_age`) | CMPP, PCO, CMP Enfants, CGI |
+| `proche` | dès que la réponse à `q_pour_qui` est **un tiers** | UNAFAM, GEM, DAC, CMP, Équipes mobiles, Plateformes de répit, Services sociaux |
+
+Titres, éléments et conditions se règlent dans [`config/infos.json`](config/infos.json), sans toucher au code. Les conditions possibles sont `toujours`, `mineur` et `tiers` ; la condition n'est pas envoyée au front.
+
+**Quartier de Besançon** : il n'y a plus de question dessus. Il est renseigné si le texte libre le cite (« on habite à Planoise »), ce qui donne le CGI de secteur. Sinon, pour un mineur à Besançon, `quartier` reste dans `champs_manquants` et le CGI n'est pas déterminé (il dépend du quartier).
 
 ### Types de questions
 
@@ -169,6 +186,7 @@ Il est renvoyé seul, avec deux clés en plus du schéma patient. Le JSON patien
 | Clé | Contenu |
 |---|---|
 | `id_question` | toujours `"fin"` |
+| `info_global` | sections d'informations (urgences, puis enfant / proche selon la situation), voir §2 |
 | `bloc_crise` | **présent seulement si `risque.niveau ≥ 2`** : texte fixe d'urgence (15, 112, 3114, 17, 3919, 119), à afficher en premier |
 
 Schéma complet : [`config/personne_finale.schema.json`](config/personne_finale.schema.json). Extrait :
@@ -218,7 +236,7 @@ Chaque champ suit la même forme `{value, confidence, source, evidence}`. La sou
 ## 5. Comment ça marche
 
 ```
-POST /sessions → q_age → q_adresse → (q_quartier) → q_pour_qui → q_duree → q_impact
+POST /sessions → q_age → q_adresse → q_pour_qui → q_duree → q_impact
               → q_impact_niveau → q_besoin (texte libre) → q_accompagnement
         │  chaque réponse
         ▼
@@ -232,7 +250,7 @@ POST /sessions → q_age → q_adresse → (q_quartier) → q_pour_qui → q_dur
         3. sinon                       → question suivante
 ```
 
-- **Champs requis** : âge (ou tranche), commune, demandeur, plus le quartier pour un mineur à Besançon. Leurs questions ne sont posées que s'ils manquent. Le parcours est déduit du texte libre (`q_besoin`).
+- **Champs requis** : âge (ou tranche), commune, demandeur. Leurs questions ne sont posées que s'ils manquent. Le parcours est déduit du texte libre (`q_besoin`). Le quartier (mineur à Besançon) n'a pas de question : il vient du texte libre, sinon il reste dans `champs_manquants`.
 - **Questions « toujours »** (durée, impact, niveau, accompagnement) et `q_besoin` : posées à tout le monde, facultatives.
 - **Les réponses de l'utilisateur priment** sur l'extraction. Exemple : `q_accompagnement = non` l'emporte sur « je vois un psy » dans le texte.
 - **Crise** : le lexique est indépendant de tout LLM. La négation est gérée (« pas d'idées noires » abaisse le niveau d'un cran, sans jamais le ramener à 0), ainsi que le discours rapporté (« mon frère s'est suicidé il y a 5 ans » → niveau 1).
@@ -245,6 +263,7 @@ POST /sessions → q_age → q_adresse → (q_quartier) → q_pour_qui → q_dur
 | Fichier | Rôle |
 |---|---|
 | [`config/questions.json`](config/questions.json) | questions posées : **ordre**, `id_question` unique, `type`, `champ`, `texte` (direct), `texte_tiers` (troisième personne, facultatif), `mandatory`, `toujours` (posée même si le champ est déjà rempli), `options`. Validé au démarrage (le serveur refuse de démarrer si le fichier est incohérent), schéma d'édition `questions.schema.json` |
+| [`config/infos.json`](config/infos.json) | sections `info_global` : titre, éléments et condition d'affichage (`toujours`, `mineur`, `tiers`). Validé au démarrage, schéma d'édition `infos.schema.json` |
 | [`lexiques/crise.yaml`](lexiques/crise.yaml) | expressions de crise par niveau (regex, accents ignorés). **Toute modification doit être validée cliniquement** |
 | [`lexiques/parcours.yaml`](lexiques/parcours.yaml) | expressions courantes → parcours, statuts, type de demande, suivi existant |
 | [`lexiques/sms.yaml`](lexiques/sms.yaml) | abréviations SMS |
@@ -256,6 +275,7 @@ Variables d'environnement :
 |---|---|---|
 | `SEUIL_ALERTE` | `3` | niveau de risque qui arrête le questionnaire ; `2` pour arrêter aussi sur les idées suicidaires |
 | `QUESTIONS_JSON` | `config/questions.json` | autre fichier de questions |
+| `INFOS_JSON` | `config/infos.json` | autre fichier pour `info_global` |
 
 Après une modification des modèles Pydantic, régénérer les schémas JSON : `python -m app.exporter_schemas`.
 
@@ -264,7 +284,7 @@ Après une modification des modèles Pydantic, régénérer les schémas JSON : 
 ## 7. Tests et outils
 
 ```bash
-python -m pytest                 # 137 tests, sans réseau ni clé
+python -m pytest                 # 144 tests, sans réseau ni clé
 python scenarios_jsontest.py     # rejoue 5 parcours fictifs → jsontest/*.json (échanges + JSON final)
 ```
 

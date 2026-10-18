@@ -22,6 +22,7 @@ from pydantic import BaseModel, Field
 
 from .decision import SEUIL_ALERTE, Statut, decider
 from .fusion import construire, evaluer
+from .infos import SectionInfo, info_global
 from .questions import QUESTIONS, question, questions_pour, valider_reponse
 from .schema import PASS, Personne, Question
 
@@ -83,6 +84,8 @@ class QuestionEnvoyee(Question):
     `bloc_crise` n'apparaît que si un risque est détecté (texte fixe, à afficher en premier)."""
     session_id: str
     bloc_crise: Optional[list[str]] = None
+    info_global: list[SectionInfo] = Field(default_factory=list,
+                                           description="informations à afficher (urgences, puis selon mineur / tiers)")
     json_patient: Optional[Personne] = None
 
 
@@ -98,6 +101,7 @@ class PersonneFinale(Personne):
     `bloc_crise` n'est présent que si un risque est détecté."""
     id_question: Literal["fin"] = "fin"
     bloc_crise: Optional[list[str]] = None
+    info_global: list[SectionInfo] = Field(default_factory=list)
 
 
 def _bloc(p: Personne) -> Optional[list[str]]:
@@ -112,7 +116,8 @@ def _patient(s: Session) -> Personne:
 
 
 def _question(s: Session | None, q: Question, p: Personne) -> QuestionEnvoyee:
-    return QuestionEnvoyee(session_id=s.id if s else p.session_id, bloc_crise=_bloc(p), json_patient=p, **q.model_dump())
+    return QuestionEnvoyee(session_id=s.id if s else p.session_id, bloc_crise=_bloc(p), info_global=info_global(p),
+                           json_patient=p, **q.model_dump())
 
 
 def _suite(s: Session) -> Union[QuestionEnvoyee, PersonneFinale]:
@@ -123,7 +128,11 @@ def _suite(s: Session) -> Union[QuestionEnvoyee, PersonneFinale]:
     statut, _ = decider(p, restantes)
     if statut == Statut.en_cours:
         return _question(s, restantes[0], p)
-    return PersonneFinale(bloc_crise=_bloc(p), **p.model_dump())
+    return _finale(p)
+
+
+def _finale(p: Personne) -> PersonneFinale:
+    return PersonneFinale(bloc_crise=_bloc(p), info_global=info_global(p), **p.model_dump())
 
 
 def _sortie(obj: BaseModel, code: int = 200) -> JSONUTF8:
@@ -227,7 +236,7 @@ def evaluer_personne(personne: Personne):
     statut, _ = decider(p, restantes)
     if statut == Statut.en_cours:
         return _sortie(_question(None, restantes[0], p))
-    return _sortie(PersonneFinale(bloc_crise=_bloc(p), **p.model_dump()))
+    return _sortie(_finale(p))
 
 
 @app.get("/personne/schema", tags=["outils"])

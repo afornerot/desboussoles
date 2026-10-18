@@ -303,6 +303,49 @@
       "title": "Risque",
       "type": "object"
     },
+    "SectionInfo": {
+      "additionalProperties": false,
+      "description": "Bloc d'informations affiché au front.",
+      "properties": {
+        "id": {
+          "description": "identifiant unique de la section",
+          "pattern": "^[a-z0-9_]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "titre": {
+          "minLength": 1,
+          "title": "Titre",
+          "type": "string"
+        },
+        "condition": {
+          "description": "toujours · mineur (âge < 18) · tiers (la personne écrit pour quelqu'un d'autre)",
+          "enum": [
+            "toujours",
+            "mineur",
+            "tiers"
+          ],
+          "title": "Condition",
+          "type": "string"
+        },
+        "elements": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Elements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "titre",
+        "condition",
+        "elements"
+      ],
+      "title": "SectionInfo",
+      "type": "object"
+    },
     "Source": {
       "enum": [
         "regex",
@@ -379,6 +422,13 @@
       ],
       "default": null,
       "title": "Bloc Crise"
+    },
+    "info_global": {
+      "items": {
+        "$ref": "#/$defs/SectionInfo"
+      },
+      "title": "Info Global",
+      "type": "array"
     },
     "$schema": {
       "type": "string"

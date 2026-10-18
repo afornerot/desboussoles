@@ -31,8 +31,9 @@ CONFIG = Path(__file__).resolve().parent.parent / "config"
 Champ = Literal["age", "commune", "demandeur", "parcours", "quartier", "duree", "impact_domaine", "impact_niveau",
                 "deja_suivi"]
 # Champs requis du schéma (calculer_manquants) qui doivent avoir une question ; « parcours » peut être couvert
-# par une question textarea (texte libre analysé).
-CHAMPS_REQUIS = ("age", "commune", "demandeur", "quartier")
+# par une question textarea (texte libre analysé). Le quartier de Besançon n'a pas de question : il n'est
+# renseigné que si le texte libre le cite (sinon il reste dans champs_manquants pour un mineur à Besançon).
+CHAMPS_REQUIS = ("age", "commune", "demandeur")
 TIERS = "tiers"  # réponse « un tiers » à la question demandeur : proche, ou professionnel si le texte l'indique
 VALEURS = {
     "age": TRANCHES_AGE, "demandeur": DEMANDEURS + [TIERS], "parcours": [p for p in PARCOURS if p != "inconnu"],

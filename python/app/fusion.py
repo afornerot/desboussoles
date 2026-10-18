@@ -59,6 +59,8 @@ def construire(session_id: str, messages: list[str], reponses: dict[str, str] | 
         c.confidence = 1.0 if c.confidence >= 0.8 else c.confidence
         if not c.trouve:  # commune hors du Doubs saisie par l'utilisateur : hors périmètre du guide
             c = ResultatCommune(hors_doubs=reponses["commune"].strip(), confidence=1.0, evidence=reponses["commune"])
+        elif c.commune is not None and c.commune is c_texte.commune and not c.quartier and c_texte.quartier:
+            c.quartier = c_texte.quartier  # Besançon : quartier cité dans le texte libre, conservé
     if c.trouve:
         src = U if "commune" in reponses else G
         pc.commune_nom = champ(c.nom, c.confidence, src, c.evidence)

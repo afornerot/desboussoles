@@ -9,9 +9,22 @@
         "texte": "Quel âge a la personne concernée ? (en années)",
         "mandatory": true,
         "options": [],
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "aa53ffa220cea3af",
+          "session_id": "6fc94a12eabce673",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -125,7 +138,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
         "id_question": "q_age",
         "reponse": "41"
       }
@@ -138,9 +151,22 @@
         "texte": "Quelle est votre adresse ?",
         "mandatory": true,
         "options": [],
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "aa53ffa220cea3af",
+          "session_id": "6fc94a12eabce673",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -255,7 +281,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
         "id_question": "q_adresse",
         "reponse": "Ornans"
       }
@@ -266,7 +292,7 @@
         "type": "choice",
         "champ": "demandeur",
         "texte": "Pour qui cherchez-vous de l'aide ?",
-        "mandatory": true,
+        "mandatory": false,
         "options": [
           {
             "valeur": "soi",
@@ -277,9 +303,22 @@
             "libelle": "Pour un tiers"
           }
         ],
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "aa53ffa220cea3af",
+          "session_id": "6fc94a12eabce673",
           "demandeur": {
             "value": null,
             "confidence": 0.0,
@@ -394,7 +433,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
         "id_question": "q_pour_qui",
         "reponse": "soi"
       }
@@ -424,9 +463,22 @@
             "libelle": "Plus de 6 mois"
           }
         ],
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "aa53ffa220cea3af",
+          "session_id": "6fc94a12eabce673",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -541,7 +593,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
         "id_question": "q_duree",
         "reponse": "pass"
       }
@@ -575,9 +627,22 @@
             "libelle": "Les relations sociales"
           }
         ],
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "aa53ffa220cea3af",
+          "session_id": "6fc94a12eabce673",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -693,7 +758,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
         "id_question": "q_impact",
         "reponse": "travail"
       }
@@ -719,9 +784,22 @@
             "libelle": "Beaucoup"
           }
         ],
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "aa53ffa220cea3af",
+          "session_id": "6fc94a12eabce673",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -838,7 +916,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
         "id_question": "q_impact_niveau",
         "reponse": "pass"
       }
@@ -851,9 +929,22 @@
         "texte": "Quel est votre principal besoin, ou quelle difficulté rencontrez-vous ?",
         "mandatory": false,
         "options": [],
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "aa53ffa220cea3af",
+          "session_id": "6fc94a12eabce673",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -971,7 +1062,7 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
         "id_question": "q_besoin",
         "reponse": "slt ca va pas du tout, chui crevé, j'ai perdu mon boulot et j'ai des dettes"
       }
@@ -993,9 +1084,22 @@
             "libelle": "Non"
           }
         ],
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
+        "info_global": [
+          {
+            "id": "urgences",
+            "titre": "Urgences",
+            "elements": [
+              "15 (SAMU)",
+              "17 (Police/Gendarmerie)",
+              "112",
+              "3114 (prévention du suicide)",
+              "Service des urgences psychiatriques"
+            ]
+          }
+        ],
         "json_patient": {
-          "session_id": "aa53ffa220cea3af",
+          "session_id": "6fc94a12eabce673",
           "demandeur": {
             "value": "soi",
             "confidence": 1.0,
@@ -1153,14 +1257,14 @@
         }
       },
       "reponse_du_front": {
-        "session_id": "aa53ffa220cea3af",
+        "session_id": "6fc94a12eabce673",
         "id_question": "q_accompagnement",
         "reponse": "pass"
       }
     }
   ],
   "json_patient_final": {
-    "session_id": "aa53ffa220cea3af",
+    "session_id": "6fc94a12eabce673",
     "demandeur": {
       "value": "soi",
       "confidence": 1.0,
@@ -1316,6 +1420,19 @@
       "q_besoin": "ok",
       "q_accompagnement": "pass"
     },
-    "id_question": "fin"
+    "id_question": "fin",
+    "info_global": [
+      {
+        "id": "urgences",
+        "titre": "Urgences",
+        "elements": [
+          "15 (SAMU)",
+          "17 (Police/Gendarmerie)",
+          "112",
+          "3114 (prévention du suicide)",
+          "Service des urgences psychiatriques"
+        ]
+      }
+    ]
   }
 }

@@ -84,10 +84,14 @@ def test_adresse_erreurs():
     assert q["json_patient"]["personne"]["hors_perimetre_guide"]["value"] is True
 
 
-def test_mineur_besancon_quartier_demande():
-    vues, fin, _ = parcourir({"q_age": "14", "q_adresse": "5 rue Battant, 25000 Besançon"})
-    assert ids(vues)[2] == "q_quartier"
-    assert fin["personne"]["secteur_infanto_juvenile"]["value"] == "CGI rue des Jardins Besançon"
+def test_mineur_besancon_sans_question_quartier():
+    vues, fin, _ = parcourir({"q_age": "14", "q_adresse": "5 rue Granvelle, 25000 Besançon"})
+    assert "q_quartier" not in ids(vues)  # question supprimée
+    assert fin["personne"]["secteur_infanto_juvenile"]["value"] is None  # CGI de Besançon : dépend du quartier
+    assert "quartier" in fin["champs_manquants"]
+    # le quartier reste renseigné s'il est cité dans le texte libre
+    _, fin, _ = parcourir({"q_age": "14", "q_adresse": "25000 Besançon", "q_besoin": "on habite à Planoise, elle ne va pas bien"})
+    assert fin["personne"]["secteur_infanto_juvenile"]["value"] == "CGI Planoise Besançon"
 
 
 def test_alerte_dans_le_texte_libre_fin_immediate():
