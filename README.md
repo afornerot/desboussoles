@@ -42,6 +42,33 @@ Le premier démarrage exécute `init.sql` (schéma + seed). Les variables locale
 | `GUIDE_API_URL` | URL de base de l'API questionnaire (Guide) — proxy via `/api/guide/*` |
 | `AI_PROVIDER` / `AI_MODEL` / `AI_API_KEY` / `AI_BASE_URL` | Configuration du ChatPro (absentes = chat désactivé) |
 
+## Sauvegarde de la base (dbtool)
+
+Le container web embarque `dbtool`, une CLI d'export/import de la base PostgreSQL
+(`pg_dump` / `psql` + gzip). Le format est du SQL complet : schéma, données et objets
+PostGIS, avec `--clean --if-exists` pour être réimportable en remplacement.
+
+```bash
+# Export — dump gzip sur stdout
+docker exec boussole-web dbtool export > boussole.sql.gz
+
+# Export vers un fichier (-no-gzip pour du SQL brut)
+docker exec boussole-web dbtool export -out /data/boussole.sql.gz
+
+# Simulation de restauration (transaction annulée → base inchangée)
+docker exec -i boussole-web dbtool import -dry-run < boussole.sql.gz
+
+# Restauration (transaction unique, tout-ou-rien)
+docker exec -i boussole-web dbtool import < boussole.sql.gz
+```
+
+- L'import accepte indifféremment un `.gz` ou du SQL brut (détection automatique) ;
+- `-schema-only` / `-data-only` limitent l'export ; `-no-transaction` désactive l'enveloppe
+  transactionnelle de l'import ; `-dsn` cible une autre base ;
+- Les journaux vont sur **stderr** : la redirection stdout reste un flux gzip propre.
+- Fichier écrit dans le container ? Récupérez-le avec
+  `docker cp boussole-web:/data/boussole.sql.gz .`
+
 ## API Guide (questionnaire)
 
 Le serveur proxyge deux endpoints vers `GUIDE_API_URL` (service `guide-api`, voir `python/README.md`) :
@@ -63,6 +90,8 @@ L'API Guide est implémentée en **Python / FastAPI** dans `python/` : extractio
 ```
 app/
   cmd/server/          point d'entrée Go
+  cmd/importcsv/       import CSV retab.fr → map_feature
+  cmd/dbtool/          export/import de la base (pg_dump/psql + gzip)
   internal/
     ai/                chat IA (streaming, outils, sessions)
     store/             accès Postgres/PostGIS
