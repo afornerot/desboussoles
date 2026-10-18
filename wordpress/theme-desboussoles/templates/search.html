@@ -1,0 +1,37 @@
+<!-- wp:template-part {"slug":"header","area":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"var:preset|spacing|xl","bottom":"var:preset|spacing|xl","left":"var:preset|spacing|auto","right":"var:preset|spacing|auto"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group" style="padding-right:var(--wp--preset--spacing--auto);padding-left:var(--wp--preset--spacing--auto);padding-top:var(--wp--preset--spacing--xl);padding-bottom:var(--wp--preset--spacing--xl)"><!-- wp:query-title {"type":"search","level":1,"style":{"typography":{"fontSize":"var:preset|font-size|h1"}}} /-->
+
+<!-- wp:spacer {"height":"var:preset|spacing|sm"} -->
+<div style="height:var(--wp--preset--spacing--sm)" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:search {"label":"Rechercher","showLabel":false,"buttonText":"Rechercher","style":{"spacing":{"margin":{"bottom":"var:preset|spacing|lg"}}}} /-->
+
+<!-- wp:query {"queryId":0,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"layout":{"type":"default"}} -->
+<div class="wp-block-query"><!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|sm"}},"layout":{"type":"default"}} -->
+<!-- wp:group {"className":"is-style-boussole-card","style":{"spacing":{"padding":{"top":"var:preset|spacing|sm","bottom":"var:preset|spacing|sm","left":"var:preset|spacing|md","right":"var:preset|spacing|md"}}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group is-style-boussole-card" style="padding-top:var(--wp--preset--spacing--sm);padding-right:var(--wp--preset--spacing--md);padding-bottom:var(--wp--preset--spacing--sm);padding-left:var(--wp--preset--spacing--md)"><!-- wp:post-title {"isLink":true,"level":3,"style":{"typography":{"fontSize":"var:preset|font-size|body-lg"}}} /-->
+
+<!-- wp:post-excerpt {"excerptLength":22,"style":{"typography":{"fontSize":"var:preset|font-size|caption"}}} /--></div>
+<!-- /wp:group -->
+<!-- /wp:post-template -->
+
+<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->
+<!-- wp:query-pagination-previous /-->
+
+<!-- wp:query-pagination-numbers /-->
+
+<!-- wp:query-pagination-next /-->
+<!-- /wp:query-pagination -->
+
+<!-- wp:query-no-results -->
+<!-- wp:paragraph -->
+<p><?php esc_html_e( 'Aucun résultat pour cette recherche. Essayez d’autres mots-clés.', 'theme-desboussoles' ); ?></p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results --></div>
+<!-- /wp:query --></main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","area":"footer","tagName":"footer"} /-->

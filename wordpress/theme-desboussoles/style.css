@@ -1,0 +1,98 @@
+/*
+Theme Name: DesBoussoles
+Theme URI: https://desboussoles.terium.org
+Author: Projet Territorial de Santé Mentale du Doubs
+Author URI: https://desboussoles.terium.org
+Description: Thème bloc inspiré de Twenty Twenty-Five, habillé avec la charte graphique DesBoussoles : police Poppins, palette vert/orange/jaune signature, contours noirs dessinés à la main, aplats sans ombre.
+Version: 1.0.0
+Requires at least: 6.5
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: theme-desboussoles
+Tags: block-patterns, full-site-editing, blog, one-column, custom-colors, custom-logo, custom-menu, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
+*/
+
+/*
+ * Compléments de theme.json — uniquement ce que le JSON ne couvre pas :
+ * contours « encre », survols, accessibilité.
+ */
+
+/* --- Cartes et encadrés : bordures dessinées, jamais d'ombre --- */
+.wp-block-group.is-style-boussole-card {
+	background: var(--wp--preset--color--blanc);
+	border: 3px solid var(--wp--preset--color--noir-doux);
+	border-radius: 16px;
+	transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.wp-block-group.is-style-boussole-card:hover {
+	background: var(--wp--preset--color--jaune-signature);
+	transform: translateY(-4px);
+}
+
+/* --- Bandeau de section : bordure pleine, coins arrondis --- */
+.wp-block-group.is-style-boussole-bandeau {
+	border: 3px solid var(--wp--preset--color--noir-doux);
+	border-radius: 16px;
+}
+
+/* --- En-tête : bandeau jaune signature, à la charte --- */
+.boussole-header {
+	background: var(--wp--preset--color--jaune-signature);
+	border-bottom: 4px solid var(--wp--preset--color--noir-doux);
+}
+
+.boussole-header .wp-block-navigation-item__content {
+	border-radius: 999px;
+	padding: 0.5rem 1rem;
+}
+
+.boussole-header .wp-block-navigation-item__content:hover {
+	background: var(--wp--preset--color--blanc);
+}
+
+/* --- Aucune ombre dans tout le thème (charte : aplats stricts) --- */
+.wp-block-group,
+.wp-block-cover,
+.wp-block-image,
+.wp-block-button,
+.wp-block-post-featured-image {
+	box-shadow: none;
+}
+
+/* --- Étiquettes / chips (catégories, dates) --- */
+.boussole-chip {
+	display: inline-block;
+	background: var(--wp--preset--color--lilas);
+	border: 1px solid var(--wp--preset--color--noir-doux);
+	border-radius: 999px;
+	padding: 0.25rem 0.9rem;
+	font-family: var(--wp--preset--font-family--poppins);
+	font-size: var(--wp--preset--font-size--caption);
+	font-weight: 800;
+	text-transform: lowercase;
+	color: var(--wp--preset--color--encre);
+}
+
+/* --- Accessibilité : focus visible systématique --- */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+	outline: 3px solid var(--wp--preset--color--vert-accord);
+	outline-offset: 2px;
+}
+
+/* --- Accessibilité : respect des préférences de mouvement réduit --- */
+@media (prefers-reduced-motion: reduce) {
+	.wp-block-group.is-style-boussole-card:hover {
+		transform: none;
+	}
+}
+
+/* --- Impression : fonds blancs, contours conservés --- */
+@media print {
+	body,
+	.boussole-header {
+		background: #fff !important;
+	}
+}
