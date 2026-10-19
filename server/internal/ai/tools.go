@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	"github.com/bornholm/genai/llm"
@@ -211,6 +212,32 @@ func (t *Tools) guideSearch(ctx context.Context, params map[string]any) (llm.Too
 	result, err := t.guide.Search(ctx, query, limit, t.toolResultLimit())
 	if err != nil {
 		return errorResult(fmt.Sprintf("erreur de recherche guide: %s", err)), nil
+	}
+	// Coordonnées vérifiées : les fiches du guide sont découpées en fragments
+	// et le bloc « COORDONNEES » n'est pas toujours dans le fragment trouvé —
+	// on joint les contacts de la carte (extraits du même guide) pour que le
+	// modèle puisse les recopier au lieu de les inventer.
+	if t.store != nil {
+		if feats, err := t.store.SearchMapFeatures(ctx, query, "etablissement", nil, 3, store.ZoneFrom(ctx)); err == nil {
+			var b strings.Builder
+			for _, f := range feats {
+				if store.MatchScore(query, f.Name, f.Title, f.Address) < 18 {
+					continue
+				}
+				if b.Len() == 0 {
+					b.WriteString("\n\nCoordonnées vérifiées (base carte, issues du guide) :\n")
+				}
+				b.WriteString("- " + f.Name)
+				if f.Address != "" {
+					b.WriteString(" — " + f.Address)
+				}
+				if f.Phone != "" {
+					b.WriteString(" — Tél. " + f.Phone)
+				}
+				b.WriteString("\n")
+			}
+			result += b.String()
+		}
 	}
 	return llm.NewToolResult(result), nil
 }

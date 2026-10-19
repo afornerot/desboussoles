@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -117,6 +118,9 @@ func (g *Guide) Search(ctx context.Context, query string, limit, maxChars int) (
 			if i >= maxSectionsPerSource || total >= maxTotalSections {
 				break
 			}
+			if isSommaire(s.Content) {
+				continue // le sommaire n'apporte rien au modèle
+			}
 			content := s.Content
 			if len(content) > maxSectionLen {
 				content = content[:maxSectionLen] + "…"
@@ -142,11 +146,29 @@ func (g *Guide) Search(ctx context.Context, query string, limit, maxChars int) (
 
 // Bornes de sortie de la recherche guide.
 const (
-	maxSectionsPerSource = 3
-	maxTotalSections     = 8
+	maxSectionsPerSource = 5
+	maxTotalSections     = 10
 	maxSectionLen        = 1500
 	maxGuideResultLen    = 4500
 )
+
+// isSommaire détecte une section de table des matières (surtout des liens
+// d'ancrage) : sans valeur pour le modèle, elle gaspille le budget de sortie.
+func isSommaire(content string) bool {
+	lines := strings.Split(content, "\n")
+	links, total := 0, 0
+	for _, l := range lines {
+		l = strings.TrimSpace(l)
+		if l == "" {
+			continue
+		}
+		total++
+		if strings.Contains(l, "](#") {
+			links++
+		}
+	}
+	return total > 0 && links*2 >= total
+}
 
 // run exécute amoxtli avec le workspace configuré.
 func (g *Guide) run(args ...string) (string, error) {
