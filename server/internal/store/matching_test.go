@@ -6,6 +6,7 @@ import (
 
 func TestSignificantWords(t *testing.T) {
 	got := significantWords("Hôpital de jour « Nov'ado » – Centre Hospitalier de Novillars (CHN)")
+	// Les signes séparent les mots : « Nov'ado » → nov, ado.
 	want := map[string]bool{
 		"hopital": true, "jour": true, "nov": true, "ado": true,
 		"centre": true, "hospitalier": true, "novillars": true, "chn": true,

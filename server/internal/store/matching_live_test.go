@@ -42,7 +42,7 @@ func TestSearchMapFeaturesLive(t *testing.T) {
 			if len(feats) == 0 {
 				t.Fatalf("aucun résultat pour %q", c.query)
 			}
-			if !strings.Contains(normalizeName(feats[0].Name), c.want) {
+			if !strings.Contains(NormalizeName(feats[0].Name), c.want) {
 				t.Fatalf("1er résultat = %q, want contenant %q (tous : %v)",
 					feats[0].Name, c.want, names(feats))
 			}
@@ -70,7 +70,7 @@ func TestSearchMapFeaturesLive(t *testing.T) {
 			if len(feats) == 0 {
 				t.Fatal("aucun CMPP trouvé")
 			}
-			if !strings.Contains(normalizeName(feats[0].Address), c.wantAddr) {
+			if !strings.Contains(NormalizeName(feats[0].Address), c.wantAddr) {
 				t.Fatalf("1er CMPP = %q (%q), want adresse contenant %q (tous : %v)",
 					feats[0].Name, feats[0].Address, c.wantAddr, names(feats))
 			}
@@ -90,7 +90,7 @@ func TestSearchMapFeaturesLive(t *testing.T) {
 		if len(feats) == 0 {
 			t.Fatal("Nov'ado a disparu pour un usager d'Ornans (la zone est un bonus, pas un filtre)")
 		}
-		if !strings.Contains(normalizeName(feats[0].Name), "nov'ado") {
+		if !strings.Contains(NormalizeName(feats[0].Name), "nov'ado") {
 			t.Fatalf("1er résultat = %q, want Nov'ado", feats[0].Name)
 		}
 	})

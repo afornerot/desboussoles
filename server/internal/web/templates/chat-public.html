@@ -315,18 +315,13 @@
 
   function renderEstablishments(ests) {
     if (!estabList || !ests || !ests.length) return;
-    // Premier lot : vider le placeholder
-    if (estabList.querySelector('.estab-empty')) estabList.innerHTML = '';
-    var seen = {};
-    estabs.forEach(function (e) { seen[estabKey(e)] = true; });
-    var added = false;
+    // Nouvelle proposition du chat : le panneau la REFLETE (remplacement),
+    // il n'accumule pas les tours précédents.
+    estabs = [];
+    estabList.innerHTML = '';
     ests.forEach(function (e) {
-      var k = estabKey(e);
-      if (seen[k]) return;
-      seen[k] = true;
       e.idx = estabs.length;
       estabs.push(e);
-      added = true;
 
       var div = document.createElement('div');
       div.className = 'estab-item';
@@ -349,7 +344,7 @@
       div.innerHTML = html;
       estabList.appendChild(div);
     });
-    if (added) refreshMapData();
+    refreshMapData();
   }
 
   function clearEstablishments() {

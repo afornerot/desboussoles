@@ -82,10 +82,14 @@ type ChatTraceData struct {
 	NearbyFallback   bool    `json:"nearby_fallback,omitempty"`
 	NearbyRadiusKm   float64 `json:"nearby_radius_km,omitempty"`
 
-	// Zone utilisateur (commune du questionnaire) pour le ciblage carte.
+	// Zone utilisateur (commune) et âge courants pour le ciblage.
 	Zone       string `json:"zone,omitempty"`
-	ZoneSource string `json:"zone_source,omitempty"` // base | geocode
+	ZoneSource string `json:"zone_source,omitempty"` // base | geocode | conversation | none
 	ZoneInside int    `json:"zone_inside,omitempty"` // entités contenues dans la zone
+	Age        string `json:"age,omitempty"`
+	AgeSource  string `json:"age_source,omitempty"` // questionnaire | conversation
+	Addr       string `json:"addr,omitempty"`       // adresse précise (proximité)
+	AddrSource string `json:"addr_source,omitempty"`
 
 	// Extraits de contenu — uniquement si AI_LOG_CONTENT=1.
 	UserExcerpt   string `json:"user_excerpt,omitempty"`
@@ -218,6 +222,26 @@ func (t *ChatTrace) SetZone(name, source string, inside int) {
 	t.mu.Lock()
 	defer t.mu.Unlock()
 	t.Zone, t.ZoneSource, t.ZoneInside = name, source, inside
+}
+
+// SetAge enregistre l'âge courant et son origine.
+func (t *ChatTrace) SetAge(age, source string) {
+	if t == nil {
+		return
+	}
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	t.Age, t.AgeSource = age, source
+}
+
+// SetAddr enregistre l'adresse précise (proximité) et son origine.
+func (t *ChatTrace) SetAddr(addr, source string) {
+	if t == nil {
+		return
+	}
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	t.Addr, t.AddrSource = addr, source
 }
 
 // MarkNearbyFallback signale le repli « structures proches » et son rayon.

@@ -56,38 +56,256 @@ func stripAccents(s string) string {
 	}, s)
 }
 
-// normalizeName produit une forme comparable : minuscules, sans accents.
-func normalizeName(s string) string {
-	return strings.ToLower(stripAccents(strings.TrimSpace(s)))
+// NormalizeName produit une forme comparable : minuscules, sans accents. Les
+// points joignent les abréviations (« C.m.p » → « cmp »), les autres signes
+// séparent les mots (« médico-psychologique » → « medico psychologique »).
+func NormalizeName(s string) string {
+	s = strings.ToLower(stripAccents(strings.TrimSpace(s)))
+	s = strings.ReplaceAll(s, ".", "") // abréviations : c.m.p → cmp
+	return strings.Join(strings.FieldsFunc(s, func(r rune) bool {
+		return !('a' <= r && r <= 'z' || '0' <= r && r <= '9')
+	}), " ")
 }
 
-// significantWords découpe une requête en mots comparables (normalisés,
-// ≥ 3 caractères — les sigles CMP, CHN, EHPAD comptent —, hors mots-outils).
-// Les apostrophes servent de séparateurs (« Nov'ado » → nov, ado).
+// AddressCity retourne la ville d'une adresse : le libellé situé APRÈS le
+// code postal (« 17 rue de Morteau, 25300 Pontarlier » → « pontarlier »).
+// Un nom de rue comme « rue de Morteau » ne doit pas être pris pour la ville.
+func AddressCity(addr string) string {
+	n := NormalizeName(addr)
+	// Dernier groupe de 5 chiffres = code postal.
+	idx := -1
+	for i := 0; i+5 <= len(n); i++ {
+		if isDigits(n[i : i+5]) && (i == 0 || n[i-1] == ' ') && (i+5 == len(n) || n[i+5] == ' ') {
+			idx = i
+		}
+	}
+	if idx >= 0 {
+		return strings.TrimSpace(n[idx+5:])
+	}
+	// Pas de code postal : on retombe sur le dernier mot.
+	fields := strings.Fields(n)
+	if len(fields) == 0 {
+		return ""
+	}
+	return fields[len(fields)-1]
+}
+
+func isDigits(s string) bool {
+	for _, r := range s {
+		if r < '0' || r > '9' {
+			return false
+		}
+	}
+	return true
+}
+
+// SameCity juge si une adresse correspond à la ville annoncée (fautes tolérées).
+func SameCity(addr, ville string) bool {
+	if strings.TrimSpace(ville) == "" {
+		return true
+	}
+	city := AddressCity(addr)
+	if city == "" {
+		return false
+	}
+	return FuzzyContains(city, NormalizeName(ville))
+}
+
+// NormalizePhone réduit un numéro à ses chiffres (« 03 81 67 97 00 » et
+// « 03.81.67.97.00 » sont identiques).
+func NormalizePhone(s string) string {
+	return strings.Map(func(r rune) rune {
+		if '0' <= r && r <= '9' {
+			return r
+		}
+		return -1
+	}, s)
+}
+
+// SamePhone juge si deux numéros désignent la même ligne (au moins 9 chiffres
+// communs pour éviter les coïncidences de numéros partiels).
+func SamePhone(a, b string) bool {
+	na, nb := NormalizePhone(a), NormalizePhone(b)
+	return len(na) >= 9 && na == nb
+}
+
+// matchGenericWords sont les mots du domaine, trop courants pour identifier
+// une structure : « Équipe Mobile Adolescents » peut en décrire plusieurs, seuls
+// les mots spécifiques (EMAHD, Haut-Doubs) discriminent.
+var matchGenericWords = map[string]bool{
+	"centre": true, "service": true, "sante": true, "mentale": true,
+	"medical": true, "medico": true, "psychologique": true, "psychiatrie": true,
+	"psychiatrique": true, "social": true, "accueil": true, "ecoute": true,
+	"adulte": true, "adultes": true, "adolescent": true, "adolescents": true,
+	"enfant": true, "enfants": true, "jeune": true, "jeunes": true,
+	"jour": true, "nuit": true, "soin": true, "soins": true, "suivi": true,
+	"prise": true, "charge": true, "accompagnement": true, "orientation": true,
+	"consultation": true, "consultations": true, "generale": true, "general": true,
+	"hopital": true, "clinique": true, "structure": true, "association": true,
+	"dispositif": true, "pole": true, "unite": true, "equipe": true,
+	"mobile": true, "filiere": true, "maison": true, "famille": true,
+	"prevention": true, "therapie": true, "therapeutique": true,
+	"hospitalo": true, "universitaire": true, "referent": true,
+	"medecin": true, "psychiatre": true, "psychologue": true, "infirmier": true,
+}
+
+// SpecificWordsCovered vérifie que TOUS les mots spécifiques de la requête
+// (hors mots génériques du domaine) sont retrouvés dans l'établissement —
+// sinon la correspondance n'est qu'une coïncidence de vocabulaire partagé.
+func SpecificWordsCovered(query, name, title, address string) bool {
+	hay := NormalizeName(name + " " + title + " " + address)
+	for _, w := range significantWords(query) {
+		if matchGenericWords[w] {
+			continue
+		}
+		if !fuzzyWordMatch(hay, w) {
+			return false
+		}
+	}
+	return true
+}
+
+// MatchScore évalue la correspondance brute entre une requête et un
+// établissement (sans bonus de zone) — sert à décider si une correspondance
+// est crédible avant de l'afficher.
+func MatchScore(query, name, title, address string) int {
+	return scoreFeature(name, title, address, query, significantWords(query))
+}
+
+// significantWords découpe une requête en mots comparables (normalisés sans
+// ponctuation, ≥ 3 caractères — les sigles CMP, CHN, EHPAD comptent —, hors
+// mots-outils).
 func significantWords(query string) []string {
-	fields := strings.FieldsFunc(strings.ToLower(query), func(r rune) bool {
-		return !('a' <= r && r <= 'z' || 'à' <= r && r <= 'ÿ')
-	})
+	fields := strings.Fields(NormalizeName(query))
 	seen := map[string]bool{}
 	out := make([]string, 0, 8)
 	for _, f := range fields {
-		w := normalizeName(f)
-		if len(w) < 3 || matchStopwords[w] || seen[w] {
+		if len(f) < 3 || matchStopwords[f] || seen[f] {
 			continue
 		}
-		seen[w] = true
-		out = append(out, w)
+		seen[f] = true
+		out = append(out, f)
 	}
 	return out
 }
 
+// fuzzyWordMatch tolère les fautes de frappe : la chaîne correspond si elle
+// est contenue dans le texte, ou si l'un des mots du texte lui ressemble
+// (distance d'édition ≤ 20 %). « Poutarlier » retrouve « Pontarlier ».
+func fuzzyWordMatch(hay, w string) bool {
+	if strings.Contains(hay, w) {
+		return true
+	}
+	for _, hw := range strings.FieldsFunc(hay, func(r rune) bool {
+		return !('a' <= r && r <= 'z' || 'à' <= r && r <= 'ÿ')
+	}) {
+		if similarWord(hw, w) {
+			return true
+		}
+	}
+	return false
+}
+
+// FuzzyContains vérifie qu'une chaîne (ville, nom) apparaît dans le texte,
+// fautes de frappe tolérées. Chaque mot doit y être retrouvé.
+func FuzzyContains(hay, needle string) bool {
+	needle = strings.TrimSpace(needle)
+	if needle == "" {
+		return true
+	}
+	if strings.Contains(hay, needle) {
+		return true
+	}
+	for _, w := range strings.FieldsFunc(strings.ToLower(needle), func(r rune) bool {
+		return !('a' <= r && r <= 'z' || 'à' <= r && r <= 'ÿ')
+	}) {
+		if !fuzzyWordMatch(hay, w) {
+			return false
+		}
+	}
+	return true
+}
+
+// similarWord juge deux mots proches : distance d'édition (≤ 20 % de la
+// longueur, au moins 1) ou racine commune d'au moins 5 lettres (« infantile »
+// ↔ « infanto » partagent « infant »).
+func similarWord(a, b string) bool {
+	if a == b {
+		return true
+	}
+	// Racine commune : les mots dérivés d'une même racine se ressemblent.
+	if len(a) >= 6 && len(b) >= 6 && commonPrefix(a, b) >= 5 {
+		return true
+	}
+	maxDist := len(a) / 4
+	if maxDist < 1 {
+		maxDist = 1
+	}
+	if maxDist > 2 {
+		maxDist = 2
+	}
+	return levenshtein(a, b) <= maxDist
+}
+
+// commonPrefix renvoie la longueur du préfixe commun de deux chaînes.
+func commonPrefix(a, b string) int {
+	n := len(a)
+	if len(b) < n {
+		n = len(b)
+	}
+	i := 0
+	for i < n && a[i] == b[i] {
+		i++
+	}
+	return i
+}
+
+// levenshtein calcule la distance d'édition entre deux chaînes.
+func levenshtein(a, b string) int {
+	if a == b {
+		return 0
+	}
+	if len(a) == 0 {
+		return len(b)
+	}
+	if len(b) == 0 {
+		return len(a)
+	}
+	prev := make([]int, len(b)+1)
+	cur := make([]int, len(b)+1)
+	for j := range prev {
+		prev[j] = j
+	}
+	for i := 1; i <= len(a); i++ {
+		cur[0] = i
+		for j := 1; j <= len(b); j++ {
+			cost := 1
+			if a[i-1] == b[j-1] {
+				cost = 0
+			}
+			cur[j] = min3(cur[j-1]+1, prev[j]+1, prev[j-1]+cost)
+		}
+		prev, cur = cur, prev
+	}
+	return prev[len(b)]
+}
+
+func min3(a, b, c int) int {
+	if b < a {
+		a = b
+	}
+	if c < a {
+		a = c
+	}
+	return a
+}
+
 // scoreFeature note la proximité entre la requête et un établissement.
-// Les valeurs sont additives : sous-chaîne exacte > inclusion inverse > mots.
-// L'adresse compte aussi : « CMPP de Besançon » doit distinguer le CMPP dont
-// l'adresse est à Besançon.
+// Un mot retrouvé tel quel vaut mieux qu'un mot flou (« CMP » désigne mieux
+// « C.m.p » que « CMPP »), qui vaut mieux qu'une simple sous-chaîne.
 func scoreFeature(name, title, address, query string, words []string) int {
-	hay := normalizeName(name + " " + title + " " + address)
-	q := normalizeName(query)
+	hay := NormalizeName(name + " " + title + " " + address)
+	q := NormalizeName(query)
 	score := 0
 	if q != "" && strings.Contains(hay, q) {
 		score += 100
@@ -95,12 +313,28 @@ func scoreFeature(name, title, address, query string, words []string) int {
 	if q != "" && len(q) >= 4 && strings.Contains(q, hay) {
 		score += 50
 	}
+	hayWords := strings.Fields(hay)
 	for _, w := range words {
-		if strings.Contains(hay, w) {
+		switch {
+		case containsWord(hayWords, w):
 			score += 10
+		case fuzzyWordMatch(hay, w):
+			score += 8
+		case strings.Contains(hay, w):
+			score += 7
 		}
 	}
 	return score
+}
+
+// containsWord vérifie qu'un mot figure dans la liste, entier.
+func containsWord(hayWords []string, w string) bool {
+	for _, hw := range hayWords {
+		if hw == w {
+			return true
+		}
+	}
+	return false
 }
 
 // zoneBonus privilégie les établissements de la zone de l'utilisateur :

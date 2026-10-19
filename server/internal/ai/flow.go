@@ -21,6 +21,9 @@ type Config struct {
 	// Budget porte les bornes dérivées des limites du provider (taille des
 	// résultats d'outils, historique). Optionnel mais recommandé.
 	Budget *Budget
+	// Store permet de résoudre la localisation de la conversation en zone
+	// géographique (recherche carte). Optionnel.
+	Store *store.Store
 }
 
 // Service exécute le workflow chat avec streaming.
@@ -362,19 +365,38 @@ func (s *Service) Chat(ctx context.Context, history []HistoryMessage, userMsg, s
 		// Passe légère, toujours exécutée : la réponse est déjà livrée et un
 		// 429 éventuel est géré par le backoff retry-after.
 		if finalContent != "" {
-			s.verifyMapEstablishments(ctx, finalContent, out)
+			s.verifyMapEstablishments(ctx, userMsg, finalContent, out)
 		}
 	}()
 
 	return out
 }
 
+// recommendedStructure est une structure citée par la réponse : son nom, la
+// ville annoncée et le téléphone indiqué (clé d'identification fiable entre le
+// guide et la carte, dont les intitulés diffèrent).
+type recommendedStructure struct {
+	Nom       string `json:"nom"`
+	Ville     string `json:"ville"`
+	Telephone string `json:"telephone"`
+}
+
+// extractionResult porte les structures citées et les données de la personne
+// APRÈS la conversation (localisation, âge, adresse — qui peuvent différer du
+// questionnaire).
+type extractionResult struct {
+	Structures   []recommendedStructure
+	Localisation string
+	Age          string
+	Adresse      string
+}
+
 // verifyMapEstablishments est la PASSE 2 : après la réponse du guide, on
-// extrait les noms de structures citées (un seul appel LLM, sans outils) puis
-// on vérifie leur présence sur la carte par map_search (PostGIS). Seuls ceux
-// trouvés sont émis en événements « establishments ». Passe légère : elle
-// s'exécute toujours, contrairement à l'ancienne boucle d'outils.
-func (s *Service) verifyMapEstablishments(ctx context.Context, response string, out chan StreamEvent) {
+// extrait les structures citées (nom + ville, un seul appel LLM sans outils)
+// puis on vérifie leur présence dans les ÉTABLISSEMENTS de la carte. Le
+// panneau reflète les recommandations de la réponse : au mieux une entrée par
+// structure, et rien plutôt qu'une correspondance douteuse.
+func (s *Service) verifyMapEstablishments(ctx context.Context, userMsg, response string, out chan StreamEvent) {
 	mapTools := filterTools(s.tools, []string{"map_search", "map_nearby"})
 	if len(mapTools) == 0 {
 		return
@@ -383,34 +405,74 @@ func (s *Service) verifyMapEstablishments(ctx context.Context, response string, 
 	log := s.log.With("trace", traceID(tr))
 	start := time.Now()
 
-	names := s.extractEstablishmentNames(ctx, response)
+	res := s.extractStructures(ctx, userMsg, response)
+
+	// Âge, localisation et adresse de la conversation : ils priment sur le
+	// questionnaire pour ce tour (et sont retenus pour les suivants via la trace).
+	if res.Age != "" {
+		tr.SetAge(res.Age, "conversation")
+	}
+	if res.Adresse != "" {
+		tr.SetAddr(res.Adresse, "conversation")
+	}
+
+	// Zone du tour : la localisation de la conversation prime sur celle du
+	// questionnaire, et l'adresse précise (géocodée) sert de référence de
+	// proximité — la commune garde son rôle pour l'appartenance (ST_Contains).
+	if s.cfg.Store != nil && (res.Localisation != "" || res.Adresse != "") {
+		zoneName := res.Localisation
+		if zoneName == "" {
+			if cur := store.ZoneFrom(ctx); cur != nil {
+				zoneName = cur.Name
+			}
+		}
+		z := &store.UserZone{Name: zoneName}
+		if zoneName != "" && store.NormalizeName(zoneName) != "" {
+			if zi := s.cfg.Store.UserZoneInfo(ctx, zoneName); zi != nil {
+				z = zi
+			}
+		}
+		if res.Adresse != "" {
+			if g, ok := GeocodeAddress(ctx, res.Adresse); ok {
+				z.Center = [2]float64{g.Lng, g.Lat}
+			}
+		}
+		ctx = store.WithZone(ctx, z)
+		tr.SetZone(z.Name, "conversation", len(z.In))
+	}
+
+	structs := res.Structures
 	var allEsts []Establishment
 	seen := map[string]bool{}
-	for i, name := range names {
-		params, _ := json.Marshal(map[string]string{"query": name})
+	for i, st := range structs {
+		params, _ := json.Marshal(map[string]any{
+			"query": st.Nom, "category": "etablissement", "limit": 5,
+		})
 		tc := llm.NewToolCall(fmt.Sprintf("map-%d", i), "map_search", string(params))
 		startTool := time.Now()
 		msg, err := llm.ExecuteToolCall(ctx, tc, mapTools...)
 		durTool := time.Since(startTool).Milliseconds()
 		tr.AddTool("map_search", durTool)
 		if err != nil {
-			log.Error("tool exec", "name", "map_search", "query", name, "err", err)
+			log.Error("tool exec", "name", "map_search", "query", st.Nom, "err", err)
 			continue
 		}
-		log.Info("tool timing", "pass", "map", "name", "map_search", "query", name,
-			"duration_ms", durTool, "out_chars", len(msg.Content()))
-		for _, e := range extractEstablishments("map_search", msg.Content()) {
-			key := estabKey(e)
-			if !seen[key] {
-				seen[key] = true
-				allEsts = append(allEsts, e)
-			}
+		log.Info("tool timing", "pass", "map", "name", "map_search", "query", st.Nom,
+			"ville", st.Ville, "duration_ms", durTool, "out_chars", len(msg.Content()))
+		e, ok := pickRecommended(st, extractEstablishments("map_search", msg.Content()))
+		if !ok {
+			log.Info("map match refuse", "nom", st.Nom, "ville", st.Ville)
+			continue
+		}
+		key := estabKey(e)
+		if !seen[key] {
+			seen[key] = true
+			allEsts = append(allEsts, e)
 		}
 	}
 
-	// Repli « structures proches de chez vous » : si aucun nom n'est retrouvé
-	// en carte, élargir autour de la zone de l'utilisateur plutôt que de
-	// laisser le panneau vide.
+	// Repli « structures proches de chez vous » : uniquement si le panneau
+	// serait vide (les recommandations priment).
 	if len(allEsts) == 0 {
 		if z := store.ZoneFrom(ctx); z != nil {
 			allEsts = s.nearbyFallback(ctx, z, mapTools, tr, log)
@@ -419,17 +481,69 @@ func (s *Service) verifyMapEstablishments(ctx context.Context, response string, 
 
 	mapMs := time.Since(start).Milliseconds()
 	tr.SetMapMs(mapMs)
-	tr.SetMapResult(len(names), len(allEsts))
+	tr.SetMapResult(len(structs), len(allEsts))
 	zoneName := ""
 	if z := store.ZoneFrom(ctx); z != nil {
 		zoneName = z.Name
 	}
-	log.Info("map verify done", "duration_ms", mapMs, "names", len(names),
+	log.Info("map verify done", "duration_ms", mapMs, "names", len(structs),
 		"establishments", len(allEsts), "zone", zoneName,
 		"nearby_fallback", tr.Snapshot().NearbyFallback)
 	if len(allEsts) > 0 {
 		out <- StreamEvent{Type: "establishments", Establishments: allEsts}
 	}
+}
+
+// pickRecommended retourne la correspondance crédible pour une structure
+// recommandée.
+//
+//  1. Le TÉLÉPHONE décide s'il est connu : les intitulés diffèrent entre le
+//     guide et la carte, le numéro est la clé fiable. Aucun candidat au bon
+//     numéro → rien (la structure n'est pas dans la carte).
+//  2. Sinon le NOM décide (meilleur score ≥ 2 mots significatifs ou une
+//     inclusion) : le classement de la recherche, qui mélange proximité et
+//     nom, ne doit pas laisser un voisin géographique voler la place.
+//
+// Dans les deux cas, la ville annoncée doit être celle de l'adresse (après le
+// code postal) : « rue de Morteau » à Pontarlier n'est pas « Morteau ».
+func pickRecommended(st recommendedStructure, ests []Establishment) (Establishment, bool) {
+	// 1. Le téléphone est un signal fort s'il correspond : les intitulés
+	// diffèrent entre le guide et la carte, le numéro identifie la structure.
+	// Un numéro inconnu n'élimine PAS — les annuaires divergent (standard vs
+	// ligne directe) et certains établissements n'ont pas de numéro en base.
+	if phone := store.NormalizePhone(st.Telephone); len(phone) >= 9 {
+		for _, e := range ests {
+			if store.SamePhone(e.Phone, st.Telephone) && store.SameCity(e.Address, st.Ville) {
+				return e, true
+			}
+		}
+	}
+	// 2. Le NOM décide (la ville départage à score égal, via l'ordre de la
+	// recherche). Un candidat est crédible s'il couvre tous les mots spécifiques
+	// de la recommandation, ou s'il partage assez de vocabulaire malgré des
+	// intitulés différents (score ≥ 25) — en dessous, c'est un voisin, pas la
+	// structure.
+	const minNameScore = 18
+	const strongNameScore = 25
+	best := Establishment{}
+	bestScore := -1
+	for _, e := range ests {
+		if !store.SameCity(e.Address, st.Ville) {
+			continue
+		}
+		sc := store.MatchScore(st.Nom, e.Name, e.Title, e.Address)
+		if sc < minNameScore || sc <= bestScore {
+			continue
+		}
+		if sc < strongNameScore && !store.SpecificWordsCovered(st.Nom, e.Name, e.Title, e.Address) {
+			continue
+		}
+		bestScore, best = sc, e
+	}
+	if bestScore < 0 {
+		return Establishment{}, false
+	}
+	return best, true
 }
 
 // nearbyFallback élargit progressivement la recherche autour de la zone de
@@ -438,7 +552,7 @@ func (s *Service) nearbyFallback(ctx context.Context, z *store.UserZone, mapTool
 	for _, radius := range []float64{10, 30, 60, 100} {
 		params, _ := json.Marshal(map[string]any{
 			"lng": z.Center[0], "lat": z.Center[1],
-			"radius_km": radius, "limit": 8,
+			"radius_km": radius, "category": "etablissement", "limit": 8,
 		})
 		tc := llm.NewToolCall(fmt.Sprintf("nearby-%.0f", radius), "map_nearby", string(params))
 		startTool := time.Now()
@@ -459,48 +573,68 @@ func (s *Service) nearbyFallback(ctx context.Context, z *store.UserZone, mapTool
 	return nil
 }
 
-// extractEstablishmentNames demande au modèle les noms de structures cités
-// dans la réponse (JSON, sans outils) — un seul appel, sortie courte.
-func (s *Service) extractEstablishmentNames(ctx context.Context, response string) []string {
+// extractStructures demande au modèle les structures citées et les données de
+// la personne (JSON, sans outils) — un seul appel, sortie courte. Le message
+// de la personne fait partie de l'entrée : âge, localisation ou adresse y sont
+// souvent annoncés sans être repris dans la réponse.
+func (s *Service) extractStructures(ctx context.Context, userMsg, response string) extractionResult {
 	content, _, toolCalls, err := s.chatOnceTools(ctx, []llm.Message{
 		llm.NewMessage(llm.RoleSystem, SystemPromptExtractNames),
-		llm.NewMessage(llm.RoleUser, "Réponse à analyser :\n"+response),
+		llm.NewMessage(llm.RoleUser,
+			"Message de la personne :\n"+userMsg+"\n\nRéponse de l'assistant :\n"+response),
 	}, nil)
 	if err != nil {
-		s.log.Warn("extract names failed", "trace", traceID(TraceFrom(ctx)), "err", err)
-		return nil
+		s.log.Warn("extract structures failed", "trace", traceID(TraceFrom(ctx)), "err", err)
+		return extractionResult{}
 	}
 	if len(toolCalls) > 0 {
-		return nil
+		return extractionResult{}
 	}
-	return decodeNames(content)
+	return decodeStructures(content)
 }
 
-// decodeNames parse le JSON {"names": [...]} renvoyé par le modèle, tolérant
-// aux éventuels délimiteurs markdown autour du JSON.
-func decodeNames(content string) []string {
+// decodeStructures parse le JSON {"structures": [{nom, ville}], "localisation",
+// "age"} renvoyé par le modèle, tolérant aux délimiteurs markdown.
+func decodeStructures(content string) extractionResult {
 	start := strings.Index(content, "{")
 	end := strings.LastIndex(content, "}")
 	if start < 0 || end <= start {
-		return nil
+		return extractionResult{}
 	}
 	var parsed struct {
-		Names []string `json:"names"`
+		Structures   []recommendedStructure `json:"structures"`
+		Localisation string                 `json:"localisation"`
+		Age          string                 `json:"age"`
+		Adresse      string                 `json:"adresse"`
+		Names        []string               `json:"names"` // ancien format, toléré
 	}
 	if err := json.Unmarshal([]byte(content[start:end+1]), &parsed); err != nil {
-		return nil
+		return extractionResult{}
 	}
-	out := make([]string, 0, 6)
+	out := extractionResult{
+		Localisation: strings.TrimSpace(parsed.Localisation),
+		Age:          strings.TrimSpace(parsed.Age),
+		Adresse:      strings.TrimSpace(parsed.Adresse),
+	}
 	seen := map[string]bool{}
-	for _, n := range parsed.Names {
-		n = strings.TrimSpace(n)
-		if n == "" || seen[n] {
-			continue
+	add := func(st recommendedStructure) {
+		st.Nom = strings.TrimSpace(st.Nom)
+		if st.Nom == "" || seen[st.Nom] {
+			return
 		}
-		seen[n] = true
-		out = append(out, n)
-		if len(out) == 6 {
-			break
+		seen[st.Nom] = true
+		out.Structures = append(out.Structures, st)
+	}
+	for _, st := range parsed.Structures {
+		add(st)
+		if len(out.Structures) == 6 {
+			return out
+		}
+	}
+	for _, n := range parsed.Names {
+		add(recommendedStructure{Nom: n})
+		if len(out.Structures) == 6 {
+			return out
 		}
 	}
 	return out

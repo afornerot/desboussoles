@@ -107,9 +107,10 @@ func estabKey(e Establishment) string {
 	return "name:" + e.Name + "|" + e.Address
 }
 
-// AddEstablishments cumule les établissements d'un outil carte dans la session
-// (dédoublonnés), afin de les retrouver après navigation vers une autre page.
-func (ss *SessionStore) AddEstablishments(sid string, ests []Establishment) {
+// SetEstablishments remplace les établissements de la session par ceux de la
+// dernière proposition du chat (pas de cumul entre les tours : le panneau
+// reflète ce que la réponse recommande).
+func (ss *SessionStore) SetEstablishments(sid string, ests []Establishment) {
 	if len(ests) == 0 {
 		return
 	}
@@ -120,21 +121,17 @@ func (ss *SessionStore) AddEstablishments(sid string, ests []Establishment) {
 		s = &session{}
 		ss.sessions[sid] = s
 	}
-	seen := make(map[string]bool, len(s.ests))
-	for _, e := range s.ests {
-		seen[estabKey(e)] = true
-	}
+	seen := make(map[string]bool, len(ests))
+	out := make([]Establishment, 0, len(ests))
 	for _, e := range ests {
 		k := estabKey(e)
 		if seen[k] {
 			continue
 		}
 		seen[k] = true
-		s.ests = append(s.ests, e)
+		out = append(out, e)
 	}
-	if len(s.ests) > 100 {
-		s.ests = s.ests[len(s.ests)-100:]
-	}
+	s.ests = out
 	s.updated = time.Now()
 }
 

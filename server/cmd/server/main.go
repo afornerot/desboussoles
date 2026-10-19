@@ -149,6 +149,7 @@ func main() {
 				MaxIterations: budget.MaxIterations,
 				CallTimeout:   90 * time.Second,
 				Budget:        budget,
+				Store:         st,
 			}, log)
 			chatDeps = web.ChatDeps{
 				Service:        svc,

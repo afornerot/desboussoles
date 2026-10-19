@@ -408,6 +408,20 @@ type guideCtxEntry struct {
 	GoChat      bool            `json:"go_chat,omitempty"`
 	BlocCrise   json.RawMessage `json:"bloc_crise,omitempty"`
 	Updated     time.Time       `json:"-"`
+	// Localisation et âge courants : chaque source est horodatée quand SA
+	// valeur change, et la plus récente l'emporte (dernier changement gagnant).
+	QCommune   string    `json:"q_commune,omitempty"`   // commune du questionnaire
+	QCommuneAt time.Time `json:"q_commune_at,omitempty"`
+	ChatLoc    string    `json:"chat_loc,omitempty"` // localisation dite au chat
+	ChatLocAt  time.Time `json:"chat_loc_at,omitempty"`
+	QAge       string    `json:"q_age,omitempty"` // âge du questionnaire
+	QAgeAt     time.Time `json:"q_age_at,omitempty"`
+	ChatAge    string    `json:"chat_age,omitempty"` // âge dit au chat
+	ChatAgeAt  time.Time `json:"chat_age_at,omitempty"`
+	QAddr      string    `json:"q_addr,omitempty"` // adresse du questionnaire (q_adresse)
+	QAddrAt    time.Time `json:"q_addr_at,omitempty"`
+	ChatAddr   string    `json:"chat_addr,omitempty"` // adresse dite au chat
+	ChatAddrAt time.Time `json:"chat_addr_at,omitempty"`
 }
 
 type guideAnswer struct {
@@ -467,6 +481,23 @@ func (s *Server) captureGuideCtx(sid string, reqBody, respBody []byte) {
 	if len(resp.BlocCrise) > 0 {
 		entry.BlocCrise = resp.BlocCrise
 	}
+	// La commune et l'âge du questionnaire ne sont horodatés que quand ils
+	// CHANGENT : une réponse à une autre question ne doit pas écraser une
+	// valeur plus récente dite au chat.
+	if commune := guideCommune(resp.JSONPatient); commune != "" && commune != entry.QCommune {
+		entry.QCommune = commune
+		entry.QCommuneAt = time.Now()
+	}
+	if age := guideAgeValue(resp.JSONPatient); age != "" && age != entry.QAge {
+		entry.QAge = age
+		entry.QAgeAt = time.Now()
+	}
+	// L'adresse postale n'est pas conservée dans le JSON patient, mais la
+	// réponse brute de q_adresse l'est : on la tracke quand elle change.
+	if reqq.IDQuestion == "q_adresse" && reqq.Reponse != "" && reqq.Reponse != "passe" && reqq.Reponse != entry.QAddr {
+		entry.QAddr = reqq.Reponse
+		entry.QAddrAt = time.Now()
+	}
 	entry.Updated = time.Now()
 
 	// Persister (re-sérialiser sans Updated).
@@ -477,11 +508,182 @@ func (s *Server) captureGuideCtx(sid string, reqBody, respBody []byte) {
 		SessionID   string          `json:"session_id,omitempty"`
 		GoChat      bool            `json:"go_chat,omitempty"`
 		BlocCrise   json.RawMessage `json:"bloc_crise,omitempty"`
-	}{entry.Reponses, entry.Derniere, entry.JSONPatient, entry.SessionID, entry.GoChat, entry.BlocCrise})
+		QCommune    string          `json:"q_commune,omitempty"`
+		QCommuneAt  time.Time       `json:"q_commune_at,omitempty"`
+		ChatLoc     string          `json:"chat_loc,omitempty"`
+		ChatLocAt   time.Time       `json:"chat_loc_at,omitempty"`
+	}{entry.Reponses, entry.Derniere, entry.JSONPatient, entry.SessionID, entry.GoChat, entry.BlocCrise,
+		entry.QCommune, entry.QCommuneAt, entry.ChatLoc, entry.ChatLocAt})
 	if err != nil {
 		return
 	}
 	s.guideCtx[sid] = out
+}
+
+// updateChatValue applique une mise à jour horodatée d'une valeur dite au
+// chat (localisation ou âge) — dernier changement gagnant.
+func (s *Server) updateChatValue(sid string, apply func(*guideCtxEntry) bool) {
+	s.guideCtxMu.Lock()
+	defer s.guideCtxMu.Unlock()
+	e, ok := s.guideCtx[sid]
+	var entry guideCtxEntry
+	if ok {
+		_ = json.Unmarshal(e, &entry)
+	}
+	if !apply(&entry) {
+		return
+	}
+	out, err := json.Marshal(entry) // Updated est exclu (json:"-")
+	if err != nil {
+		return
+	}
+	s.guideCtx[sid] = out
+}
+
+// updateChatLocalisation enregistre une localisation dite au chat (horodatée),
+// détectée en fin de tour par la passe carte.
+func (s *Server) updateChatLocalisation(sid, loc string) {
+	if sid == "" || loc == "" {
+		return
+	}
+	s.updateChatValue(sid, func(e *guideCtxEntry) bool {
+		if e.ChatLoc == loc {
+			return false // déjà connue : ne pas ré-horodater
+		}
+		e.ChatLoc = loc
+		e.ChatLocAt = time.Now()
+		return true
+	})
+}
+
+// updateChatAge enregistre un âge dit au chat (horodaté), détecté en fin de
+// tour — même logique que la localisation.
+func (s *Server) updateChatAge(sid, age string) {
+	if sid == "" || age == "" {
+		return
+	}
+	s.updateChatValue(sid, func(e *guideCtxEntry) bool {
+		if e.ChatAge == age {
+			return false
+		}
+		e.ChatAge = age
+		e.ChatAgeAt = time.Now()
+		return true
+	})
+}
+
+// updateChatAddress enregistre une adresse dite au chat (horodatée) — même
+// logique, pour affiner la proximité.
+func (s *Server) updateChatAddress(sid, addr string) {
+	if sid == "" || addr == "" {
+		return
+	}
+	s.updateChatValue(sid, func(e *guideCtxEntry) bool {
+		if e.ChatAddr == addr {
+			return false
+		}
+		e.ChatAddr = addr
+		e.ChatAddrAt = time.Now()
+		return true
+	})
+}
+
+// guideLocation retourne la localisation courante de la session : la source
+// (questionnaire ou chat) dont la valeur a changé le plus récemment l'emporte.
+// Sans champ horodaté (contexte fourni directement par la requête), on retombe
+// sur la commune du JSON patient.
+func guideLocation(raw json.RawMessage) string {
+	var g struct {
+		QCommune   string    `json:"q_commune"`
+		QCommuneAt time.Time `json:"q_commune_at"`
+		ChatLoc    string    `json:"chat_loc"`
+		ChatLocAt  time.Time `json:"chat_loc_at"`
+	}
+	if len(raw) == 0 || json.Unmarshal(raw, &g) != nil {
+		return ""
+	}
+	if g.QCommune == "" && g.ChatLoc == "" {
+		return guideCommune(raw)
+	}
+	if g.ChatLoc != "" && g.ChatLocAt.After(g.QCommuneAt) {
+		return g.ChatLoc
+	}
+	return g.QCommune
+}
+
+// guideAge retourne l'âge courant de la session : même règle que la
+// localisation, la source la plus récemment modifiée l'emporte.
+func guideAge(raw json.RawMessage) string {
+	var g struct {
+		QAge      string    `json:"q_age"`
+		QAgeAt    time.Time `json:"q_age_at"`
+		ChatAge   string    `json:"chat_age"`
+		ChatAgeAt time.Time `json:"chat_age_at"`
+	}
+	if len(raw) == 0 || json.Unmarshal(raw, &g) != nil {
+		return ""
+	}
+	if g.QAge == "" && g.ChatAge == "" {
+		return guideAgeValue(raw)
+	}
+	if g.ChatAge != "" && g.ChatAgeAt.After(g.QAgeAt) {
+		return g.ChatAge
+	}
+	return g.QAge
+}
+
+// guideAddress retourne l'adresse postale courante : la source (questionnaire
+// ou chat) dont la valeur a changé le plus récemment l'emporte. Sert uniquement
+// à affiner la proximité (elle reste hors du JSON patient).
+func guideAddress(raw json.RawMessage) string {
+	var g struct {
+		QAddr      string    `json:"q_addr"`
+		QAddrAt    time.Time `json:"q_addr_at"`
+		ChatAddr   string    `json:"chat_addr"`
+		ChatAddrAt time.Time `json:"chat_addr_at"`
+	}
+	if len(raw) == 0 || json.Unmarshal(raw, &g) != nil {
+		return ""
+	}
+	if g.ChatAddr != "" && g.ChatAddrAt.After(g.QAddrAt) {
+		return g.ChatAddr
+	}
+	return g.QAddr
+}
+
+// guideAgeValue extrait l'âge déclaré dans un JSON patient (personne.age_ans).
+func guideAgeValue(raw json.RawMessage) string {
+	var g struct {
+		JSONPatient struct {
+			Personne struct {
+				AgeAns struct {
+					Value any `json:"value"`
+				} `json:"age_ans"`
+			} `json:"personne"`
+		} `json:"json_patient"`
+		Personne struct {
+			AgeAns struct {
+				Value any `json:"value"`
+			} `json:"age_ans"`
+		} `json:"personne"`
+	}
+	if len(raw) == 0 || json.Unmarshal(raw, &g) != nil {
+		return ""
+	}
+	v := g.JSONPatient.Personne.AgeAns.Value
+	if v == nil {
+		v = g.Personne.AgeAns.Value
+	}
+	switch t := v.(type) {
+	case string:
+		if t == "" || t == "pass" {
+			return ""
+		}
+		return t
+	case float64:
+		return strconv.FormatInt(int64(t), 10)
+	}
+	return ""
 }
 
 // getGuideCtx retourne le contexte guide stocké pour la session chat.
@@ -690,35 +892,51 @@ func (s *Server) handleChatStream(w http.ResponseWriter, r *http.Request) {
 
 // systemWithContext ajoute le contexte du questionnaire « Guide » au prompt
 // système fourni (élément de contexte pour le chat public).
-func systemWithContext(system string, guideContext json.RawMessage) string {
-	if len(guideContext) == 0 {
+func systemWithContext(system string, guideContext json.RawMessage, age, location string) string {
+	if len(guideContext) == 0 && age == "" && location == "" {
 		return system
 	}
-	return system + "\n\n--- Contexte du questionnaire « Guide » (réponses de la personne, JSON) ---\n" + string(guideContext)
+	// État courant résolu (dernier changement gagnant entre questionnaire et
+	// conversation) : le modèle ne doit pas se fier à une valeur obsolète du
+	// JSON ci-dessous.
+	etat := ""
+	if age != "" || location != "" {
+		etat = "\n\n--- État courant de la personne ---\nÂge : " + age + "\nLocalisation : " + location
+	}
+	if len(guideContext) == 0 {
+		return system + etat
+	}
+	return system + etat + "\n\n--- Contexte du questionnaire « Guide » (réponses de la personne, JSON) ---\n" + string(guideContext)
 }
 
-// guideCommune extrait la commune déclarée dans le contexte questionnaire
-// (json_patient.personne.commune_nom, repli sur le code INSEE).
+// guideCommune extrait la commune déclarée dans un JSON patient (avec ou sans
+// l'enveloppe {json_patient: ...}), repli sur le code INSEE.
 func guideCommune(raw json.RawMessage) string {
+	type personne struct {
+		CommuneNom struct {
+			Value any `json:"value"`
+		} `json:"commune_nom"`
+		CommuneInsee struct {
+			Value any `json:"value"`
+		} `json:"commune_insee"`
+	}
 	var g struct {
 		JSONPatient struct {
-			Personne struct {
-				CommuneNom struct {
-					Value any `json:"value"`
-				} `json:"commune_nom"`
-				CommuneInsee struct {
-					Value any `json:"value"`
-				} `json:"commune_insee"`
-			} `json:"personne"`
+			Personne personne `json:"personne"`
 		} `json:"json_patient"`
+		Personne personne `json:"personne"`
 	}
 	if len(raw) == 0 || json.Unmarshal(raw, &g) != nil {
 		return ""
 	}
-	if v, ok := g.JSONPatient.Personne.CommuneNom.Value.(string); ok && v != "" && v != "pass" {
+	p := g.JSONPatient.Personne
+	if p.CommuneNom.Value == nil && p.CommuneInsee.Value == nil {
+		p = g.Personne
+	}
+	if v, ok := p.CommuneNom.Value.(string); ok && v != "" && v != "pass" {
 		return v
 	}
-	if v, ok := g.JSONPatient.Personne.CommuneInsee.Value.(string); ok && v != "" && v != "pass" {
+	if v, ok := p.CommuneInsee.Value.(string); ok && v != "" && v != "pass" {
 		return v
 	}
 	return ""
@@ -774,22 +992,33 @@ func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system strin
 	tr.SetGuideCtx(len(guideCtx))
 	ctx = ai.WithTrace(ctx, tr)
 
-	// Zone utilisateur (commune du questionnaire) : bonus et départage
-	// géographiques des recherches carte — base locale d'abord, geocode BAN
-	// en repli si la commune n'est pas sur la carte.
-	if commune := guideCommune(guideCtx); commune != "" {
-		if z := s.store.UserZoneInfo(ctx, commune); z != nil {
-			ctx = store.WithZone(ctx, z)
-			tr.SetZone(z.Name, "base", len(z.In))
-		} else if g, ok := ai.GeocodeAddress(ctx, commune); ok {
-			ctx = store.WithZone(ctx, &store.UserZone{
-				Name:   commune,
-				Center: [2]float64{g.Lng, g.Lat},
-			})
+	// Zone utilisateur : la localisation la plus récemment changée (chat ou
+	// questionnaire) — base locale d'abord, geocode BAN en repli.
+	if age := guideAge(guideCtx); age != "" {
+		tr.SetAge(age, "questionnaire")
+	}
+	if commune := guideLocation(guideCtx); commune != "" {
+		z := s.store.UserZoneInfo(ctx, commune)
+		if z == nil {
+			// Commune absente de la carte : la géocoder sert au moins de centre.
+			if g, ok := ai.GeocodeAddress(ctx, commune); ok {
+				z = &store.UserZone{Name: commune, Center: [2]float64{g.Lng, g.Lat}}
+			} else {
+				z = &store.UserZone{Name: commune}
+			}
 			tr.SetZone(commune, "geocode", 0)
 		} else {
-			tr.SetZone(commune, "none", 0)
+			tr.SetZone(z.Name, "base", len(z.In))
 		}
+		// Adresse précise (si connue) : référence de proximité depuis la rue
+		// plutôt que depuis le centroïde de la commune.
+		if addr := guideAddress(guideCtx); addr != "" {
+			if g, ok := ai.GeocodeAddress(ctx, addr); ok {
+				z.Center = [2]float64{g.Lng, g.Lat}
+			}
+			tr.SetAddr(addr, "questionnaire")
+		}
+		ctx = store.WithZone(ctx, z)
 	}
 
 	w.Header().Set("Content-Type", "text/event-stream")
@@ -839,7 +1068,8 @@ func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system strin
 		}
 	}()
 
-	events := s.chatSvc.Chat(ctx, history, req.Message, systemWithContext(system, guideCtx))
+	events := s.chatSvc.Chat(ctx, history, req.Message,
+		systemWithContext(system, guideCtx, guideAge(guideCtx), guideLocation(guideCtx)))
 
 	startHTTP := time.Now()
 	var firstTokAt time.Time
@@ -860,6 +1090,17 @@ func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system strin
 		tr.Finish()
 		ai.WriteTrace(tr)
 		snap := tr.Snapshot()
+		// Localisation et âge dits dans la conversation : retenus pour les
+		// tours suivants (dernier changement gagnant face au questionnaire).
+		if snap.ZoneSource == "conversation" && snap.Zone != "" {
+			s.updateChatLocalisation(sid, snap.Zone)
+		}
+		if snap.AgeSource == "conversation" && snap.Age != "" {
+			s.updateChatAge(sid, snap.Age)
+		}
+		if snap.AddrSource == "conversation" && snap.Addr != "" {
+			s.updateChatAddress(sid, snap.Addr)
+		}
 		s.log.Info("chat http done", "trace", snap.TraceID, "space", snap.Space,
 			"http_ms", snap.TotalMs, "http_ttfb_ms", snap.TTFBMs, "first_token_ms", snap.FirstTokMs,
 			"guide_pass_ms", snap.GuideMs, "map_pass_ms", snap.MapMs,
@@ -889,9 +1130,10 @@ func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system strin
 		case "tool":
 			// already in event
 		case "establishments":
-			// Cumulés côté serveur pour les retrouver après navigation.
+			// Remplace les propositions de la session (panneau = dernière
+			// recommandation du chat).
 			if sessions != nil {
-				sessions.AddEstablishments(sid, ev.Establishments)
+				sessions.SetEstablishments(sid, ev.Establishments)
 			}
 		case "done":
 			if sessions != nil {
