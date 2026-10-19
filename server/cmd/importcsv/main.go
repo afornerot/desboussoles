@@ -314,9 +314,15 @@ func geocodeBAN(ctx context.Context, client *http.Client, adresse, cp string, lo
 // buildProps assemble le JSONB props à partir d'une ligne CSV. Seules les
 // valeurs non vides sont stockées.
 func buildProps(rec record, title string, subcats []string) map[string]interface{} {
+	// Provenance : les fiches du guide sont marquées « guide » (url "#guide"),
+	// les autres viennent de l'export retab.fr.
+	source := "retab.fr"
+	if strings.HasPrefix(rec["url"], "#guide") {
+		source = "guide"
+	}
 	props := map[string]interface{}{
 		"title":      title,
-		"source":     "retab.fr",
+		"source":     source,
 		"source_url": rec["url"],
 		"categorie":  rec["categorie_recherche"],
 	}

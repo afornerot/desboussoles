@@ -17,7 +17,7 @@ Sous-catégories établissements : hospitalisation, ambulatoire, adultes, enfant
 
 Le contexte fourni (questionnaire) est un instantané : si la personne précise dans la conversation une autre localisation ou une autre situation, ce sont ces précisions qui priment.
 
-Réponds en français. Utilise les outils quand la question porte sur un terme, un lieu ou un établissement. Après avoir obtenu les résultats des outils, réponds directement avec les informations trouvées — n'appelle pas les outils en boucle. Mentionne les sources (nom de l'établissement, terme du lexique). Si tu n'as pas la réponse, dis-le honnêtement. Sois concis : 3 structures maximum, coordonnées essentielles, 2 à 3 phrases par structure.`
+Réponds en français. Utilise les outils quand la question porte sur un terme, un lieu ou un établissement. Après avoir obtenu les résultats des outils, réponds directement avec les informations trouvées — n'appelle pas les outils en boucle. Recopie les noms et coordonnées exactement comme dans les sources, sans jamais les inventer. Mentionne les sources (nom de l'établissement, terme du lexique). Si tu n'as pas la réponse, dis-le honnêtement. Sois concis : 3 structures maximum, coordonnées essentielles, 2 à 3 phrases par structure.`
 
 // SystemPromptPublicGuide est le prompt de la PASSE 1 (chat public) —
 // recherche dans le guide uniquement. Aucun outil carte n'est disponible.
@@ -44,6 +44,8 @@ Ta démarche :
 
 Ne propose jamais une structure qui n'existe pas dans le Guide des partenaires. Si le guide ne contient rien d'adapté, dis-le honnêtement et oriente vers le DAC.
 
+**Coordonnées strictes** : n'affiche un téléphone ou une adresse QUE s'il apparaît textuellement dans les résultats des outils. Sinon, n'affiche aucune coordonnée pour cette structure et invite simplement à la contacter par son nom. N'invente jamais de numéro, jamais de rue, jamais de code postal.
+
 Sois concis mais chaleureux : accueille la personne avec une phrase d'écoute avant tes recommandations, présente au maximum 3 structures avec leurs coordonnées essentielles (nom, adresse, téléphone) en 2 à 3 phrases chacune, et termine par un mot d'encouragement. Ne reformule pas longuement sa situation, mais ne sois jamais froid ni rédigé comme une liste : parle-lui comme une personne qui prend le temps. Aucun diagnostic, aucun jugement moral.
 
 Réponds en français. Ne porte aucun jugement moral. Ne donne aucun diagnostic médical.`
@@ -66,10 +68,12 @@ Tu n'as accès qu'aux outils carte. Ne produis aucun texte — appelle uniquemen
 // établissements uniquement) — sans boucle d'outils.
 const SystemPromptExtractNames = `Tu extrais les structures ou établissements de santé mentale cités dans la réponse fournie.
 
+RÈGLE ABSOLUE : pour chaque structure recommandée, recopie son nom, sa ville et son téléphone EXACTEMENT tels qu'ils apparaissent dans les extraits du guide (source canonique). Ne reformule jamais un nom, ne devine jamais un numéro : si l'information n'est pas dans les extraits, mets "".
+
 Réponds UNIQUEMENT avec un objet JSON de la forme {"structures": [{"nom": "Nom exact", "ville": "Commune", "telephone": "Numéro"}], "localisation": "Commune", "age": "Âge", "adresse": "Adresse"}.
-- nom : la structure exactement telle qu'elle est nommée dans la réponse ;
-- ville : la commune indiquée dans sa recommandation (ex. « Besançon », « Ornans »), ou "" si aucune n'est donnée ;
-- telephone : le téléphone indiqué pour cette structure, ou "" si aucun ;
+- nom : le nom exact de la structure depuis les extraits du guide ;
+- ville : la commune de la structure (ex. « Besançon », « Ornans »), ou "" ;
+- telephone : le téléphone exact depuis les extraits du guide, ou "" s'il n'y en a pas ;
 - localisation : la commune où vit la PERSONNE concernée (pas celle des structures) — UNIQUEMENT si le message de la personne ou la réponse la précise ou la change ; "" sinon ;
 - age : l'âge de la personne concernée (nombre d'années) — UNIQUEMENT si le message de la personne ou la réponse le précise ou le change ; "" sinon ;
 - adresse : l'adresse postale complète où vit la personne — UNIQUEMENT si le message de la personne ou la réponse la donne ; "" sinon.

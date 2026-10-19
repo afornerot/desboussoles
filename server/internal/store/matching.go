@@ -99,16 +99,18 @@ func isDigits(s string) bool {
 	return true
 }
 
-// SameCity juge si une adresse correspond à la ville annoncée (fautes tolérées).
-func SameCity(addr, ville string) bool {
+// SameCity juge si une structure correspond à la ville annoncée : sa ville
+// d'adresse (après le code postal) OU son nom la mentionnent — « Espace
+// Accueil Adolescent CH Novillars » peut avoir une adresse à Besançon.
+func SameCity(name, addr, ville string) bool {
 	if strings.TrimSpace(ville) == "" {
 		return true
 	}
-	city := AddressCity(addr)
-	if city == "" {
-		return false
+	v := NormalizeName(ville)
+	if city := AddressCity(addr); city != "" && FuzzyContains(city, v) {
+		return true
 	}
-	return FuzzyContains(city, NormalizeName(ville))
+	return FuzzyContains(NormalizeName(name), v)
 }
 
 // NormalizePhone réduit un numéro à ses chiffres (« 03 81 67 97 00 » et
@@ -310,7 +312,10 @@ func scoreFeature(name, title, address, query string, words []string) int {
 	if q != "" && strings.Contains(hay, q) {
 		score += 100
 	}
-	if q != "" && len(q) >= 4 && strings.Contains(q, hay) {
+	// Inclusion inverse : le nom en base est un fragment de la requête —
+	// réservée aux vrais noms (≥ 12 car.), sinon une ville ou un mot isolé
+	// contenu dans la phrase l'emporterait à tort.
+	if q != "" && len(q) >= 4 && len(hay) >= 12 && strings.Contains(q, hay) {
 		score += 50
 	}
 	hayWords := strings.Fields(hay)

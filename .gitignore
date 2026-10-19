@@ -14,6 +14,7 @@ data/traces/*.jsonl
 
 # Divers
 .DS_Store
+.~lock.*#
 
 # Binaires compilés localement
 server/importcsv

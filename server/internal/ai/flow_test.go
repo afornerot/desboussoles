@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log/slog"
+	"strings"
 	"testing"
 	"time"
 
@@ -223,5 +224,59 @@ func TestPickRecommendedCGIBesancon(t *testing.T) {
 	}, []Establishment{jardins})
 	if !ok || got.Name != jardins.Name {
 		t.Fatalf("CGI Besançon → %q (ok=%v)", got.Name, ok)
+	}
+}
+
+// stubClient renvoie une réponse figée et mémorise l'entrée reçue.
+type stubClient struct {
+	lastInput string
+	reply     string
+}
+
+func (c *stubClient) ChatCompletionStream(ctx context.Context, funcs ...llm.ChatCompletionOptionFunc) (<-chan llm.StreamChunk, error) {
+	opts := llm.NewChatCompletionOptions(funcs...)
+	c.lastInput = ""
+	for _, m := range opts.Messages {
+		c.lastInput += m.Content() + "\n"
+	}
+	ch := make(chan llm.StreamChunk, 2)
+	ch <- llm.NewStreamChunk(llm.NewStreamDelta(llm.RoleAssistant, c.reply))
+	close(ch)
+	return ch, nil
+}
+
+func (c *stubClient) ChatCompletion(context.Context, ...llm.ChatCompletionOptionFunc) (llm.ChatCompletionResponse, error) {
+	return nil, errors.New("non supporté")
+}
+
+func (c *stubClient) Embeddings(context.Context, []string, ...llm.EmbeddingsOptionFunc) (llm.EmbeddingsResponse, error) {
+	return nil, errors.New("non supporté")
+}
+
+func (c *stubClient) Transcription(context.Context, []byte, ...llm.TranscriptionOptionFunc) (llm.TranscriptionResponse, error) {
+	return nil, errors.New("non supporté")
+}
+
+func TestExtractStructuresCopiesGuide(t *testing.T) {
+	// Les identifiants doivent être recopiés depuis les extraits du guide
+	// (source canonique), jamais reformulés — et les extraits doivent bien
+	// être transmis à l'appel d'extraction.
+	const canonNom = "Centre de Guidance Infanto Juvénile : Rue des Jardins CHN"
+	const canonTel = "03 81 53 48 02"
+	stub := &stubClient{reply: `{"structures":[{"nom":"` + canonNom + `","ville":"Besançon","telephone":"` + canonTel + `"}],"localisation":"","age":"","adresse":""}`}
+	svc := New(stub, nil, Config{CallTimeout: 5 * time.Second}, slog.Default())
+
+	res := svc.extractStructures(context.Background(),
+		"je cherche un CMP",
+		"voici le Centre de Gestion Infantile (CGI), tél 03 81 25 30 30",
+		[]string{"GUIDE — " + canonNom + " — " + canonTel})
+	if len(res.Structures) != 1 {
+		t.Fatalf("structures = %+v", res)
+	}
+	if res.Structures[0].Nom != canonNom || res.Structures[0].Telephone != canonTel {
+		t.Fatalf("identifiants non recopiés : %+v", res.Structures[0])
+	}
+	if !strings.Contains(stub.lastInput, "GUIDE —") || !strings.Contains(stub.lastInput, canonTel) {
+		t.Fatal("extraits du guide absents de l'entrée de l'extraction")
 	}
 }
