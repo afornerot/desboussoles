@@ -10,8 +10,11 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"regexp"
+	"strconv"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/bornholm/genai/llm"
 	"github.com/google/uuid"
@@ -113,6 +116,14 @@ type ocChunk struct {
 		Delta        ocDelta `json:"delta"`
 		FinishReason string  `json:"finish_reason"`
 	} `json:"choices"`
+	Usage *ocUsage `json:"usage"`
+}
+
+// ocUsage porte les compteurs de tokens (demandés via stream_options.include_usage).
+type ocUsage struct {
+	PromptTokens     int64 `json:"prompt_tokens"`
+	CompletionTokens int64 `json:"completion_tokens"`
+	TotalTokens      int64 `json:"total_tokens"`
 }
 
 type ocMessage struct {
@@ -138,8 +149,38 @@ type ocTool struct {
 	Function ocFunction `json:"function"`
 }
 
+// HTTPStatusError porte le statut d'un refus API et le délai de retry annoncé
+// par le serveur (header retry-after ou « try again in Xs » dans le corps).
+type HTTPStatusError struct {
+	Status     int
+	RetryAfter time.Duration
+	Msg        string
+}
+
+func (e *HTTPStatusError) Error() string {
+	return fmt.Sprintf("http %d: %s", e.Status, e.Msg)
+}
+
+// retryAfterRegex repère le délai annoncé dans le corps d'erreur Groq.
+var retryAfterRegex = regexp.MustCompile(`try again in ([0-9]+(?:\.[0-9]+)?)s`)
+
+// parseRetryAfter extrait le délai d'attente conseillé par le serveur.
+func parseRetryAfter(header, body string) time.Duration {
+	if secs, err := strconv.ParseFloat(strings.TrimSpace(header), 64); err == nil && secs > 0 {
+		return time.Duration(secs * float64(time.Second))
+	}
+	if m := retryAfterRegex.FindStringSubmatch(body); m != nil {
+		if secs, err := strconv.ParseFloat(m[1], 64); err == nil && secs > 0 {
+			return time.Duration(secs * float64(time.Second))
+		}
+	}
+	return 0
+}
+
 // ChatCompletionStream implémente llm.ChatCompletionStreamingClient.
 func (c *compatClient) ChatCompletionStream(ctx context.Context, funcs ...llm.ChatCompletionOptionFunc) (<-chan llm.StreamChunk, error) {
+	start := time.Now()
+	tr := TraceFrom(ctx)
 	opts := llm.NewChatCompletionOptions(funcs...)
 
 	// Convertir les messages genai → format OpenAI
@@ -160,6 +201,8 @@ func (c *compatClient) ChatCompletionStream(ctx context.Context, funcs ...llm.Ch
 		"model":    os.Getenv("AI_MODEL"),
 		"messages": msgs,
 		"stream":   true,
+		// Dernier chunk SSE portant les compteurs de tokens (traçabilité).
+		"stream_options": map[string]any{"include_usage": true},
 	}
 	if len(tools) > 0 {
 		body["tools"] = tools
@@ -170,6 +213,14 @@ func (c *compatClient) ChatCompletionStream(ctx context.Context, funcs ...llm.Ch
 	}
 	if opts.MaxCompletionTokens != nil {
 		body["max_tokens"] = *opts.MaxCompletionTokens
+	}
+	// Raisonnement des modèles type gpt-oss : effort et visibilité pilotés par
+	// env (AI_REASONING_EFFORT, AI_INCLUDE_REASONING) — sans effet ailleurs.
+	if v := os.Getenv("AI_REASONING_EFFORT"); v != "" {
+		body["reasoning_effort"] = v
+	}
+	if v := os.Getenv("AI_INCLUDE_REASONING"); v != "" {
+		body["include_reasoning"] = v == "true" || v == "1"
 	}
 
 	payload, err := json.Marshal(body)
@@ -192,10 +243,18 @@ func (c *compatClient) ChatCompletionStream(ctx context.Context, funcs ...llm.Ch
 	if err != nil {
 		return nil, err
 	}
+	respAt := time.Now()
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
 		resp.Body.Close()
-		return nil, fmt.Errorf("http %d: %s", resp.StatusCode, string(body))
+		c.log.Warn("llm http", "trace", traceID(tr), "model", os.Getenv("AI_MODEL"),
+			"status", resp.StatusCode, "req_chars", len(payload),
+			"duration_ms", respAt.Sub(start).Milliseconds())
+		return nil, &HTTPStatusError{
+			Status:     resp.StatusCode,
+			RetryAfter: parseRetryAfter(resp.Header.Get("retry-after"), string(body)),
+			Msg:        string(body),
+		}
 	}
 
 	chunks := make(chan llm.StreamChunk, 10)
@@ -209,6 +268,9 @@ func (c *compatClient) ChatCompletionStream(ctx context.Context, funcs ...llm.Ch
 		}{}
 		var toolOrder []int
 		var contentBuilder strings.Builder
+		var firstAt time.Time
+		var usage *ocUsage
+		recvChars := 0
 
 		scanner := bufio.NewScanner(resp.Body)
 		scanner.Buffer(make([]byte, 0, 256*1024), 1024*1024)
@@ -222,10 +284,15 @@ func (c *compatClient) ChatCompletionStream(ctx context.Context, funcs ...llm.Ch
 			if data == "[DONE]" {
 				break
 			}
+			recvChars += len(data)
 
 			var chunk ocChunk
 			if err := json.Unmarshal([]byte(data), &chunk); err != nil {
 				continue // ignorer les chunks malformés
+			}
+			// Le chunk d'usage n'a pas de choix — le capter avant le filtre.
+			if chunk.Usage != nil {
+				usage = chunk.Usage
 			}
 			if len(chunk.Choices) == 0 {
 				continue
@@ -234,6 +301,9 @@ func (c *compatClient) ChatCompletionStream(ctx context.Context, funcs ...llm.Ch
 
 			// Accumuler le contenu
 			if d.Content != "" {
+				if firstAt.IsZero() {
+					firstAt = time.Now()
+				}
 				contentBuilder.WriteString(d.Content)
 				llm.SendChunk(ctx, chunks, llm.NewStreamChunk(
 					llm.NewStreamDelta(llm.RoleAssistant, d.Content),
@@ -242,6 +312,9 @@ func (c *compatClient) ChatCompletionStream(ctx context.Context, funcs ...llm.Ch
 
 			// Accumuler les tool calls
 			for _, tc := range d.ToolCalls {
+				if firstAt.IsZero() {
+					firstAt = time.Now()
+				}
 				idx := tc.Index
 				acc, ok := toolAcc[idx]
 				if !ok {
@@ -281,6 +354,25 @@ func (c *compatClient) ChatCompletionStream(ctx context.Context, funcs ...llm.Ch
 		}
 
 		finalDelta := llm.NewStreamDelta(llm.RoleAssistant, "", allToolCallDeltas...)
+
+		// Métriques de l'appel : TTFT, durée de stream, tailles, usage tokens.
+		end := time.Now()
+		ttft := end.Sub(start).Milliseconds()
+		if !firstAt.IsZero() {
+			ttft = firstAt.Sub(start).Milliseconds()
+		}
+		var tokIn, tokOut int64
+		if usage != nil {
+			tokIn, tokOut = usage.PromptTokens, usage.CompletionTokens
+		}
+		if tr != nil {
+			tr.AddLLM(ttft, end.Sub(respAt).Milliseconds(), len(payload), recvChars, tokIn, tokOut)
+		}
+		c.log.Info("llm http", "trace", traceID(tr), "model", os.Getenv("AI_MODEL"),
+			"ttft_ms", ttft, "stream_ms", end.Sub(respAt).Milliseconds(),
+			"req_chars", len(payload), "resp_chars", recvChars,
+			"tokens_in", tokIn, "tokens_out", tokOut)
+
 		llm.SendTerminalChunk(ctx, chunks, llm.NewStreamChunk(finalDelta))
 	}()
 

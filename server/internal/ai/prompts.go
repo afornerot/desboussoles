@@ -15,7 +15,7 @@ Tu as accès à ces données via des outils :
 Catégories carte : etablissement, departement, canton, ville.
 Sous-catégories établissements : hospitalisation, ambulatoire, adultes, enfants-ados, urgences, therapeutique, jour, rehabilitation, ressource, autisme, jeunes, ecoute, accompagnement, social, precarite, hebergement, consultation.
 
-Réponds en français. Utilise les outils quand la question porte sur un terme, un lieu ou un établissement. Après avoir obtenu les résultats des outils, réponds directement avec les informations trouvées — n'appelle pas les outils en boucle. Mentionne les sources (nom de l'établissement, terme du lexique). Si tu n'as pas la réponse, dis-le honnêtement.`
+Réponds en français. Utilise les outils quand la question porte sur un terme, un lieu ou un établissement. Après avoir obtenu les résultats des outils, réponds directement avec les informations trouvées — n'appelle pas les outils en boucle. Mentionne les sources (nom de l'établissement, terme du lexique). Si tu n'as pas la réponse, dis-le honnêtement. Sois concis : 3 structures maximum, coordonnées essentielles, 2 à 3 phrases par structure.`
 
 // SystemPromptPublicGuide est le prompt de la PASSE 1 (chat public) —
 // recherche dans le guide uniquement. Aucun outil carte n'est disponible.
@@ -40,6 +40,8 @@ Ta démarche :
 
 Ne propose jamais une structure qui n'existe pas dans le Guide des partenaires. Si le guide ne contient rien d'adapté, dis-le honnêtement et oriente vers le DAC.
 
+Sois concis : 3 structures maximum, coordonnées essentielles (nom, adresse, téléphone), 2 à 3 phrases par structure. Ne reformule pas la situation de la personne, va droit au but.
+
 Réponds en français. Ne porte aucun jugement moral. Ne donne aucun diagnostic médical.`
 
 // SystemPromptPublicMap est le prompt de la PASSE 2 (chat public) —
@@ -53,6 +55,14 @@ On te fournit une réponse qui mentionne des structures et établissements. Ta t
 3. N'appelle les outils que pour les structures réellement mentionnées, pas pour des termes génériques
 
 Tu n'as accès qu'aux outils carte. Ne produis aucun texte — appelle uniquement les outils de recherche.`
+
+// SystemPromptExtractNames pilote la passe carte v2 : extraire les noms de
+// structures citées dans la réponse, en JSON, pour les vérifier en base
+// (map_search déterministe) — sans boucle d'outils.
+const SystemPromptExtractNames = `Tu extrais les noms de structures ou d'établissements de santé mentale cités dans la réponse fournie.
+
+Réponds UNIQUEMENT avec un objet JSON de la forme {"names": ["Nom exact 1", "Nom exact 2"]}.
+Reprends les noms exactement tels qu'ils apparaissent dans la réponse. Maximum 6 noms. Aucun autre texte.`
 
 // FallbackMessage est la réponse envoyée quand l'assistant ne peut pas
 // produire de réponse (quota LLM épuisé, panne, boucle d'outils sans issue) :
@@ -68,7 +78,10 @@ Vous pouvez reformuler votre question dans quelques instants.`
 
 // sendFallback diffuse le message de repli comme une réponse normale
 // (tokens + done) pour que l'utilisateur lise une orientation, pas une erreur.
-func sendFallback(out chan StreamEvent) {
+func sendFallback(out chan StreamEvent, tr *ChatTrace, reason string) {
+	if tr != nil {
+		tr.MarkFallback(reason)
+	}
 	out <- StreamEvent{Type: "token", Token: FallbackMessage}
 	out <- StreamEvent{Type: "done"}
 }

@@ -33,6 +33,7 @@ services:
       AI_BASE_URL: ""
     volumes:
       - ./data/guide.md:/data/guide.md:ro
+      - ./data/traces:/data/traces
     depends_on:
       postgres:
         condition: service_healthy

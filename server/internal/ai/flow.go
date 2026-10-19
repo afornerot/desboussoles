@@ -3,12 +3,15 @@ package ai
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log/slog"
 	"strings"
 	"time"
 
 	"github.com/bornholm/genai/llm"
+
+	"boussole/internal/store"
 )
 
 // Config règle la boucle d'outils et le timeout d'appel LLM.
@@ -48,7 +51,11 @@ func (s *Service) streamWithRetry(ctx context.Context, messages []llm.Message) (
 }
 
 // streamWithRetryTools est comme streamWithRetry mais avec une liste d'outils explicite.
+// maxRetryWait borne l'attente entre deux tentatives d'appel LLM.
+const maxRetryWait = 25 * time.Second
+
 func (s *Service) streamWithRetryTools(ctx context.Context, messages []llm.Message, tools []llm.Tool) (<-chan llm.StreamChunk, error) {
+	tr := TraceFrom(ctx)
 	var lastErr error
 	for attempt := 0; attempt < 3; attempt++ {
 		stream, err := s.client.ChatCompletionStream(ctx,
@@ -60,8 +67,20 @@ func (s *Service) streamWithRetryTools(ctx context.Context, messages []llm.Messa
 			return stream, nil
 		}
 		lastErr = err
-		s.log.Warn("stream retry", "attempt", attempt+1, "err", err)
-		time.Sleep(time.Duration(attempt+1) * 500 * time.Millisecond)
+		tr.AddRetry()
+		// Attendre le délai annoncé par le serveur (429 quota) quand il existe,
+		// plutôt qu'un backoff fixe qui échouerait dans le vide.
+		wait := time.Duration(attempt+1) * 500 * time.Millisecond
+		var he *HTTPStatusError
+		if errors.As(err, &he) && he.RetryAfter > 0 {
+			wait = he.RetryAfter + 250*time.Millisecond
+		}
+		if wait > maxRetryWait {
+			wait = maxRetryWait
+		}
+		s.log.Warn("stream retry", "trace", traceID(tr), "attempt", attempt+1,
+			"wait_ms", wait.Milliseconds(), "err", err)
+		time.Sleep(wait)
 	}
 	return nil, lastErr
 }
@@ -154,12 +173,14 @@ func (s *Service) chatOnceTools(ctx context.Context, messages []llm.Message, too
 // dernier recours (boucle d'outils ou itérations épuisées). Retourne le texte
 // généré, ou "" si la tentative échoue.
 func (s *Service) forceFinalAnswer(ctx context.Context, messages []llm.Message, out chan StreamEvent) string {
+	tr := TraceFrom(ctx)
+	tr.MarkForcedFinal()
 	messages = append(messages, llm.NewMessage(llm.RoleAssistant,
 		"Tu as déjà effectué toutes les recherches nécessaires. Réponds maintenant directement avec les informations dont tu disposes, sans appeler d'outil."))
 	_, ftokens, ftoolCalls, ferr := s.chatOnceTools(ctx, messages, nil)
 	if ferr != nil || len(ftoolCalls) > 0 {
 		if ferr != nil {
-			s.log.Warn("forced final answer failed", "err", ferr)
+			s.log.Warn("forced final answer failed", "trace", traceID(tr), "err", ferr)
 		}
 		return ""
 	}
@@ -173,7 +194,7 @@ func (s *Service) forceFinalAnswer(ctx context.Context, messages []llm.Message, 
 // capToolMessage borne la taille d'un résultat d'outil avant son rejouage
 // dans la requête suivante : un outil verbeux (guide_search) ferait exploser
 // le nombre de tokens envoyés et déclencherait un refus du provider.
-func (s *Service) capToolMessage(msg llm.Message) llm.Message {
+func (s *Service) capToolMessage(ctx context.Context, msg llm.Message) llm.Message {
 	limit := maxToolResultChars
 	if s.cfg.Budget != nil && s.cfg.Budget.MaxToolResultChars > 0 {
 		limit = s.cfg.Budget.MaxToolResultChars
@@ -182,6 +203,10 @@ func (s *Service) capToolMessage(msg llm.Message) llm.Message {
 	if len(content) <= limit {
 		return msg
 	}
+	tr := TraceFrom(ctx)
+	tr.AddTruncation()
+	s.log.Warn("budget cap", "trace", traceID(tr), "what", "tool_result",
+		"from_chars", len(content), "to_chars", limit)
 	id := ""
 	if tm, ok := msg.(llm.ToolMessage); ok {
 		id = tm.ID()
@@ -205,10 +230,20 @@ func (s *Service) Chat(ctx context.Context, history []HistoryMessage, userMsg, s
 
 	go func() {
 		defer close(out)
+		tr := TraceFrom(ctx)
+		if tr == nil {
+			tr = NewChatTrace(NewTraceID(), "")
+			ctx = WithTrace(ctx, tr)
+		}
+		log := s.log.With("trace", tr.TraceID)
+		tr.SetIntro(len(history), historyChars(history), len(userMsg), len(s.tools))
+		log.Info("chat start", "space", tr.Space, "history_msgs", len(history),
+			"history_chars", historyChars(history), "user_chars", len(userMsg),
+			"guide_ctx_chars", tr.GuideCtxChars, "tools", len(s.tools))
 		defer func() {
 			if r := recover(); r != nil {
-				s.log.Error("chat panic", "panic", r)
-				sendFallback(out)
+				log.Error("chat panic", "panic", r)
+				sendFallback(out, tr, "panic")
 			}
 		}()
 
@@ -234,17 +269,26 @@ func (s *Service) Chat(ctx context.Context, history []HistoryMessage, userMsg, s
 		type toolKey struct{ name, params string }
 		seenCalls := map[toolKey]int{}
 
-		for i := 0; i < s.cfg.MaxIterations; i++ {
+		// Passe guide bornée à 3 itérations d'outils : au-delà, la boucle
+		// coûte plus qu'elle ne rapporte (latence + fenêtre minute du provider).
+		guideIterations := s.cfg.MaxIterations
+		if guideIterations > 3 {
+			guideIterations = 3
+		}
+
+		for i := 0; i < guideIterations; i++ {
 			startLLM := time.Now()
 			content, tokens, toolCalls, err := s.chatOnceTools(ctx, messages, guideTools)
-			s.log.Info("llm timing", "pass", "guide", "iteration", i, "duration_ms", time.Since(startLLM).Milliseconds(), "tool_calls", len(toolCalls))
+			log.Info("llm timing", "pass", "guide", "iteration", i,
+				"duration_ms", time.Since(startLLM).Milliseconds(),
+				"tool_calls", len(toolCalls), "out_chars", len(content))
 			if err != nil {
-				if i < s.cfg.MaxIterations-1 {
-					s.log.Warn("chat iteration retry", "err", err, "attempt", i)
+				if i < guideIterations-1 {
+					log.Warn("chat iteration retry", "err", err, "attempt", i)
 					continue
 				}
-				s.log.Error("chat error", "err", err)
-				sendFallback(out)
+				log.Error("chat error", "err", err)
+				sendFallback(out, tr, "llm_error")
 				return
 			}
 
@@ -267,7 +311,7 @@ func (s *Service) Chat(ctx context.Context, history []HistoryMessage, userMsg, s
 				}
 			}
 			if allRepeated && i > 0 {
-				s.log.Warn("guide pass looping detected, forcing final answer", "iterations", i)
+				log.Warn("guide pass looping detected, forcing final answer", "iterations", i)
 				if content := s.forceFinalAnswer(ctx, messages, out); content != "" {
 					finalContent = content
 				}
@@ -281,32 +325,42 @@ func (s *Service) Chat(ctx context.Context, history []HistoryMessage, userMsg, s
 				startTool := time.Now()
 				out <- StreamEvent{Type: "tool", Tool: tc.Name()}
 				msg, err := llm.ExecuteToolCall(ctx, tc, guideTools...)
-				s.log.Info("tool timing", "pass", "guide", "name", tc.Name(), "duration_ms", time.Since(startTool).Milliseconds())
+				durTool := time.Since(startTool).Milliseconds()
+				tr.AddTool(tc.Name(), durTool)
 				if err != nil {
-					s.log.Error("tool exec", "name", tc.Name(), "err", err)
+					log.Error("tool exec", "name", tc.Name(), "err", err)
 					msg = llm.NewToolMessage(tc.ID(), llm.NewToolResult(fmt.Sprintf("Tool execution error: %s", err.Error())))
 				}
-				messages = append(messages, s.capToolMessage(msg))
+				log.Info("tool timing", "pass", "guide", "name", tc.Name(),
+					"duration_ms", durTool, "out_chars", len(msg.Content()))
+				messages = append(messages, s.capToolMessage(ctx, msg))
 			}
-			if i == s.cfg.MaxIterations-1 {
+			if i == guideIterations-1 {
 				// Itérations épuisées : demander une synthèse finale sans
 				// outils plutôt que d'échouer — le budget du provider peut
 				// être trop juste pour une exploration complète.
-				s.log.Warn("max iterations reached, forcing final answer", "iterations", s.cfg.MaxIterations)
+				log.Warn("max iterations reached, forcing final answer", "iterations", guideIterations)
 				if content := s.forceFinalAnswer(ctx, messages, out); content != "" {
 					finalContent = content
 					break
 				}
-				s.log.Error("chat error", "err", "max iterations sans réponse exploitable")
-				sendFallback(out)
+				log.Error("chat error", "err", "max iterations sans réponse exploitable")
+				sendFallback(out, tr, "max_iterations")
 				return
 			}
 		}
 
+		guideMs := time.Since(startAll).Milliseconds()
 		out <- StreamEvent{Type: "done", Tools: toolsUsed}
-		s.log.Info("chat done", "pass", "guide", "total_ms", time.Since(startAll).Milliseconds(), "tools", toolsUsed)
+		tr.SetGuideMs(guideMs)
+		snap := tr.Snapshot()
+		log.Info("chat done", "pass", "guide", "total_ms", guideMs, "tools", toolsUsed,
+			"llm_calls", snap.LLMCalls, "tokens_in", snap.TokensIn,
+			"tokens_out", snap.TokensOut, "truncations", snap.Truncations)
 
-		// --- Pass 2 : vérification carte (prompt et outils dédiés) ---
+		// --- Pass 2 : vérification carte (extraction de noms + map_search) ---
+		// Passe légère, toujours exécutée : la réponse est déjà livrée et un
+		// 429 éventuel est géré par le backoff retry-after.
 		if finalContent != "" {
 			s.verifyMapEstablishments(ctx, finalContent, out)
 		}
@@ -316,59 +370,140 @@ func (s *Service) Chat(ctx context.Context, history []HistoryMessage, userMsg, s
 }
 
 // verifyMapEstablishments est la PASSE 2 : après la réponse du guide, on
-// demande au modèle (prompt et outils dédiés, sans guide ni lexique) de
-// vérifier la présence des établissements mentionnés sur la carte.
-// Seuls ceux trouvés sur la carte sont émis en événements « establishments ».
+// extrait les noms de structures citées (un seul appel LLM, sans outils) puis
+// on vérifie leur présence sur la carte par map_search (PostGIS). Seuls ceux
+// trouvés sont émis en événements « establishments ». Passe légère : elle
+// s'exécute toujours, contrairement à l'ancienne boucle d'outils.
 func (s *Service) verifyMapEstablishments(ctx context.Context, response string, out chan StreamEvent) {
 	mapTools := filterTools(s.tools, []string{"map_search", "map_nearby"})
 	if len(mapTools) == 0 {
 		return
 	}
-
-	messages := []llm.Message{
-		llm.NewMessage(llm.RoleSystem, SystemPromptPublicMap),
-		llm.NewMessage(llm.RoleUser, "Réponse à vérifier :\n"+response),
-	}
-
+	tr := TraceFrom(ctx)
+	log := s.log.With("trace", traceID(tr))
 	start := time.Now()
+
+	names := s.extractEstablishmentNames(ctx, response)
 	var allEsts []Establishment
 	seen := map[string]bool{}
-
-	mapIterations := s.cfg.MaxIterations
-	if mapIterations > 3 {
-		mapIterations = 3
-	}
-	for i := 0; i < mapIterations; i++ {
-		_, _, toolCalls, err := s.chatOnceTools(ctx, messages, mapTools)
-		if err != nil || len(toolCalls) == 0 {
-			break
+	for i, name := range names {
+		params, _ := json.Marshal(map[string]string{"query": name})
+		tc := llm.NewToolCall(fmt.Sprintf("map-%d", i), "map_search", string(params))
+		startTool := time.Now()
+		msg, err := llm.ExecuteToolCall(ctx, tc, mapTools...)
+		durTool := time.Since(startTool).Milliseconds()
+		tr.AddTool("map_search", durTool)
+		if err != nil {
+			log.Error("tool exec", "name", "map_search", "query", name, "err", err)
+			continue
 		}
-		messages = append(messages, llm.NewToolCallsMessage(toolCalls...))
-		for _, tc := range toolCalls {
-			startTool := time.Now()
-			msg, err := llm.ExecuteToolCall(ctx, tc, mapTools...)
-			s.log.Info("tool timing", "pass", "map", "name", tc.Name(), "duration_ms", time.Since(startTool).Milliseconds())
-			if err != nil {
-				msg = llm.NewToolMessage(tc.ID(), llm.NewToolResult(fmt.Sprintf("Tool execution error: %s", err.Error())))
+		log.Info("tool timing", "pass", "map", "name", "map_search", "query", name,
+			"duration_ms", durTool, "out_chars", len(msg.Content()))
+		for _, e := range extractEstablishments("map_search", msg.Content()) {
+			key := estabKey(e)
+			if !seen[key] {
+				seen[key] = true
+				allEsts = append(allEsts, e)
 			}
-			// Extraire les établissements des résultats carte
-			if ests := extractEstablishments(tc.Name(), msg.Content()); len(ests) > 0 {
-				for _, e := range ests {
-					key := fmt.Sprintf("%d|%s", e.ID, e.Name)
-					if !seen[key] {
-						seen[key] = true
-						allEsts = append(allEsts, e)
-					}
-				}
-			}
-			messages = append(messages, s.capToolMessage(msg))
 		}
 	}
 
-	s.log.Info("map verify done", "duration_ms", time.Since(start).Milliseconds(), "establishments", len(allEsts))
+	// Repli « structures proches de chez vous » : si aucun nom n'est retrouvé
+	// en carte, élargir autour de la zone de l'utilisateur plutôt que de
+	// laisser le panneau vide.
+	if len(allEsts) == 0 {
+		if z := store.ZoneFrom(ctx); z != nil {
+			allEsts = s.nearbyFallback(ctx, z, mapTools, tr, log)
+		}
+	}
+
+	mapMs := time.Since(start).Milliseconds()
+	tr.SetMapMs(mapMs)
+	tr.SetMapResult(len(names), len(allEsts))
+	zoneName := ""
+	if z := store.ZoneFrom(ctx); z != nil {
+		zoneName = z.Name
+	}
+	log.Info("map verify done", "duration_ms", mapMs, "names", len(names),
+		"establishments", len(allEsts), "zone", zoneName,
+		"nearby_fallback", tr.Snapshot().NearbyFallback)
 	if len(allEsts) > 0 {
 		out <- StreamEvent{Type: "establishments", Establishments: allEsts}
 	}
+}
+
+// nearbyFallback élargit progressivement la recherche autour de la zone de
+// l'utilisateur (10 → 30 → 60 → 100 km) et retourne les structures proches.
+func (s *Service) nearbyFallback(ctx context.Context, z *store.UserZone, mapTools []llm.Tool, tr *ChatTrace, log *slog.Logger) []Establishment {
+	for _, radius := range []float64{10, 30, 60, 100} {
+		params, _ := json.Marshal(map[string]any{
+			"lng": z.Center[0], "lat": z.Center[1],
+			"radius_km": radius, "limit": 8,
+		})
+		tc := llm.NewToolCall(fmt.Sprintf("nearby-%.0f", radius), "map_nearby", string(params))
+		startTool := time.Now()
+		msg, err := llm.ExecuteToolCall(ctx, tc, mapTools...)
+		durTool := time.Since(startTool).Milliseconds()
+		tr.AddTool("map_nearby", durTool)
+		if err != nil {
+			log.Warn("nearby fallback", "radius_km", radius, "err", err)
+			continue
+		}
+		ests := extractEstablishments("map_nearby", msg.Content())
+		if len(ests) > 0 {
+			tr.MarkNearbyFallback(radius)
+			log.Info("nearby fallback", "radius_km", radius, "establishments", len(ests))
+			return ests
+		}
+	}
+	return nil
+}
+
+// extractEstablishmentNames demande au modèle les noms de structures cités
+// dans la réponse (JSON, sans outils) — un seul appel, sortie courte.
+func (s *Service) extractEstablishmentNames(ctx context.Context, response string) []string {
+	content, _, toolCalls, err := s.chatOnceTools(ctx, []llm.Message{
+		llm.NewMessage(llm.RoleSystem, SystemPromptExtractNames),
+		llm.NewMessage(llm.RoleUser, "Réponse à analyser :\n"+response),
+	}, nil)
+	if err != nil {
+		s.log.Warn("extract names failed", "trace", traceID(TraceFrom(ctx)), "err", err)
+		return nil
+	}
+	if len(toolCalls) > 0 {
+		return nil
+	}
+	return decodeNames(content)
+}
+
+// decodeNames parse le JSON {"names": [...]} renvoyé par le modèle, tolérant
+// aux éventuels délimiteurs markdown autour du JSON.
+func decodeNames(content string) []string {
+	start := strings.Index(content, "{")
+	end := strings.LastIndex(content, "}")
+	if start < 0 || end <= start {
+		return nil
+	}
+	var parsed struct {
+		Names []string `json:"names"`
+	}
+	if err := json.Unmarshal([]byte(content[start:end+1]), &parsed); err != nil {
+		return nil
+	}
+	out := make([]string, 0, 6)
+	seen := map[string]bool{}
+	for _, n := range parsed.Names {
+		n = strings.TrimSpace(n)
+		if n == "" || seen[n] {
+			continue
+		}
+		seen[n] = true
+		out = append(out, n)
+		if len(out) == 6 {
+			break
+		}
+	}
+	return out
 }
 
 // filterTools retourne uniquement les outils dont le nom est dans names.

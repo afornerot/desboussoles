@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -212,20 +213,38 @@ func scanMapFeature(row pgx.Row) (MapFeature, error) {
 }
 
 // SearchMapFeatures recherche par nom + catégorie + sous-catégories.
-func (s *Store) SearchMapFeatures(ctx context.Context, query, category string, subcats []string, limit int) ([]MapFeature, error) {
+// SearchMapFeatures recherche des entités par nom — correspondance souple :
+// insensible aux accents et à la casse, bidirectionnelle et par recouvrement
+// de mots significatifs (voir matching.go). Les résultats sont classés par
+// pertinence, la zone de l'utilisateur (si connue) servant de bonus et de
+// départage par distance.
+func (s *Store) SearchMapFeatures(ctx context.Context, query, category string, subcats []string, limit int, zone *UserZone) ([]MapFeature, error) {
 	if limit <= 0 || limit > 50 {
 		limit = 10
 	}
+	words := significantWords(query)
+	conds := []string{
+		"$1 = ''",
+		"immutable_unaccent(f.name) ILIKE '%' || immutable_unaccent($1) || '%'",
+		"immutable_unaccent($1) ILIKE '%' || immutable_unaccent(f.name) || '%'",
+		"immutable_unaccent(COALESCE(f.props->>'title', '')) ILIKE '%' || immutable_unaccent($1) || '%'",
+	}
+	args := []any{query, category, subcats, 50} // candidats généreux, scorés puis bornés
+	for i, w := range words {
+		conds = append(conds, fmt.Sprintf("immutable_unaccent(f.name) ILIKE '%%' || $%d || '%%'", 5+i))
+		args = append(args, w)
+	}
+
 	rows, err := s.pool.Query(ctx, `
 		SELECT `+mapFeatureCols+`
 		FROM map_feature f
 		JOIN map_category c ON c.id = f.category_id
-		WHERE ($1 = '' OR f.name ILIKE '%' || $1 || '%' OR f.props->>'title' ILIKE '%' || $1 || '%')
+		WHERE (`+strings.Join(conds, " OR ")+`)
 		  AND ($2 = '' OR c.code = $2)
 		  AND ($3::text[] IS NULL OR f.props->'subcategories' ?| $3::text[])
 		ORDER BY f.name
 		LIMIT $4`,
-		query, category, subcats, limit,
+		args...,
 	)
 	if err != nil {
 		return nil, err
@@ -239,7 +258,10 @@ func (s *Store) SearchMapFeatures(ctx context.Context, query, category string, s
 		}
 		out = append(out, f)
 	}
-	return out, rows.Err()
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return rankFeatures(query, out, limit, zone), nil
 }
 
 // SearchMapNearby retourne les entités dans un rayon (km) autour d'un point, triées par distance.

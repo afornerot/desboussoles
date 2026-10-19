@@ -19,15 +19,15 @@ func TestNewBudget(t *testing.T) {
 		{
 			name:     "groq gratuit (8K TPM, 1K RPD)",
 			limits:   Limits{MaxRequestTokens: 8000, RequestsPerDay: 1000},
-			wantHist: 8000 / 2 * 50 / 100 * charsPerToken,
-			wantTool: 8000 / 2 * 25 / 100 * charsPerToken,
+			wantHist: 8000 / 3 * 50 / 100 * charsPerToken,
+			wantTool: 8000 / 3 * 25 / 100 * charsPerToken,
 			wantIter: 4,
 		},
 		{
 			name:     "quota moyen — itérations réduites",
 			limits:   Limits{MaxRequestTokens: 8000, RequestsPerDay: 150},
-			wantHist: 8000 / 2 * 50 / 100 * charsPerToken,
-			wantTool: 8000 / 2 * 25 / 100 * charsPerToken,
+			wantHist: 8000 / 3 * 50 / 100 * charsPerToken,
+			wantTool: 8000 / 3 * 25 / 100 * charsPerToken,
 			wantIter: 3,
 		},
 		{
@@ -40,15 +40,15 @@ func TestNewBudget(t *testing.T) {
 		{
 			name:     "quota minuscule — itérations réduites",
 			limits:   Limits{MaxRequestTokens: 20000, RequestsPerDay: 20},
-			wantHist: 20000 / 2 * 50 / 100 * charsPerToken,
-			wantTool: 20000 / 2 * 25 / 100 * charsPerToken,
+			wantHist: 20000 / 3 * 50 / 100 * charsPerToken,
+			wantTool: 20000 / 3 * 25 / 100 * charsPerToken,
 			wantIter: 2,
 		},
 		{
 			name:     "inconnu — défaut",
 			limits:   Limits{MaxRequestTokens: 0, RequestsPerDay: 0},
-			wantHist: DefaultMaxRequestTokens / 2 * 50 / 100 * charsPerToken,
-			wantTool: DefaultMaxRequestTokens / 2 * 25 / 100 * charsPerToken,
+			wantHist: DefaultMaxRequestTokens / 3 * 50 / 100 * charsPerToken,
+			wantTool: DefaultMaxRequestTokens / 3 * 25 / 100 * charsPerToken,
 			wantIter: 4,
 		},
 		{

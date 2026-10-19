@@ -45,6 +45,10 @@ Le premier démarrage exécute `init.sql` (schéma + seed). Les variables locale
 | `AI_MODEL` / `AI_API_KEY` / `AI_BASE_URL` | Modèle, clé et endpoint du fournisseur LLM (absentes = chat désactivé) |
 | `AI_MAX_REQUEST_TOKENS` | Plafond de tokens par requête (surcharge la sonde/profil du provider) |
 | `AI_REQUESTS_PER_DAY` | Quota de requêtes/jour (surcharge la sonde/profil — borne le nombre d'itérations d'outils) |
+| `AI_REASONING_EFFORT` | Effort de raisonnement des modèles type gpt-oss (`low`/`medium`/`high`) — vide = défaut du provider |
+| `AI_INCLUDE_REASONING` | `false` pour ne pas streamer le reasoning (gpt-oss) — gain de latence |
+| `AI_LOG_CONTENT` | `1` pour logguer de courts extraits de messages (désactivé par défaut) |
+| `AI_TRACE_FILE` | Chemin du fichier de traces JSONL (`none` pour désactiver, défaut `/data/traces/chat.jsonl`) |
 | `GUIDE_FILE` / `AMOXTLI_BIN` / `AMOXTLI_DIR` | Fichier du guide à indexer (défaut `/data/guide.md`), binaire amoxtli (défaut `amoxtli`) et workspace d'index (défaut `/data/amoxtli`) |
 
 ## Chat IA
@@ -81,6 +85,25 @@ L'utilisateur reçoit **toujours** une réponse utile : si la boucle d'outils s'
 ### Fournisseurs LLM
 
 Client OpenAI-compatible maison (`server/internal/ai/openai_compat.go`) partagé par Groq, Gemini et OpenCode — il rejoue notamment les `thought_signature` de Gemini (indispensables dès qu'un modèle thinking appelle des outils). Le contenu utile des appels d'outils est borné pour rester sous les plafonds de tokens (les résultats de `guide_search` sont tronqués).
+
+### Observabilité
+
+Chaque tour de conversation porte un `trace_id` commun à tous les logs, avec durées, tokens et tailles :
+
+- **logs Docker** (slog JSON) : `chat start`, `llm http` (TTFT, durée stream, tokens in/out), `llm timing`, `tool timing` (durée, tailles in/out), `budget cap` (troncatures), `map verify done`, `chat done`, `chat http done` (récapitulatif complet du tour) ;
+- **fichier JSONL** `data/traces/chat.jsonl` (monté en `/data/traces`) : une ligne par tour, prête pour `jq` — chemin surchargeable par `AI_TRACE_FILE`, `AI_TRACE_FILE=none` pour désactiver ; y compris le ciblage géographique (`zone`, `zone_source`, `zone_inside`), la passe carte (`map_names`, `map_matched`) et le repli « structures proches » (`nearby_fallback`, `nearby_radius_km`) ;
+- **contenu des messages** : jamais loggé par défaut (conversations santé mentale) — `AI_LOG_CONTENT=1` ajoute de courts extraits (`user_excerpt`, `answer_excerpt`) pour le débogage.
+
+Exemple d'analyse :
+
+```bash
+# Les tours les plus lents
+jq -r 'select(.total_ms) | [.trace_id, .space, .total_ms, .ttft_ms, .tokens_in, .tokens_out] | @tsv' \
+  data/traces/chat.jsonl | sort -k3 -rn | head
+
+# Répartition du temps : LLM vs outils vs passe carte
+jq 'select(.space=="public") | {llm_stream_ms, tool_ms, map_pass_ms, total_ms}' data/traces/chat.jsonl
+```
 
 ### Indexation du guide
 

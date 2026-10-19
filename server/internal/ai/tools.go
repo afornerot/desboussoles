@@ -130,7 +130,7 @@ func (t *Tools) mapSearch(ctx context.Context, params map[string]any) (llm.ToolR
 	subcats := paramStringSlice(params, "subcategories")
 	limit := paramIntDefault(params, "limit", 10)
 
-	feats, err := t.store.SearchMapFeatures(ctx, query, category, subcats, limit)
+	feats, err := t.store.SearchMapFeatures(ctx, query, category, subcats, limit, store.ZoneFrom(ctx))
 	if err != nil {
 		return errorResult(fmt.Sprintf("erreur de recherche carte: %s", err)), nil
 	}
@@ -217,31 +217,41 @@ func (t *Tools) guideSearch(ctx context.Context, params map[string]any) (llm.Too
 
 // geocode convertit une adresse en coordonnées GPS via l'API BAN
 // (Base Adresse Nationale, api-adresse.data.gouv.fr — gratuite, sans clé).
-func (t *Tools) geocode(ctx context.Context, params map[string]any) (llm.ToolResult, error) {
-	address, err := paramString(params, "address")
-	if err != nil {
-		return errorResult(err.Error()), nil
-	}
+// GeoResult porte la réponse de l'API BAN (Base Adresse Nationale).
+type GeoResult struct {
+	Label       string
+	Name        string
+	City        string
+	Postcode    string
+	Citycode    string
+	Context     string
+	Score       float64
+	Lng, Lat    float64
+	Housenumber string
+	Street      string
+}
 
+// GeocodeAddress interroge l'API BAN (api-adresse.data.gouv.fr — gratuite,
+// sans clé) et retourne la meilleure correspondance pour une adresse ou une
+// commune. Utilisé par l'outil geocode et pour localiser la commune du
+// questionnaire absente de la carte.
+func GeocodeAddress(ctx context.Context, address string) (*GeoResult, bool) {
 	reqURL := "https://api-adresse.data.gouv.fr/search?q=" + url.QueryEscape(address) + "&limit=1"
-
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, reqURL, nil)
 	if err != nil {
-		return errorResult(fmt.Sprintf("erreur de requête geocode: %s", err)), nil
+		return nil, false
 	}
-
 	client := &http.Client{Timeout: 10 * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {
-		return errorResult(fmt.Sprintf("API geocode injoignable: %s", err)), nil
+		return nil, false
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(io.LimitReader(resp.Body, 1<<16))
 	if err != nil {
-		return errorResult(fmt.Sprintf("lecture réponse geocode: %s", err)), nil
+		return nil, false
 	}
-
 	var geoResp struct {
 		Features []struct {
 			Geometry struct {
@@ -261,32 +271,43 @@ func (t *Tools) geocode(ctx context.Context, params map[string]any) (llm.ToolRes
 			} `json:"properties"`
 		} `json:"features"`
 	}
-	if err := json.Unmarshal(body, &geoResp); err != nil {
-		return errorResult(fmt.Sprintf("réponse geocode illisible: %s", err)), nil
+	if err := json.Unmarshal(body, &geoResp); err != nil || len(geoResp.Features) == 0 {
+		return nil, false
 	}
+	f := geoResp.Features[0]
+	return &GeoResult{
+		Label: f.Properties.Label, Name: f.Properties.Name,
+		City: f.Properties.City, Postcode: f.Properties.Postcode,
+		Citycode: f.Properties.Citycode, Context: f.Properties.Context,
+		Score: f.Properties.Score, Lng: f.Geometry.Coordinates[0], Lat: f.Geometry.Coordinates[1],
+		Housenumber: f.Properties.Housenumber, Street: f.Properties.Street,
+	}, true
+}
 
-	if len(geoResp.Features) == 0 {
+// geocode convertit une adresse en coordonnées GPS via l'API BAN.
+func (t *Tools) geocode(ctx context.Context, params map[string]any) (llm.ToolResult, error) {
+	address, err := paramString(params, "address")
+	if err != nil {
+		return errorResult(err.Error()), nil
+	}
+	g, ok := GeocodeAddress(ctx, address)
+	if !ok {
 		return jsonResult(map[string]any{
 			"found":   false,
 			"address": address,
 			"note":    "aucune correspondance trouvée pour cette adresse",
 		}), nil
 	}
-
-	f := geoResp.Features[0]
-	lng := f.Geometry.Coordinates[0]
-	lat := f.Geometry.Coordinates[1]
-
 	return jsonResult(map[string]any{
 		"found":    true,
-		"label":    f.Properties.Label,
-		"lng":      lng,
-		"lat":      lat,
-		"city":     f.Properties.City,
-		"postcode": f.Properties.Postcode,
-		"citycode": f.Properties.Citycode,
-		"context":  f.Properties.Context,
-		"score":    f.Properties.Score,
+		"label":    g.Label,
+		"lng":      g.Lng,
+		"lat":      g.Lat,
+		"city":     g.City,
+		"postcode": g.Postcode,
+		"citycode": g.Citycode,
+		"context":  g.Context,
+		"score":    g.Score,
 	}), nil
 }
 

@@ -44,6 +44,20 @@ func main() {
 	}
 	ai.MapToGenAI()
 
+	// Trace JSONL des tours de chat (analyse a posteriori) :
+	// AI_TRACE_FILE change le chemin, AI_TRACE_FILE=none désactive.
+	tracePath := os.Getenv("AI_TRACE_FILE")
+	if tracePath == "" {
+		tracePath = "/data/traces/chat.jsonl"
+	}
+	if tracePath != "none" {
+		if err := ai.SetTraceFile(tracePath); err != nil {
+			log.Warn("fichier traces", "path", tracePath, "err", err)
+		} else {
+			log.Info("traces chat activées", "path", tracePath)
+		}
+	}
+
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 

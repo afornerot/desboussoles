@@ -398,7 +398,7 @@
   }
 
   /* ---------- flux : go_chat → bascule vers le chat ---------- */
-  function handleResponse(q) {
+  function handleResponse(q, notice) {
     if (q.session_id) sessionId = q.session_id;
     recordResponse(q);
 
@@ -423,10 +423,11 @@
     n += 1;
     current = q;
     saveState();
-    render(q);
+    render(q, notice);
   }
 
-  async function start() {
+  async function start(notice) {
+    if (typeof notice !== 'string') notice = null;
     clearState();
     resetCtx();
     sessionId = null;
@@ -444,7 +445,7 @@
         var err = await res.json().catch(function () { return {}; });
         throw new Error(err.error || 'HTTP ' + res.status);
       }
-      handleResponse(await res.json());
+      handleResponse(await res.json(), notice);
     } catch (err) { showError(err); }
   }
 
@@ -471,6 +472,14 @@
         }
         return;
       }
+      if (res.status === 404) {
+        // Session inconnue ou expirée (redémarrage du service, TTL) : on
+        // recrée une session et on rejoue les réponses enregistrées pour
+        // revenir à la question courante sans rien perdre.
+        if (await recoverSession(asked, reponse)) return;
+        await start('Session expirée : le questionnaire repart du début.');
+        return;
+      }
       if (!res.ok) {
         var err = await res.json().catch(function () { return {}; });
         throw new Error(err.error || err.erreur || 'HTTP ' + res.status);
@@ -478,6 +487,57 @@
       recordAnswer(asked, reponse);
       handleResponse(await res.json());
     } catch (err) { showError(err); }
+  }
+
+  /* ---------- reprise : session serveur perdue, checkpoint local intact ---------- */
+  async function recoverSession(asked, reponse) {
+    try {
+      var res = await fetch('/api/guide/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}'
+      });
+      if (!res.ok) return false;
+      var suite = await res.json();
+      var sid = suite.session_id;
+
+      // Rejeu des réponses déjà validées pour restaurer l'état serveur.
+      var reponses = ctx().reponses || [];
+      for (var i = 0; i < reponses.length; i++) {
+        var a = reponses[i];
+        var r = await fetch('/api/guide/reponse', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sid, id_question: a.id_question, reponse: a.reponse })
+        });
+        if (!r.ok) return false;
+        suite = await r.json();
+        if (suite.id_question === 'fin') {
+          sessionId = sid;
+          handleResponse(suite);
+          return true;
+        }
+      }
+
+      // Renvoi de la réponse qui avait échoué.
+      sessionId = sid;
+      var res2 = await fetch('/api/guide/reponse', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sid, id_question: asked.id_question, reponse: reponse })
+      });
+      if (res2.status === 422) {
+        var body = await res2.json().catch(function () { return {}; });
+        render(body.question || asked, body.erreur || body.error || 'Réponse refusée');
+        return true;
+      }
+      if (!res2.ok) return false;
+      recordAnswer(asked, reponse);
+      handleResponse(await res2.json());
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   /* ---------- démarrage : reprise d'état ou neuf ---------- */

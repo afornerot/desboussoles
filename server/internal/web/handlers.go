@@ -697,9 +697,36 @@ func systemWithContext(system string, guideContext json.RawMessage) string {
 	return system + "\n\n--- Contexte du questionnaire « Guide » (réponses de la personne, JSON) ---\n" + string(guideContext)
 }
 
+// guideCommune extrait la commune déclarée dans le contexte questionnaire
+// (json_patient.personne.commune_nom, repli sur le code INSEE).
+func guideCommune(raw json.RawMessage) string {
+	var g struct {
+		JSONPatient struct {
+			Personne struct {
+				CommuneNom struct {
+					Value any `json:"value"`
+				} `json:"commune_nom"`
+				CommuneInsee struct {
+					Value any `json:"value"`
+				} `json:"commune_insee"`
+			} `json:"personne"`
+		} `json:"json_patient"`
+	}
+	if len(raw) == 0 || json.Unmarshal(raw, &g) != nil {
+		return ""
+	}
+	if v, ok := g.JSONPatient.Personne.CommuneNom.Value.(string); ok && v != "" && v != "pass" {
+		return v
+	}
+	if v, ok := g.JSONPatient.Personne.CommuneInsee.Value.(string); ok && v != "" && v != "pass" {
+		return v
+	}
+	return ""
+}
+
 // streamChat exécute le chat en streaming SSE pour un prompt et un store donnés.
 // useGuideCtx : injecte le contexte guide stocké côté serveur (chat public).
-func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system string, store *ai.SessionStore, useGuideCtx bool) {
+func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system string, sessions *ai.SessionStore, useGuideCtx bool) {
 	if !s.chatReady || s.chatSvc == nil {
 		http.Error(w, `{"error":"chat non configuré (AI_* manquantes)"}`, http.StatusServiceUnavailable)
 		return
@@ -713,8 +740,8 @@ func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system strin
 
 	sid := s.sessionID(w, r)
 	var history []ai.HistoryMessage
-	if store != nil {
-		history = store.History(sid)
+	if sessions != nil {
+		history = sessions.History(sid)
 	}
 
 	// Contexte guide : stocké serveur (à jour à chaque réponse du widget)
@@ -738,6 +765,33 @@ func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system strin
 	ctx, cancel := context.WithCancel(r.Context())
 	defer cancel()
 
+	// Trace du tour : identifiant partagé par tous les logs + fiche JSONL.
+	space := "pro"
+	if useGuideCtx {
+		space = "public"
+	}
+	tr := ai.NewChatTrace(ai.NewTraceID(), space)
+	tr.SetGuideCtx(len(guideCtx))
+	ctx = ai.WithTrace(ctx, tr)
+
+	// Zone utilisateur (commune du questionnaire) : bonus et départage
+	// géographiques des recherches carte — base locale d'abord, geocode BAN
+	// en repli si la commune n'est pas sur la carte.
+	if commune := guideCommune(guideCtx); commune != "" {
+		if z := s.store.UserZoneInfo(ctx, commune); z != nil {
+			ctx = store.WithZone(ctx, z)
+			tr.SetZone(z.Name, "base", len(z.In))
+		} else if g, ok := ai.GeocodeAddress(ctx, commune); ok {
+			ctx = store.WithZone(ctx, &store.UserZone{
+				Name:   commune,
+				Center: [2]float64{g.Lng, g.Lat},
+			})
+			tr.SetZone(commune, "geocode", 0)
+		} else {
+			tr.SetZone(commune, "none", 0)
+		}
+	}
+
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
@@ -748,11 +802,15 @@ func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system strin
 	// les écritures s'entrelacent et corrompent le flux SSE (« Error in input
 	// stream » côté navigateur).
 	var wmu sync.Mutex
+	var ttfbAt time.Time
 	writeSSE := func(format string, args ...any) error {
 		wmu.Lock()
 		defer wmu.Unlock()
 		_, err := fmt.Fprintf(w, format, args...)
 		if err == nil {
+			if ttfbAt.IsZero() {
+				ttfbAt = time.Now()
+			}
 			flusher.Flush()
 		}
 		return err
@@ -783,33 +841,74 @@ func (s *Server) streamChat(w http.ResponseWriter, r *http.Request, system strin
 
 	events := s.chatSvc.Chat(ctx, history, req.Message, systemWithContext(system, guideCtx))
 
+	startHTTP := time.Now()
+	var firstTokAt time.Time
+	sentEvents, sentBytes := 0, 0
 	var fullAnswer strings.Builder
+
+	// finish clôt la trace du tour (logs + JSONL), en succès ou déconnexion.
+	finish := func(clientGone bool) {
+		firstTokMs, ttfbMs := int64(0), int64(0)
+		if !firstTokAt.IsZero() {
+			firstTokMs = firstTokAt.Sub(startHTTP).Milliseconds()
+		}
+		if !ttfbAt.IsZero() {
+			ttfbMs = ttfbAt.Sub(startHTTP).Milliseconds()
+		}
+		tr.SetOutput(sentEvents, sentBytes, fullAnswer.Len(), firstTokMs, ttfbMs, clientGone)
+		tr.SetExcerpts(ai.Excerpt(req.Message, 200), ai.Excerpt(fullAnswer.String(), 400))
+		tr.Finish()
+		ai.WriteTrace(tr)
+		snap := tr.Snapshot()
+		s.log.Info("chat http done", "trace", snap.TraceID, "space", snap.Space,
+			"http_ms", snap.TotalMs, "http_ttfb_ms", snap.TTFBMs, "first_token_ms", snap.FirstTokMs,
+			"guide_pass_ms", snap.GuideMs, "map_pass_ms", snap.MapMs,
+			"llm_calls", snap.LLMCalls, "ttft_ms", snap.TTFTMs, "llm_stream_ms", snap.LLMStreamMs,
+			"tokens_in", snap.TokensIn, "tokens_out", snap.TokensOut,
+			"chars_sent", snap.CharsSent, "chars_recv", snap.CharsRecv, "chars_out", snap.CharsOut,
+			"tool_calls", snap.ToolCallsCount, "tools_used", snap.ToolsUsed, "tool_ms", snap.ToolMs,
+			"map_names", snap.MapNames, "map_matched", snap.MapMatched,
+			"nearby_fallback", snap.NearbyFallback, "nearby_radius_km", snap.NearbyRadiusKm,
+			"zone", snap.Zone, "zone_source", snap.ZoneSource, "zone_inside", snap.ZoneInside,
+			"sse_events", snap.SSEEvents, "sse_bytes", snap.SSEBytes,
+			"truncations", snap.Truncations, "retries", snap.LLMRetries,
+			"forced_final", snap.ForcedFinal, "fallback", snap.Fallback,
+			"client_gone", snap.ClientGone)
+	}
+
 	for ev := range events {
 		data, _ := json.Marshal(ev)
+		sentEvents++
+		sentBytes += len(data)
 		switch ev.Type {
 		case "token":
+			if firstTokAt.IsZero() {
+				firstTokAt = time.Now()
+			}
 			fullAnswer.WriteString(ev.Token)
 		case "tool":
 			// already in event
 		case "establishments":
 			// Cumulés côté serveur pour les retrouver après navigation.
-			if store != nil {
-				store.AddEstablishments(sid, ev.Establishments)
+			if sessions != nil {
+				sessions.AddEstablishments(sid, ev.Establishments)
 			}
 		case "done":
-			if store != nil {
-				store.Add(sid, req.Message, fullAnswer.String())
+			if sessions != nil {
+				sessions.Add(sid, req.Message, fullAnswer.String())
 			}
 		case "error":
-			s.log.Error("chat error", "err", ev.Error)
+			s.log.Error("chat error", "trace", tr.TraceID, "err", ev.Error)
 		}
 		if err := writeSSE("event: %s\ndata: %s\n\n", ev.Type, data); err != nil {
-			s.log.Debug("chat client déconnecté", "err", err)
+			s.log.Debug("chat client déconnecté", "trace", tr.TraceID, "err", err)
 			cancel()
 			// on vide le canal pour que la goroutine Chat se termine
 			for range events {
 			}
+			finish(true)
 			return
 		}
 	}
+	finish(false)
 }

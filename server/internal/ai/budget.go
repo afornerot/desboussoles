@@ -142,14 +142,14 @@ func probeLimits(ctx context.Context, baseURL, apiKey, model string) (Limits, bo
 }
 
 // NewBudget dérive les bornes de prompt des limites du provider. Le plafond
-// de requête est divisé par 2 pour laisser passer plusieurs appels d'outils
-// dans la même fenêtre d'une minute.
+// de requête est divisé par 3 pour qu'un tour complet (passe guide + passe
+// carte, 3-4 appels) tienne dans la fenêtre d'une minute du provider.
 func NewBudget(l Limits) *Budget {
 	tok := l.MaxRequestTokens
 	if tok <= 0 {
 		tok = DefaultMaxRequestTokens
 	}
-	perReq := tok / 2
+	perReq := tok / 3
 	if perReq < minPerRequestTokens {
 		perReq = minPerRequestTokens
 	}

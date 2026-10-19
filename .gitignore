@@ -6,6 +6,9 @@ compose.override.yml
 # Volume Postgres (données persistées, pas versionnées)
 volume/
 
+# Traces JSONL du chat (données de production)
+data/traces/*.jsonl
+
 # Captures d'écran de dev
 *-preview.png
 

@@ -9,6 +9,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/bornholm/genai/llm"
 )
@@ -80,5 +81,17 @@ func TestConvertMessageWithoutSignature(t *testing.T) {
 	}
 	if !strings.Contains(string(raw), `"arguments":"{\"query\":\"CMP\"}"`) {
 		t.Fatalf("arguments du tool call absents: %s", raw)
+	}
+}
+
+func TestParseRetryAfter(t *testing.T) {
+	if d := parseRetryAfter("19", ""); d != 19*time.Second {
+		t.Fatalf("header = %v", d)
+	}
+	if d := parseRetryAfter("", "Please try again in 19.41s."); d != 19410*time.Millisecond {
+		t.Fatalf("corps = %v", d)
+	}
+	if d := parseRetryAfter("", "pas de délai ici"); d != 0 {
+		t.Fatalf("vide = %v", d)
 	}
 }
