@@ -18,7 +18,7 @@ services:
       retries: 5
 
   boussole:
-    build: ./app
+    build: ./server
     container_name: boussole-web
     ports:
       - "8080:8080"
@@ -32,7 +32,7 @@ services:
       AI_API_KEY: ""
       AI_BASE_URL: ""
     volumes:
-      - ./guide.md:/data/guide.md:ro
+      - ./data/guide.md:/data/guide.md:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -40,10 +40,19 @@ services:
 
   # API Guide (questionnaire d'orientation) — FastAPI, sessions en mémoire
   guide-api:
-    build: ./python
+    build: ./api-guide
     container_name: guide-api
     ports:
       - "8002:8000"
     environment:
       SEUIL_ALERTE: "3"
     restart: unless-stopped
+
+# Sous-réseau épinglé : hors des pools automatiques de Docker (172.x / 192.168.x)
+# pour éviter toute collision avec le LAN de la machine hôte (route plus spécifique
+# qui détourne les IP containers et rend les ports publiés inaccessibles).
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 10.250.250.0/24

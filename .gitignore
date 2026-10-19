@@ -13,5 +13,5 @@ volume/
 .DS_Store
 
 # Binaires compilés localement
-app/importcsv
-app/cmd/importcsv/importcsv
+server/importcsv
+server/cmd/importcsv/importcsv
