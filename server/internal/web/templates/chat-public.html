@@ -414,7 +414,7 @@
 
   function ensureMap() {
     if (mapCtl) return;
-    mapCtl = L.map('estab-map', { zoomControl: true }).setView([6.02, 47.23], 8.5);
+    mapCtl = L.map('estab-map', { zoomControl: true }).setView([47.23, 6.02], 8.5);
     L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token={{.MapboxToken}}', {
       tileSize: 512,
       zoomOffset: -1,
@@ -488,7 +488,7 @@
       refreshMapData();
       applySelection();
     }
-    // Mapbox a besoin d'un resize une fois le conteneur visible
+    // Leaflet doit recalculer ses dimensions une fois le conteneur visible
     if (mapCtl) setTimeout(function () {
       mapCtl.invalidateSize();
       if (mapLoaded) applySelection();
@@ -671,6 +671,12 @@
       renderEstablishments(window.ESTABS_INIT);
     }
   } catch (_) {}
+  // Deep-link : ?map=1 ouvre la carte des établissements au chargement
+  // (pratique pour partager une vue).
+  (function () {
+    var qs = new URLSearchParams(location.search);
+    if (qs.has('map')) openMap(parseInt(qs.get('map'), 10) || 0);
+  })();
 })();
 </script>
 {{end}}
