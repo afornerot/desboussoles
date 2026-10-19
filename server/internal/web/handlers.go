@@ -11,6 +11,7 @@ import (
 	"io/fs"
 	"log/slog"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -47,6 +48,11 @@ type Server struct {
 	chatReady   bool
 	log         *slog.Logger
 
+	// Rechargement à chaud (dev) : si ces répertoires sont définis, templates
+	// et statiques sont lus depuis le disque — modifs de look sans recompilation.
+	tmplDir   string
+	staticDir string
+
 	// guideCtx stocke, par session chat (cookie boussole_sid), la dernière
 	// réponse brute de l'API Guide (contenant json_patient) — mis à jour à
 	// chaque passage dans le proxy, injecté dans le prompt du chat public.
@@ -63,57 +69,84 @@ type ChatDeps struct {
 }
 
 func New(st *store.Store, mapboxToken, guideURL string, chat ChatDeps, log *slog.Logger) (*Server, error) {
-	homeTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/home.html")
-	if err != nil {
-		return nil, err
-	}
-	listTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/list.html")
-	if err != nil {
-		return nil, err
-	}
-	detTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/detail.html")
-	if err != nil {
-		return nil, err
-	}
-	mapTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/map.html")
-	if err != nil {
-		return nil, err
-	}
-	chatTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/md.html", "templates/chat.html")
-	if err != nil {
-		return nil, err
-	}
-	chatPubTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/guide-widget.html", "templates/md.html", "templates/chat-public.html")
-	if err != nil {
-		return nil, err
-	}
-	resTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/ressources.html")
-	if err != nil {
-		return nil, err
-	}
-	liensTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/liens-sociaux.html")
-	if err != nil {
-		return nil, err
-	}
-	guideTmpl, err := template.ParseFS(templatesFS, "templates/base.html", "templates/guide-widget.html", "templates/guide.html")
-	if err != nil {
-		return nil, err
-	}
-	return &Server{
-		store: st, homeTmpl: homeTmpl, listTmpl: listTmpl, detTmpl: detTmpl, mapTmpl: mapTmpl, chatTmpl: chatTmpl, chatPubTmpl: chatPubTmpl, resTmpl: resTmpl, liensTmpl: liensTmpl, guideTmpl: guideTmpl,
+	s := &Server{
+		store: st,
 		mapboxTok: mapboxToken, guideURL: strings.TrimSuffix(guideURL, "/"), log: log,
 		chatSvc: chat.Service, sessions: chat.Sessions, pubSessions: chat.PublicSessions, chatReady: chat.Ready,
 		md:       goldmark.New(goldmark.WithRendererOptions(html.WithUnsafe())),
 		guideCtx: make(map[string]json.RawMessage),
-	}, nil
+		tmplDir:  os.Getenv("TEMPLATES_DIR"),
+		staticDir: os.Getenv("STATIC_DIR"),
+	}
+	if err := s.loadTemplates(); err != nil {
+		return nil, err
+	}
+	if s.tmplDir != "" {
+		log.Info("templates rechargés à chaud", "dir", s.tmplDir)
+	}
+	return s, nil
+}
+
+// loadTemplates parse les templates HTML — depuis TEMPLATES_DIR (dev, lu à
+// chaque requête) ou depuis l'embed (production).
+func (s *Server) loadTemplates() error {
+	fsys, prefix := fs.FS(templatesFS), "templates/"
+	if s.tmplDir != "" {
+		fsys, prefix = os.DirFS(s.tmplDir), ""
+	}
+	parse := func(files ...string) (*template.Template, error) {
+		names := make([]string, len(files))
+		for i, f := range files {
+			names[i] = prefix + f
+		}
+		return template.ParseFS(fsys, names...)
+	}
+
+	var homeTmpl, listTmpl, detTmpl, mapTmpl, chatTmpl, chatPubTmpl, resTmpl, liensTmpl, guideTmpl *template.Template
+	var err error
+	if homeTmpl, err = parse("base.html", "home.html"); err != nil {
+		return err
+	}
+	if listTmpl, err = parse("base.html", "list.html"); err != nil {
+		return err
+	}
+	if detTmpl, err = parse("base.html", "detail.html"); err != nil {
+		return err
+	}
+	if mapTmpl, err = parse("base.html", "map.html"); err != nil {
+		return err
+	}
+	if chatTmpl, err = parse("base.html", "md.html", "chat.html"); err != nil {
+		return err
+	}
+	if chatPubTmpl, err = parse("base.html", "guide-widget.html", "md.html", "chat-public.html"); err != nil {
+		return err
+	}
+	if resTmpl, err = parse("base.html", "ressources.html"); err != nil {
+		return err
+	}
+	if liensTmpl, err = parse("base.html", "liens-sociaux.html"); err != nil {
+		return err
+	}
+	if guideTmpl, err = parse("base.html", "guide-widget.html", "guide.html"); err != nil {
+		return err
+	}
+	// Affectation groupée : en cas d'erreur de parsing en cours d'édition,
+	// les templates en place restent utilisables.
+	s.homeTmpl, s.listTmpl, s.detTmpl, s.mapTmpl = homeTmpl, listTmpl, detTmpl, mapTmpl
+	s.chatTmpl, s.chatPubTmpl, s.resTmpl, s.liensTmpl, s.guideTmpl = chatTmpl, chatPubTmpl, resTmpl, liensTmpl, guideTmpl
+	return nil
 }
 
 func (s *Server) Routes() http.Handler {
 	mux := http.NewServeMux()
 
 	// Assets statiques de la charte graphique (polices Poppins, visuels, CSS)
-	staticFS, err := fs.Sub(templatesFS, "static")
-	if err == nil {
+	// — lus depuis STATIC_DIR (dev, modifs visibles au rafraîchissement) ou
+	// depuis l'embed (production).
+	if s.staticDir != "" {
+		mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir(s.staticDir))))
+	} else if staticFS, err := fs.Sub(templatesFS, "static"); err == nil {
 		mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.FS(staticFS))))
 	}
 
@@ -138,6 +171,18 @@ func (s *Server) Routes() http.Handler {
 	mux.HandleFunc("GET /chatpro", s.handleChatPage)
 	mux.HandleFunc("POST /api/chatpro", s.handleChatStream)
 	mux.HandleFunc("POST /api/chatpro/reset", s.handleChatReset)
+
+	// Dev : recharger les templates depuis le disque à chaque requête — les
+	// modifs de look sont visibles au simple rafraîchissement du navigateur.
+	if s.tmplDir != "" {
+		inner := http.Handler(mux)
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if err := s.loadTemplates(); err != nil {
+				s.log.Warn("rechargement templates", "err", err)
+			}
+			inner.ServeHTTP(w, r)
+		})
+	}
 	return mux
 }
 

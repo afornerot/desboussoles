@@ -92,6 +92,22 @@ En attendant, vous pouvez :
 
 Vous pouvez reformuler votre question dans quelques instants.`
 
+// SaturatedMessage : quota provider épuisé — le service reviendra vite, et
+// l'utilisateur garde des contacts utiles en attendant.
+const SaturatedMessage = `Le service est très sollicité en ce moment : votre demande n'a pas pu être traitée immédiatement. Réessayez dans quelques minutes.
+
+En attendant, vous pouvez contacter le **DAC** (Dispositif d'Appui à la Coordination) au **03 81 25 05 30** ou par mail à dac-fr@dac-fc.org — et en cas d'urgence, le **15**, le **17**, le **112** ou le **3114** (souffrance psychique, 24h/24).`
+
+// sendSaturated prévient que le service est saturé (quota provider) — réponse
+// immédiate, sans laisser les retries tourner dans le vide.
+func sendSaturated(out chan StreamEvent, tr *ChatTrace) {
+	if tr != nil {
+		tr.MarkFallback("quota")
+	}
+	out <- StreamEvent{Type: "token", Token: SaturatedMessage}
+	out <- StreamEvent{Type: "done"}
+}
+
 // sendFallback diffuse le message de repli comme une réponse normale
 // (tokens + done) pour que l'utilisateur lise une orientation, pas une erreur.
 func sendFallback(out chan StreamEvent, tr *ChatTrace, reason string) {

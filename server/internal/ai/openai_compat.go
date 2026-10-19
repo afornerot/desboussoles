@@ -161,6 +161,21 @@ func (e *HTTPStatusError) Error() string {
 	return fmt.Sprintf("http %d: %s", e.Status, e.Msg)
 }
 
+// maxUsefulWait est le délai au-delà duquel réessayer n'a pas de sens : au lieu
+// de faire tourner les retries pendant plusieurs minutes, on prévient tout de
+// suite l'utilisateur que le service est saturé.
+const maxUsefulWait = 60 * time.Second
+
+// ErrQuotaLong indique un quota provider épuisé avec un long délai d'attente :
+// aucune tentative immédiate ne peut aboutir.
+type ErrQuotaLong struct {
+	RetryAfter time.Duration
+}
+
+func (e *ErrQuotaLong) Error() string {
+	return fmt.Sprintf("quota provider épuisé (réessayer dans %s)", e.RetryAfter)
+}
+
 // retryAfterRegex repère le délai annoncé dans le corps d'erreur Groq.
 var retryAfterRegex = regexp.MustCompile(`try again in ([0-9]+(?:\.[0-9]+)?)s`)
 

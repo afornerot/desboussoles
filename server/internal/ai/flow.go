@@ -72,10 +72,15 @@ func (s *Service) streamWithRetryTools(ctx context.Context, messages []llm.Messa
 		lastErr = err
 		tr.AddRetry()
 		// Attendre le délai annoncé par le serveur (429 quota) quand il existe,
-		// plutôt qu'un backoff fixe qui échouerait dans le vide.
+		// plutôt qu'un backoff fixe qui échouerait dans le vide. Au-delà de
+		// maxUsefulWait, aucune tentative immédiate ne peut aboutir : on le dit
+		// tout de suite à l'utilisateur.
 		wait := time.Duration(attempt+1) * 500 * time.Millisecond
 		var he *HTTPStatusError
 		if errors.As(err, &he) && he.RetryAfter > 0 {
+			if he.RetryAfter > maxUsefulWait {
+				return nil, &ErrQuotaLong{RetryAfter: he.RetryAfter}
+			}
 			wait = he.RetryAfter + 250*time.Millisecond
 		}
 		if wait > maxRetryWait {
@@ -162,7 +167,7 @@ func (s *Service) chatOnceTools(ctx context.Context, messages []llm.Message, too
 
 	stream, err := s.streamWithRetryTools(callCtx, messages, tools)
 	if err != nil {
-		return "", nil, nil, fmt.Errorf("Erreur de connexion à l'API: %s", err)
+		return "", nil, nil, fmt.Errorf("Erreur de connexion à l'API: %w", err)
 	}
 
 	content, tokens, toolCalls, streamErr := s.consumeStream(callCtx, stream)
@@ -289,6 +294,14 @@ func (s *Service) Chat(ctx context.Context, history []HistoryMessage, userMsg, s
 				"duration_ms", time.Since(startLLM).Milliseconds(),
 				"tool_calls", len(toolCalls), "out_chars", len(content))
 			if err != nil {
+				// Quota provider épuisé : inutile de réessayer, on prévient
+				// tout de suite (le service revient dans quelques minutes).
+				var ql *ErrQuotaLong
+				if errors.As(err, &ql) {
+					log.Warn("quota provider épuisé", "retry_after_s", ql.RetryAfter.Seconds())
+					sendSaturated(out, tr)
+					return
+				}
 				if i < guideIterations-1 {
 					log.Warn("chat iteration retry", "err", err, "attempt", i)
 					continue

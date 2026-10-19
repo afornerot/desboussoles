@@ -85,6 +85,22 @@
     font-family:inherit; color:var(--ink);
   }
   .map-overlay-close:hover { background:var(--sc-vert-menthe); }
+  /* Infobulle de survol : juste le nom, tout petit. */
+  .leaflet-tooltip.map-tip {
+    background:var(--sc-blanc); border:2px solid var(--border); border-radius:8px;
+    padding:.25rem .55rem; font-size:.75rem; font-weight:var(--sc-font-weight-bold);
+    color:var(--ink); box-shadow:none;
+  }
+  .leaflet-tooltip.map-tip::before { display:none; }
+
+  /* Clusters : pastilles vertes façon charte. */
+  .map-cluster { background:transparent; }
+  .map-cluster div {
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    background:#009850; color:#fff; border:2.5px solid var(--sc-blanc);
+    border-radius:50%; font-size:.78rem; font-weight:var(--sc-font-weight-extrabold);
+    box-shadow:0 0 0 1px rgba(24,24,24,.15);
+  }
   #estab-map { flex:1; min-height:200px; }
 
   /* Fiche établissement — façon /map */
@@ -242,8 +258,11 @@
   </div>
 </div>
 
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script>window.ESTABS_INIT = {{.Establishments}} || [];</script>
 <script>
 (function () {
@@ -374,89 +393,73 @@
   var mapOverlayClose = document.getElementById('map-overlay-close');
   var mapOverlayTitle = document.getElementById('map-overlay-title');
   var mapCtl = null;
+  var estabLayer = null;
   var mapLoaded = false;
   var selectedIdx = -1;
 
-  function estabsGeoJSON() {
-    return {
-      type: 'FeatureCollection',
-      features: estabs.filter(function (e) { return e.lat != null && e.lng != null; }).map(function (e) {
-        return {
-          type: 'Feature',
-          id: e.idx,
-          geometry: { type: 'Point', coordinates: [e.lng, e.lat] },
-          properties: {
-            idx: e.idx,
-            fid: e.id || 0,
-            name: e.name || '',
-            address: e.address || ''
-          }
-        };
-      })
-    };
-  }
+  // Carte (Leaflet + markercluster) : clusters et spiderfy gérés par la
+  // librairie — même comportement que la carte principale.
+  var pinIcon = L.icon({
+    iconUrl: '/static/marker/default.png',
+    iconSize: [33, 44],
+    iconAnchor: [17, 44],
+    tooltipAnchor: [0, -42]
+  });
+  var pinIconSel = L.icon({
+    iconUrl: '/static/marker/default.png',
+    iconSize: [41, 55],
+    iconAnchor: [21, 55],
+    tooltipAnchor: [0, -52]
+  });
 
   function ensureMap() {
     if (mapCtl) return;
-    mapboxgl.accessToken = '{{.MapboxToken}}';
-    mapCtl = new mapboxgl.Map({
-      container: 'estab-map',
-      style: 'mapbox://styles/mapbox/light-v11',
-      center: [6.02, 47.23],
-      zoom: 8.5
+    mapCtl = L.map('estab-map', { zoomControl: true }).setView([6.02, 47.23], 8.5);
+    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/{z}/{x}/{y}?access_token={{.MapboxToken}}', {
+      tileSize: 512,
+      zoomOffset: -1,
+      attribution: '\u00a9 Mapbox \u00a9 OpenStreetMap'
+    }).addTo(mapCtl);
+    estabLayer = L.markerClusterGroup({
+      maxClusterRadius: 30,
+      spiderfyOnMaxZoom: true,
+      spiderfyDistance: 45,
+      spiderfyShapeOptions: { color: '#181818', weight: 1.5, opacity: 0.65 },
+      showCoverageOnHover: false,
+      iconCreateFunction: function (cluster) {
+        var n = cluster.getChildCount();
+        var size = n < 10 ? 28 : 34;
+        return L.divIcon({
+          html: '<div><span>' + n + '</span></div>',
+          className: 'map-cluster',
+          iconSize: [size, size]
+        });
+      }
     });
-    mapCtl.addControl(new mapboxgl.NavigationControl());
-    mapCtl.on('load', function () {
-      mapCtl.addSource('estabs', { type: 'geojson', data: estabsGeoJSON(), promoteId: 'idx' });
-      mapCtl.addLayer({
-        id: 'estab-hit',
-        type: 'circle',
-        source: 'estabs',
-        paint: { 'circle-radius': 18, 'circle-color': '#000', 'circle-opacity': 0 }
-      });
-      mapCtl.addLayer({
-        id: 'estab-pt',
-        type: 'circle',
-        source: 'estabs',
-        paint: {
-          'circle-radius': [
-            'case', ['boolean', ['feature-state', 'selected'], false], 13,
-            ['boolean', ['feature-state', 'hover'], false], 12, 9
-          ],
-          'circle-color': '#7c3aed',
-          'circle-stroke-color': '#ffffff',
-          'circle-stroke-width': 2
-        }
-      });
-      mapCtl.on('mouseenter', 'estab-hit', function (e) {
-        mapCtl.getCanvas().style.cursor = 'pointer';
-        var f = e.features && e.features[0];
-        if (f) mapCtl.setFeatureState({ source: 'estabs', id: f.id }, { hover: true });
-      });
-      mapCtl.on('mouseleave', 'estab-hit', function (e) {
-        mapCtl.getCanvas().style.cursor = '';
-        var f = e.features && e.features[0];
-        if (f) mapCtl.setFeatureState({ source: 'estabs', id: f.id }, { hover: false });
-      });
-      mapCtl.on('click', 'estab-hit', function (e) {
-        var f = e.features && e.features[0];
-        if (!f) return;
-        var p = f.properties || {};
-        if (p.fid) {
-          mapCtl.flyTo({ center: f.geometry.coordinates, zoom: 14, essential: true });
-          openFiche(p.fid);
-        }
-      });
-      mapLoaded = true;
-      refreshMapData();
-      if (selectedIdx >= 0) applySelection();
-    });
+    mapCtl.addLayer(estabLayer);
+    mapLoaded = true;
+    refreshMapData();
+    if (selectedIdx >= 0) applySelection();
   }
 
   function refreshMapData() {
     if (!mapCtl || !mapLoaded) return;
-    var src = mapCtl.getSource('estabs');
-    if (src) src.setData(estabsGeoJSON());
+    estabLayer.clearLayers();
+    estabs.forEach(function (e) {
+      if (e.lat == null || e.lng == null) return;
+      var m = L.marker([e.lat, e.lng], { icon: pinIcon, title: e.name || '' });
+      if (e.name) {
+        m.bindTooltip(e.name, { direction: 'top', className: 'map-tip', opacity: 1 });
+      }
+      if (e.id) {
+        m.on('click', function () {
+          mapCtl.flyTo([e.lat, e.lng], 14);
+          openFiche(e.id);
+        });
+      }
+      e._marker = m;
+      estabLayer.addLayer(m);
+    });
   }
 
   // Surligne l'établissement sélectionné et recentre la carte dessus
@@ -464,12 +467,13 @@
     if (!mapCtl || !mapLoaded) return;
     var sel = null;
     estabs.forEach(function (e) {
+      if (!e._marker) return;
       var on = e.idx === selectedIdx;
+      e._marker.setIcon(on ? pinIconSel : pinIcon);
       if (on) sel = e;
-      mapCtl.setFeatureState({ source: 'estabs', id: e.idx }, { selected: on });
     });
     if (sel && sel.lat != null && sel.lng != null) {
-      mapCtl.flyTo({ center: [sel.lng, sel.lat], zoom: 14, essential: true });
+      mapCtl.flyTo([sel.lat, sel.lng], 14);
     }
   }
 
@@ -486,7 +490,7 @@
     }
     // Mapbox a besoin d'un resize une fois le conteneur visible
     if (mapCtl) setTimeout(function () {
-      mapCtl.resize();
+      mapCtl.invalidateSize();
       if (mapLoaded) applySelection();
     }, 50);
   }

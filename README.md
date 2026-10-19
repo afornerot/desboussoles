@@ -33,6 +33,14 @@ docker compose up -d --build
 
 Le premier démarrage exécute `init.sql` (schéma + seed). Les variables locales (secrets, tokens) vont dans `compose.override.yml` (ignoré par git).
 
+### Itération visuelle (dev)
+
+`compose.override.yml` monte `server/internal/web` dans le container et définit
+`TEMPLATES_DIR` / `STATIC_DIR` : les templates HTML et les statiques (CSS,
+images) sont lus **depuis le disque**. Modifier un fichier de look suffit :
+on rafraîchit le navigateur, **sans recompiler ni redémarrer**. Sans ces
+variables, les fichiers embarqués dans le binaire Go sont utilisés (production).
+
 ## Variables d'environnement
 
 | Variable | Rôle |

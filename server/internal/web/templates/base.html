@@ -25,13 +25,33 @@
     padding:1rem 1.5rem; display:flex; align-items:center; gap:1.5rem;
   }
   header a.logo { color:var(--ink); text-decoration:none; font-weight:var(--sc-font-weight-extrabold); font-size:1.25rem; letter-spacing:-0.01em; display:flex; align-items:center; gap:.5rem; }
-  header a.logo span { color:var(--accent-fill); }
+  header a.logo span.accent { color:var(--accent-fill); }
   header a.logo img { height:28px; width:28px; object-fit:contain; display:block; }
+  /* Burger (menu réduit mobile) : masqué en desktop. */
+  .burger { display:none; margin-left:auto; background:none; cursor:pointer;
+    border:2px solid var(--border); border-radius:12px; padding:.55rem .6rem; }
+  .burger span { display:block; width:22px; height:3px; border-radius:2px;
+    background:var(--ink); }
+  .burger span + span { margin-top:5px; }
   header nav a {
     color:var(--muted); text-decoration:none; font-weight:var(--sc-font-weight-bold);
     font-size:.95rem; margin-right:.35rem; padding:.25rem .55rem; border-radius:999px;
   }
   header nav a:hover { background:var(--card); color:var(--ink); }
+
+  /* Menu réduit : sous 800px, la nav devient un panneau déplié par le burger. */
+  @media (max-width:800px) {
+    header { position:relative; padding:1rem 1.25rem; }
+    .burger { display:block; }
+    header nav {
+      display:none; position:absolute; top:100%; left:0; right:0; z-index:60;
+      flex-direction:column; background:var(--highlight);
+      border-bottom:4px solid var(--border); padding:.5rem 1.25rem 1rem;
+    }
+    header nav.open { display:flex; }
+    header nav a { display:block; margin:.25rem 0; padding:.65rem .55rem;
+      border-radius:12px; font-size:1.05rem; }
+  }
   main { max-width:960px; margin:1.5rem auto; padding:0 1rem; }
   .card {
     background:var(--card); border:3px solid var(--border); border-radius:16px;
@@ -107,8 +127,11 @@
 </head>
 <body>
 <header>
-  <a class="logo" href="/"><img src="/static/visuels/logo01.png" alt=""><span>Des</span>Boussoles</a>
-  <nav>
+  <a class="logo" href="/"><img src="/static/visuels/logo01.png" alt=""><span class="brand"><span class="accent">Des</span>Boussoles</span></a>
+  <button class="burger" id="nav-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-nav">
+    <span></span><span></span><span></span>
+  </button>
+  <nav id="site-nav">
     <a href="/chat" data-profile="public">Chat</a>
     <a href="/chatpro" data-profile="pro">ChatPro</a>
     <a href="/map">Carte</a>
@@ -157,6 +180,25 @@
     apply(b.dataset.profileSet);
   });
   apply(current());
+})();
+
+/* Burger : déplier/replier le menu réduit (mobile) */
+(function () {
+  var burger = document.getElementById('nav-burger');
+  var nav = document.getElementById('site-nav');
+  if (!burger || !nav) return;
+  burger.addEventListener('click', function () {
+    var open = nav.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+  });
+  // Refermer après le choix d'une entrée.
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') {
+      nav.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+  });
 })();
 
 /* Widget urgence : panneau dépliable */

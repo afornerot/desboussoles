@@ -280,3 +280,59 @@ func TestExtractStructuresCopiesGuide(t *testing.T) {
 		t.Fatal("extraits du guide absents de l'entrée de l'extraction")
 	}
 }
+
+// quotaLongClient simule un quota provider épuisé : 429 avec un long délai.
+type quotaLongClient struct{}
+
+func (quotaLongClient) ChatCompletionStream(ctx context.Context, funcs ...llm.ChatCompletionOptionFunc) (<-chan llm.StreamChunk, error) {
+	return nil, &HTTPStatusError{Status: 429, RetryAfter: 2 * time.Hour, Msg: "quota"}
+}
+
+func (quotaLongClient) ChatCompletion(context.Context, ...llm.ChatCompletionOptionFunc) (llm.ChatCompletionResponse, error) {
+	return nil, errors.New("non supporté")
+}
+
+func (quotaLongClient) Embeddings(context.Context, []string, ...llm.EmbeddingsOptionFunc) (llm.EmbeddingsResponse, error) {
+	return nil, errors.New("non supporté")
+}
+
+func (quotaLongClient) Transcription(context.Context, []byte, ...llm.TranscriptionOptionFunc) (llm.TranscriptionResponse, error) {
+	return nil, errors.New("non supporté")
+}
+
+// TestChatSaturatedShortCircuit vérifie qu'un quota épuisé répond tout de
+// suite (sans retries interminables) avec le message « service saturé ».
+func TestChatSaturatedShortCircuit(t *testing.T) {
+	svc := New(quotaLongClient{}, nil, Config{
+		MaxIterations: 2,
+		CallTimeout:   5 * time.Second,
+		Budget:        NewBudget(Limits{MaxRequestTokens: 8000}),
+	}, slog.Default())
+
+	start := time.Now()
+	var tokens string
+	sawDone, sawError := false, false
+	for ev := range svc.Chat(context.Background(), nil, "Bonjour", SystemPromptPro) {
+		switch ev.Type {
+		case "token":
+			tokens += ev.Token
+		case "done":
+			sawDone = true
+		case "error":
+			sawError = true
+		}
+	}
+	elapsed := time.Since(start)
+	if sawError {
+		t.Fatal("aucune erreur technique ne doit atteindre l'utilisateur")
+	}
+	if !sawDone {
+		t.Fatal("événement done manquant")
+	}
+	if tokens != SaturatedMessage {
+		t.Fatalf("réponse = %q, want SaturatedMessage", tokens)
+	}
+	if elapsed > 3*time.Second {
+		t.Fatalf("réponse trop lente (%s) : le court-circuit ne joue pas", elapsed)
+	}
+}
