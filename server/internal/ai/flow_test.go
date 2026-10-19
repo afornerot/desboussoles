@@ -268,16 +268,15 @@ func TestExtractStructuresCopiesGuide(t *testing.T) {
 
 	res := svc.extractStructures(context.Background(),
 		"je cherche un CMP",
-		"voici le Centre de Gestion Infantile (CGI), tél 03 81 25 30 30",
-		[]string{"GUIDE — " + canonNom + " — " + canonTel})
+		"voici le " + canonNom + ", tél " + canonTel)
 	if len(res.Structures) != 1 {
 		t.Fatalf("structures = %+v", res)
 	}
 	if res.Structures[0].Nom != canonNom || res.Structures[0].Telephone != canonTel {
 		t.Fatalf("identifiants non recopiés : %+v", res.Structures[0])
 	}
-	if !strings.Contains(stub.lastInput, "GUIDE —") || !strings.Contains(stub.lastInput, canonTel) {
-		t.Fatal("extraits du guide absents de l'entrée de l'extraction")
+	if !strings.Contains(stub.lastInput, canonNom) || !strings.Contains(stub.lastInput, canonTel) {
+		t.Fatal("nom et téléphone absents de l'entrée de l'extraction")
 	}
 }
 

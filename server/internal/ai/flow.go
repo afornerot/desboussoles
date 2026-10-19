@@ -276,9 +276,6 @@ func (s *Service) Chat(ctx context.Context, history []HistoryMessage, userMsg, s
 		// quand le modèle répète la même recherche sans progresser.
 		type toolKey struct{ name, params string }
 		seenCalls := map[toolKey]int{}
-		// Extraits du guide (source canonique) : noms, adresses et téléphones
-		// exacts, collectés pour identifier les structures sans reformulation.
-		var guideExcerpts []string
 
 		// Passe guide bornée à 3 itérations d'outils : au-delà, la boucle
 		// coûte plus qu'elle ne rapporte (latence + fenêtre minute du provider).
@@ -352,9 +349,6 @@ func (s *Service) Chat(ctx context.Context, history []HistoryMessage, userMsg, s
 				}
 				log.Info("tool timing", "pass", "guide", "name", tc.Name(),
 					"duration_ms", durTool, "out_chars", len(msg.Content()))
-				if tc.Name() == "guide_search" {
-					guideExcerpts = append(guideExcerpts, msg.Content())
-				}
 				messages = append(messages, s.capToolMessage(ctx, msg))
 			}
 			if i == guideIterations-1 {
@@ -384,7 +378,7 @@ func (s *Service) Chat(ctx context.Context, history []HistoryMessage, userMsg, s
 		// Passe légère, toujours exécutée : la réponse est déjà livrée et un
 		// 429 éventuel est géré par le backoff retry-after.
 		if finalContent != "" {
-			s.verifyMapEstablishments(ctx, userMsg, finalContent, guideExcerpts, out)
+			s.verifyMapEstablishments(ctx, userMsg, finalContent, out)
 		}
 	}()
 
@@ -415,7 +409,7 @@ type extractionResult struct {
 // puis on vérifie leur présence dans les ÉTABLISSEMENTS de la carte. Le
 // panneau reflète les recommandations de la réponse : au mieux une entrée par
 // structure, et rien plutôt qu'une correspondance douteuse.
-func (s *Service) verifyMapEstablishments(ctx context.Context, userMsg, response string, guideExcerpts []string, out chan StreamEvent) {
+func (s *Service) verifyMapEstablishments(ctx context.Context, userMsg, response string, out chan StreamEvent) {
 	mapTools := filterTools(s.tools, []string{"map_search", "map_nearby"})
 	if len(mapTools) == 0 {
 		return
@@ -424,7 +418,7 @@ func (s *Service) verifyMapEstablishments(ctx context.Context, userMsg, response
 	log := s.log.With("trace", traceID(tr))
 	start := time.Now()
 
-	res := s.extractStructures(ctx, userMsg, response, guideExcerpts)
+	res := s.extractStructures(ctx, userMsg, response)
 
 	// Âge, localisation et adresse de la conversation : ils priment sur le
 	// questionnaire pour ce tour (et sont retenus pour les suivants via la trace).
@@ -490,9 +484,11 @@ func (s *Service) verifyMapEstablishments(ctx context.Context, userMsg, response
 		}
 	}
 
-	// Repli « structures proches de chez vous » : uniquement si le panneau
-	// serait vide (les recommandations priment).
-	if len(allEsts) == 0 {
+	// Repli « structures proches de chez vous » : uniquement si des structures
+	// ont été proposées mais qu'aucune n'est retrouvée en carte. Quand la
+	// réponse ne propose rien (demande de précision, conseil), le panneau
+	// reste inchangé — pas de liste « proches » sans rapport avec la réponse.
+	if len(allEsts) == 0 && len(structs) > 0 {
 		if z := store.ZoneFrom(ctx); z != nil {
 			allEsts = s.nearbyFallback(ctx, z, mapTools, tr, log)
 		}
@@ -592,21 +588,12 @@ func (s *Service) nearbyFallback(ctx context.Context, z *store.UserZone, mapTool
 	return nil
 }
 
-// extractStructures demande au modèle les structures citées et les données de
-// la personne (JSON, sans outils) — un seul appel, sortie courte. Le message
-// de la personne et les EXTRAITS DU GUIDE (source canonique : noms, adresses,
-// téléphones exacts) font partie de l'entrée : les identifiants sont recopiés
-// depuis ces extraits, jamais reformulés à partir de la réponse.
-func (s *Service) extractStructures(ctx context.Context, userMsg, response string, guideExcerpts []string) extractionResult {
-	const maxGuideChars = 4000
-	guide := strings.Join(guideExcerpts, "\n---\n")
-	if len(guide) > maxGuideChars {
-		guide = guide[:maxGuideChars] + "…"
-	}
+// extractStructures demande au modèle les structures RECOMMANDÉES et les
+// données de la personne (JSON, sans outils). Entrée minimale (message +
+// réponse) : moins de tokens, l'appel tient dans la fenêtre du provider juste
+// après la passe guide — le panneau carte arrive vite.
+func (s *Service) extractStructures(ctx context.Context, userMsg, response string) extractionResult {
 	input := "Message de la personne :\n" + userMsg + "\n\nRéponse de l'assistant :\n" + response
-	if guide != "" {
-		input += "\n\nExtraits du guide (source canonique) :\n" + guide
-	}
 	content, _, toolCalls, err := s.chatOnceTools(ctx, []llm.Message{
 		llm.NewMessage(llm.RoleSystem, SystemPromptExtractNames),
 		llm.NewMessage(llm.RoleUser, input),
@@ -621,8 +608,8 @@ func (s *Service) extractStructures(ctx context.Context, userMsg, response strin
 	return decodeStructures(content)
 }
 
-// decodeStructures parse le JSON {"structures": [{nom, ville}], "localisation",
-// "age"} renvoyé par le modèle, tolérant aux délimiteurs markdown.
+// decodeStructures parse le JSON {"structures": [...], "localisation", "age",
+// "adresse"} renvoyé par le modèle, tolérant aux délimiteurs markdown.
 func decodeStructures(content string) extractionResult {
 	start := strings.Index(content, "{")
 	end := strings.LastIndex(content, "}")
@@ -655,13 +642,13 @@ func decodeStructures(content string) extractionResult {
 	}
 	for _, st := range parsed.Structures {
 		add(st)
-		if len(out.Structures) == 6 {
+		if len(out.Structures) == 4 {
 			return out
 		}
 	}
 	for _, n := range parsed.Names {
 		add(recommendedStructure{Nom: n})
-		if len(out.Structures) == 6 {
+		if len(out.Structures) == 4 {
 			return out
 		}
 	}

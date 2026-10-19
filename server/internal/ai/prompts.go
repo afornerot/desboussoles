@@ -63,22 +63,17 @@ On te fournit une réponse qui mentionne des structures et établissements. Ta t
 Tu n'as accès qu'aux outils carte. Ne produis aucun texte — appelle uniquement les outils de recherche.`
 
 // SystemPromptExtractNames pilote la passe carte v2 : extraire les structures
-// citées dans la réponse (nom + ville annoncée) et la localisation de la
-// conversation, pour les vérifier en base (map_search déterministe,
-// établissements uniquement) — sans boucle d'outils.
-const SystemPromptExtractNames = `Tu extrais les structures ou établissements de santé mentale cités dans la réponse fournie.
-
-RÈGLE ABSOLUE : pour chaque structure recommandée, recopie son nom, sa ville et son téléphone EXACTEMENT tels qu'ils apparaissent dans les extraits du guide (source canonique). Ne reformule jamais un nom, ne devine jamais un numéro : si l'information n'est pas dans les extraits, mets "".
+// RECOMMANDÉES dans la réponse (pas celles citées en passant) et les données de
+// la personne, pour les vérifier en base (map_search déterministe).
+const SystemPromptExtractNames = `Tu extrais les structures de santé mentale RECOMMANDÉES dans la réponse : celles que la réponse propose concrètement de contacter. Ignore les structures mentionnées en passant, en exemple ou dans une liste de ressources complémentaires.
 
 Réponds UNIQUEMENT avec un objet JSON de la forme {"structures": [{"nom": "Nom exact", "ville": "Commune", "telephone": "Numéro"}], "localisation": "Commune", "age": "Âge", "adresse": "Adresse"}.
-- nom : le nom exact de la structure depuis les extraits du guide ;
-- ville : la commune de la structure (ex. « Besançon », « Ornans »), ou "" ;
-- telephone : le téléphone exact depuis les extraits du guide, ou "" s'il n'y en a pas ;
-- localisation : la commune où vit la PERSONNE concernée (pas celle des structures) — UNIQUEMENT si le message de la personne ou la réponse la précise ou la change ; "" sinon ;
-- age : l'âge de la personne concernée (nombre d'années) — UNIQUEMENT si le message de la personne ou la réponse le précise ou le change ; "" sinon ;
-- adresse : l'adresse postale complète où vit la personne — UNIQUEMENT si le message de la personne ou la réponse la donne ; "" sinon.
+- nom, ville, telephone : recopie-les EXACTEMENT comme écrits dans le message ou la réponse ; si une information n'y figure pas, mets "" — ne devine jamais ;
+- localisation : la commune où vit la PERSONNE concernée (pas celle des structures) — UNIQUEMENT si le message ou la réponse la précise ou la change ; "" sinon ;
+- age : l'âge de la personne concernée — UNIQUEMENT si le message ou la réponse le précise ou le change ; "" sinon ;
+- adresse : l'adresse postale complète où vit la personne — UNIQUEMENT si le message ou la réponse la donne ; "" sinon.
 
-Maximum 6 structures. Aucun autre texte.`
+Maximum 4 structures. Aucun autre texte.`
 
 // FallbackMessage est la réponse envoyée quand l'assistant ne peut pas
 // produire de réponse (quota LLM épuisé, panne, boucle d'outils sans issue) :
